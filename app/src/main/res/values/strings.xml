@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name">QuestTemporary</string>
+    <string name="text_option">Opcje</string>
+    <string name="text_help">Pomoc</string>
+    <string name="text_add">Dodaj zadanie</string>
+    <string name="text_statistics">Statystyki</string>
+    <string name="text_classNoChoose">Człowiek: </string>
+    <string name="native_zeroLevel">0 poziom</string>
+    <string name="text_level">poziom</string>
+    <string name="text_experience">0/100PD</string>
+    <string name="text_experienceEpmty">/100PD</string>
+    <string name="text_reward">Nagroda:</string>
+    <string name="text_sufix_experiencePoints">PD</string>
+    <string name="text_together">Łącznie: </string>
+    <string name="text_repeatEvery">Powtarza się co </string>
+    <string name="text_days">dni.</string>
+    <string name="text_interval">Interwał:</string>
+    <string name="text_AVGExperiencePoints">Średnie punkty doświadczenia:</string>
+    <string name="text_dateEnd">Data zakończenia:</string>
+    <string name="text_descriptionQuest">Opis zadania:</string>
+    <string name="text_allert_back">Kliknij jeszcze raz aby cofnąć.</string>
+    <string name="text_correctField">Popraw czerwone pola.</string>
+    <string name="text_questWasAdd">Zadanie zostało dodane.</string>
+    <string name="text_selectClass">Wybierz klasę</string>
+    <string name="text_accept">Akceptuj</string>
+    <string name="text_selectedClass">Wybrano klasę</string>
+
+    <string name="hint_fieldMustBeFill">Pole musi być wypełnione.</string>
+    <string name="hint_failedData">Błędna dana.</string>
+    <string name="hint_dateFormat">dd-MM-yyyy</string>
+    <string name="hint_noEnable">Nie dostępne</string>
+    <string name="hint_canWrite">Wpisz</string>
+
+    <string name="text_difficultyLevel">Poziom trudności:</string>
+    <string name="level_challenge">Wyzwanie</string>
+    <string name="level_hard">Trudny</string>
+    <string name="level_medium">Normalny</string>
+    <string name="level_easy">Łatwy</string>
+    <string name="level_baby">Dziecinny</string>
+
+    <string name="text_repeatable">Powtarzalne:</string>
+    <string name="text_yes">TAK</string>
+    <string name="text_no">NIE</string>
+
+    <string name="text_attribute">Atrybuty:</string>
+    <string name="attribute_strength">Siła</string>
+    <string name="attribute_endurance">Wytrzymałość</string>
+    <string name="attribute_intelligence">Inteligencja</string>
+    <string name="attribute_wisdom">Mądrość</string>
+    <string name="attribute_dexterity">Zręczność</string>
+    <string name="attribute_charisma">Charyzma</string>
+
+    <string name="class_native">Człowiek</string>
+    <string name="class_warrior">Wojownik</string>
+    <string name="class_hunter">Łowca</string>
+    <string name="class_lord">Władca</string>
+    <string name="class_mage">Mag</string>
+    <string name="class_merchant">Kupiec</string>
+    <string name="class_bard">Bard</string>
+
+    <string-array name="class_select">
+        <item>Bard</item>
+        <item>Kupiec</item>
+        <item>Łowca</item>
+        <item>Mag</item>
+        <item>Władca</item>
+        <item>Wojownik</item>
+    </string-array>
+
+
+    <string-array name="level_Hierarchy">
+        <item>Wyzwanie +5.0%</item>
+        <item>Trudny +3.0%</item>
+        <item>Normalny +2.0%</item>
+        <item>Łatwy +1.0%</item>
+        <item>Dziecinny +0.5%</item>
+    </string-array>
+</resources>

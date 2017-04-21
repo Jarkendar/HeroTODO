@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.jarek.questtemporary.activityClasses.QuestPanel">
+
+    <TextView
+        android:id="@+id/textView_ClassName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/list"
+        android:layout_below="@+id/list"
+        android:layout_margin="5dp"
+        android:layout_toEndOf="@+id/list"
+        android:text="@string/text_classNoChoose"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView_ClassLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView_ClassName"
+        android:layout_toEndOf="@+id/textView_ClassName"
+        android:text="@string/native_zeroLevel"
+        android:textSize="20sp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar_Experience"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView_ClassName"
+        android:layout_margin="5dp"
+        android:visibility="visible"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView_Experience"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="5dp"
+        android:text="@string/text_experience"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/listView_QuestList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/progressBar_Experience"
+        android:layout_margin="5dp" />
+
+</RelativeLayout>

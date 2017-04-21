@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="color_Red">#FF0000</color>
+    <color name="color_Black">#000000</color>
+
+    <color name="color_intelligence">#00BFFF</color>
+    <color name="color_wisdom">#000080</color>
+    <color name="color_dexterity">#006400</color>
+    <color name="color_strength">#FF0000</color>
+    <color name="color_endurance">#FF8C00</color>
+    <color name="color_charisma">#9400D3</color>
+</resources>
