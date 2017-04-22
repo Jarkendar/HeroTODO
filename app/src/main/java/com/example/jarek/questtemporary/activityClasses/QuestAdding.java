@@ -24,10 +24,7 @@ public class QuestAdding extends AppCompatActivity {
 
     private LinkedList<Quest> quests = new LinkedList<>();
 
-    private String mode = "", attributes;
-    private double mExperience;
-
-    private String[] mAttributes;
+    private String mode = "";
 
     private TextView tvdescription,  tvendDate, tvinterval, tvattributes, tvcorrectField;
     private CheckBox checkBoxrepeatable, checkBoxstrength, checkBoxendurance, checkBoxdexterity,
@@ -84,7 +81,7 @@ public class QuestAdding extends AppCompatActivity {
         mode = bundle.getString("whatdo");
         if (mode != null && mode.equals("modifyQuest")){
             editTextdescription.setText(bundle.getString("description"));
-            mExperience = bundle.getDouble("experience");
+            double mExperience = bundle.getDouble("experience");
             int pos = 0;
             if (mExperience == 5.0) pos = 0;
             if (mExperience == 3.0) pos = 1;
@@ -93,9 +90,9 @@ public class QuestAdding extends AppCompatActivity {
             if (mExperience == 0.5) pos = 4;
             spinnerexperienceMultiplier.setSelection(pos);
             editTextendDate.setText(bundle.getString("timeToLive"));
-            attributes = bundle.getString("attributes");
+            String attributes = bundle.getString("attributes");
             assert attributes != null;
-            mAttributes = attributes.split(";");
+            String[] mAttributes = attributes.split(";");
             for (String x : mAttributes){
                 if (x.equals(getString(R.string.attribute_strength))) checkBoxstrength.setChecked(true);
                 if (x.equals(getString(R.string.attribute_endurance))) checkBoxendurance.setChecked(true);

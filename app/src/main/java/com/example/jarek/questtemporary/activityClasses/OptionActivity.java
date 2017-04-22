@@ -15,10 +15,6 @@ import android.widget.Toast;
 
 import com.example.jarek.questtemporary.R;
 
-import java.util.LinkedList;
-import java.util.Observable;
-import java.util.Observer;
-
 public class OptionActivity extends AppCompatActivity {
 
     private long firstClickBack = 0;
@@ -30,8 +26,6 @@ public class OptionActivity extends AppCompatActivity {
     private Spinner spinnerlistClass;
 
 
-    private final String heroShared = "heroShared";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +36,7 @@ public class OptionActivity extends AppCompatActivity {
         actionBar.setTitle(getText(R.string.text_option));
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        String heroShared = "heroShared";
         sharedPreferences =getSharedPreferences(heroShared,MODE_PRIVATE);
         heroClass = sharedPreferences.getInt("heroClass",R.string.class_native);
 
