@@ -10,12 +10,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
@@ -111,6 +109,14 @@ public class QuestPanel extends AppCompatActivity implements Observer{
             quests.addAll(addQuests);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("addQuests",false);
+            editor.apply();
+        }else if (sharedPreferences.getBoolean("modify",false)){
+            LinkedList<Quest> addQuests;
+            addQuests = fileManager.deserializationQuests(userAddQuest, getApplicationContext());
+            quests.addAll(addQuests);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("modify",false);
+            deleteListElement();
             editor.apply();
         }
 
@@ -246,6 +252,7 @@ public class QuestPanel extends AppCompatActivity implements Observer{
                 //kliknięcie w dodanie nowego zadania
                 Intent intent = new Intent(this, QuestAdding.class);
                 intent.putExtra("fileAddress", userAddQuest);
+                intent.putExtra("whatdo","addQuest");
                 startActivity(intent);
                 break;
             }
@@ -350,6 +357,21 @@ public class QuestPanel extends AppCompatActivity implements Observer{
     }
 
     public void clickModifyQuest(View view) {
+        String attributes = "";
+        for (String x : quests.get(iposition).getAtributes()){
+            attributes = attributes.concat(x + ";");
+        }
+        attributes = attributes.substring(0,attributes.length()-1);
+        Intent intent = new Intent(this, QuestAdding.class);
+        intent.putExtra("fileAddress", userAddQuest);
+        intent.putExtra("whatdo","modifyQuest");
+        intent.putExtra("description",quests.get(iposition).getDescription());
+        intent.putExtra("experience",quests.get(iposition).getExperiencePoints());
+        intent.putExtra("timeToLive",quests.get(iposition).getDateFormatString());
+        intent.putExtra("attributes",attributes);
+        intent.putExtra("repeatable", quests.get(iposition).isRepeatable());
+        intent.putExtra("interval",quests.get(iposition).getRepeatInterval());
+        startActivity(intent);
     }
 
     /**

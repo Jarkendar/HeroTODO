@@ -21,6 +21,7 @@
     <string name="text_allert_back">Kliknij jeszcze raz aby cofnąć.</string>
     <string name="text_correctField">Popraw czerwone pola.</string>
     <string name="text_questWasAdd">Zadanie zostało dodane.</string>
+    <string name="text_questWasModify">Zadanie zostało zmodyfikowane.</string>
     <string name="text_selectClass">Wybierz klasę</string>
     <string name="text_accept">Akceptuj</string>
     <string name="text_selectedClass">Wybrano klasę</string>

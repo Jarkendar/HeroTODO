@@ -17,22 +17,24 @@ import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
 import com.example.jarek.questtemporary.dataClasses.Quest;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedList;
 
 public class QuestAdding extends AppCompatActivity {
 
     private LinkedList<Quest> quests = new LinkedList<>();
 
+    private String mode = "", attributes;
+    private double mExperience;
+
+    private String[] mAttributes;
+
     private TextView tvdescription,  tvendDate, tvinterval, tvattributes, tvcorrectField;
-    private CheckBox repeatable, strength, endurance, dexterity, intelligence, wisdom, charisma;
-    private EditText description,  endDate, interval;
-    private Button addQuest;
-    private Spinner experienceMultiplier;
+    private CheckBox checkBoxrepeatable, checkBoxstrength, checkBoxendurance, checkBoxdexterity,
+            checkBoxintelligence, checkBoxwisdom, checkBoxcharisma;
+    private EditText editTextdescription, editTextendDate, editTextinterval;
+    private Button buttonaddQuest;
+    private Spinner spinnerexperienceMultiplier;
 
     private long firstClickBack = 0;
     private final String sharedName = "userInfoShared";
@@ -43,26 +45,31 @@ public class QuestAdding extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quest_adding);
 
+        joinComponentsWithVariable();
         getBundleExtras();
 
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
-        actionBar.setTitle(getText(R.string.text_add));
+        if (mode.equals("modifyQuest")){
+            actionBar.setTitle(getText(R.string.text_modify));
+            buttonaddQuest.setText(getText(R.string.text_modify));
+        }else {
+            actionBar.setTitle(getText(R.string.text_add));
+            buttonaddQuest.setText(getText(R.string.text_add));
+        }
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        joinComponentsWithVariable();
-
-        repeatable.setOnClickListener(new View.OnClickListener() {
+        checkBoxrepeatable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (repeatable.isChecked()) {
-                    repeatable.setText(getText(R.string.text_yes));
-                    interval.setHint(getText(R.string.hint_canWrite));
-                    interval.setEnabled(true);
+                if (checkBoxrepeatable.isChecked()) {
+                    checkBoxrepeatable.setText(getText(R.string.text_yes));
+                    editTextinterval.setHint(getText(R.string.hint_canWrite));
+                    editTextinterval.setEnabled(true);
                 } else {
-                    repeatable.setText(getText(R.string.text_no));
-                    interval.setHint(getText(R.string.hint_noEnable));
-                    interval.setEnabled(false);
+                    checkBoxrepeatable.setText(getText(R.string.text_no));
+                    editTextinterval.setHint(getText(R.string.hint_noEnable));
+                    editTextinterval.setEnabled(false);
                 }
             }
         });
@@ -74,6 +81,37 @@ public class QuestAdding extends AppCompatActivity {
     private void getBundleExtras() {
         Bundle bundle = getIntent().getExtras();
         userAddFileAddress = bundle.getString("fileAddress");
+        mode = bundle.getString("whatdo");
+        if (mode != null && mode.equals("modifyQuest")){
+            editTextdescription.setText(bundle.getString("description"));
+            mExperience = bundle.getDouble("experience");
+            int pos = 0;
+            if (mExperience == 5.0) pos = 0;
+            if (mExperience == 3.0) pos = 1;
+            if (mExperience == 2.0) pos = 2;
+            if (mExperience == 1.0) pos = 3;
+            if (mExperience == 0.5) pos = 4;
+            spinnerexperienceMultiplier.setSelection(pos);
+            editTextendDate.setText(bundle.getString("timeToLive"));
+            attributes = bundle.getString("attributes");
+            assert attributes != null;
+            mAttributes = attributes.split(";");
+            for (String x : mAttributes){
+                if (x.equals(getString(R.string.attribute_strength))) checkBoxstrength.setChecked(true);
+                if (x.equals(getString(R.string.attribute_endurance))) checkBoxendurance.setChecked(true);
+                if (x.equals(getString(R.string.attribute_dexterity))) checkBoxdexterity.setChecked(true);
+                if (x.equals(getString(R.string.attribute_intelligence))) checkBoxintelligence.setChecked(true);
+                if (x.equals(getString(R.string.attribute_wisdom))) checkBoxwisdom.setChecked(true);
+                if (x.equals(getString(R.string.attribute_charisma))) checkBoxcharisma.setChecked(true);
+            }
+            checkBoxrepeatable.setChecked(bundle.getBoolean("repeatable"));
+            if (checkBoxrepeatable.isChecked()){
+                checkBoxrepeatable.setText(getText(R.string.text_yes));
+                editTextinterval.setEnabled(true);
+            }
+            editTextinterval.setText(String.valueOf(bundle.getInt("interval")));
+        }
+
     }
 
     /**
@@ -119,21 +157,21 @@ public class QuestAdding extends AppCompatActivity {
         tvinterval = (TextView) findViewById(R.id.textView_Interval);
         tvattributes = (TextView) findViewById(R.id.textView_Attribute);
 
-        strength = (CheckBox) findViewById(R.id.checkBox_Strength);
-        endurance = (CheckBox) findViewById(R.id.checkBox_Endurance);
-        dexterity = (CheckBox) findViewById(R.id.checkBox_DeXterity);
-        intelligence = (CheckBox) findViewById(R.id.checkBox_Intelligence);
-        wisdom = (CheckBox) findViewById(R.id.checkBox_Wisdom);
-        charisma = (CheckBox) findViewById(R.id.checkBox_Charisma);
-        repeatable = (CheckBox) findViewById(R.id.checkBox_Repeatable);
+        checkBoxstrength = (CheckBox) findViewById(R.id.checkBox_Strength);
+        checkBoxendurance = (CheckBox) findViewById(R.id.checkBox_Endurance);
+        checkBoxdexterity = (CheckBox) findViewById(R.id.checkBox_DeXterity);
+        checkBoxintelligence = (CheckBox) findViewById(R.id.checkBox_Intelligence);
+        checkBoxwisdom = (CheckBox) findViewById(R.id.checkBox_Wisdom);
+        checkBoxcharisma = (CheckBox) findViewById(R.id.checkBox_Charisma);
+        checkBoxrepeatable = (CheckBox) findViewById(R.id.checkBox_Repeatable);
 
-        description = (EditText) findViewById(R.id.editText_Description);
-        endDate = (EditText) findViewById(R.id.editText_Date);
-        interval = (EditText) findViewById(R.id.editText_Interval);
+        editTextdescription = (EditText) findViewById(R.id.editText_Description);
+        editTextendDate = (EditText) findViewById(R.id.editText_Date);
+        editTextinterval = (EditText) findViewById(R.id.editText_Interval);
 
-        addQuest = (Button) findViewById(R.id.button_AddQuest);
+        buttonaddQuest = (Button) findViewById(R.id.button_AddQuest);
 
-        experienceMultiplier = (Spinner) findViewById(R.id.spinner_Level);
+        spinnerexperienceMultiplier = (Spinner) findViewById(R.id.spinner_Level);
     }
 
     /**
@@ -142,10 +180,10 @@ public class QuestAdding extends AppCompatActivity {
      * @return true jeśli jest wypełnione, false jeśli jest puste
      */
     private boolean checkDescriptionField() {
-        if (description.getText().toString().length() == 0) {
+        if (editTextdescription.getText().toString().length() == 0) {
             tvdescription.setTextColor(getResources().getColor(R.color.color_Red));
-            description.setText("");
-            description.setHint(R.string.hint_fieldMustBeFill);
+            editTextdescription.setText("");
+            editTextdescription.setHint(R.string.hint_fieldMustBeFill);
             return false;
         } else {
             tvdescription.setTextColor(getResources().getColor(R.color.color_Black));
@@ -153,34 +191,16 @@ public class QuestAdding extends AppCompatActivity {
         }
     }
 
-//    /**
-//     * Metoda sprawdzająca zawartość pola zawierającego informacje o średniej ilości doświadczenia
-//     * którą możę otrzymać użytkownik.
-//     *
-//     * @return true jeśli pole nie jest puste oraz zawartość pola jest większa od zera, false w przeciwnym razie
-//     */
-//    private boolean checkExperienceField() {
-//        if (avgExperience.getText().toString().length() == 0 || Integer.parseInt(avgExperience.getText().toString()) <= 0) {
-//            tvavgExperience.setTextColor(getResources().getColor(R.color.color_Red));
-//            avgExperience.setText("");
-//            avgExperience.setHint(R.string.hint_failedData);
-//            return false;
-//        } else {
-//            tvavgExperience.setTextColor(getResources().getColor(R.color.color_Black));
-//            return true;
-//        }
-//    }
-
     /**
      * Metoda sprawdzająca czy data jest w poprawnym formacie dd-MM-yyyy.
      *
      * @return true jeśli data jest w odpowiednim formaci, false jeśli zawiera błąd
      */
     private boolean checkDateField() {
-        if (endDate.getText().toString().length() == 0 || endDate.getText().toString().length() != 10) {
+        if (editTextendDate.getText().toString().length() == 0 || editTextendDate.getText().toString().length() != 10) {
             return false;
         } else {
-            String[] dateTab = endDate.getText().toString().split("-");
+            String[] dateTab = editTextendDate.getText().toString().split("-");
             if (dateTab.length < 3 || dateTab.length > 3) {
                 return false;
             } else {
@@ -220,22 +240,22 @@ public class QuestAdding extends AppCompatActivity {
             return true;
         } else {
             tvendDate.setTextColor(getResources().getColor(R.color.color_Red));
-            endDate.setText("");
-            endDate.setHint(R.string.hint_dateFormat);
+            editTextendDate.setText("");
+            editTextendDate.setHint(R.string.hint_dateFormat);
             return false;
         }
     }
 
     /**
-     * Metoda sprawdzająca poprawność formatu pola interwał, jeśli checkBox repeatable jest odznaczony.
+     * Metoda sprawdzająca poprawność formatu pola interwał, jeśli checkBox checkBoxrepeatable jest odznaczony.
      *
      * @return true jeśli nie jest puste oraz jest większe od zera, false w przeciwnym razie
      */
     private boolean checkIntervalField() {
-        if (repeatable.isChecked() && (interval.getText().toString().length() == 0 || Integer.parseInt(interval.getText().toString()) <= 0)) {
+        if (checkBoxrepeatable.isChecked() && (editTextinterval.getText().toString().length() == 0 || Integer.parseInt(editTextinterval.getText().toString()) <= 0)) {
             tvinterval.setTextColor(getResources().getColor(R.color.color_Red));
-            interval.setText("");
-            interval.setHint(R.string.hint_failedData);
+            editTextinterval.setText("");
+            editTextinterval.setHint(R.string.hint_failedData);
             return false;
         } else {
             tvinterval.setTextColor(getResources().getColor(R.color.color_Black));
@@ -246,12 +266,12 @@ public class QuestAdding extends AppCompatActivity {
     private boolean checkAttributesCheckBox(){
         int countActivateCheckBox = 0;
 
-        if (strength.isChecked()) countActivateCheckBox++;
-        if (endurance.isChecked()) countActivateCheckBox++;
-        if (dexterity.isChecked()) countActivateCheckBox++;
-        if (intelligence.isChecked()) countActivateCheckBox++;
-        if (wisdom.isChecked()) countActivateCheckBox++;
-        if (charisma.isChecked()) countActivateCheckBox++;
+        if (checkBoxstrength.isChecked()) countActivateCheckBox++;
+        if (checkBoxendurance.isChecked()) countActivateCheckBox++;
+        if (checkBoxdexterity.isChecked()) countActivateCheckBox++;
+        if (checkBoxintelligence.isChecked()) countActivateCheckBox++;
+        if (checkBoxwisdom.isChecked()) countActivateCheckBox++;
+        if (checkBoxcharisma.isChecked()) countActivateCheckBox++;
 
         if (countActivateCheckBox == 0){
             tvattributes.setTextColor(getResources().getColor(R.color.color_Red));
@@ -264,12 +284,12 @@ public class QuestAdding extends AppCompatActivity {
 
     private String[] getAttributeFromCheckBox(){
         LinkedList<String> attribute = new LinkedList<>();
-        if (strength.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_strength).toString());
-        if (endurance.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_endurance).toString());
-        if (dexterity.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_dexterity).toString());
-        if (intelligence.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_intelligence).toString());
-        if (wisdom.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_wisdom).toString());
-        if (charisma.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_charisma).toString());
+        if (checkBoxstrength.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_strength).toString());
+        if (checkBoxendurance.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_endurance).toString());
+        if (checkBoxdexterity.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_dexterity).toString());
+        if (checkBoxintelligence.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_intelligence).toString());
+        if (checkBoxwisdom.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_wisdom).toString());
+        if (checkBoxcharisma.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_charisma).toString());
         return attribute.toArray(new String[0]);
     }
 
@@ -314,19 +334,19 @@ public class QuestAdding extends AppCompatActivity {
      * Metoda czyszcząca pola, powrót do ustawień domyślnych.
      */
     private void cleanField(){
-        description.setText("");
-        description.setHint("");
-        endDate.setText("");
-        endDate.setHint(R.string.hint_dateFormat);
-        repeatable.setChecked(false);
-        interval.setText("");
-        interval.setHint(R.string.hint_noEnable);
-        strength.setChecked(false);
-        endurance.setChecked(false);
-        dexterity.setChecked(false);
-        intelligence.setChecked(false);
-        wisdom.setChecked(false);
-        charisma.setChecked(false);
+        editTextdescription.setText("");
+        editTextdescription.setHint("");
+        editTextendDate.setText("");
+        editTextendDate.setHint(R.string.hint_dateFormat);
+        checkBoxrepeatable.setChecked(false);
+        editTextinterval.setText("");
+        editTextinterval.setHint(R.string.hint_noEnable);
+        checkBoxstrength.setChecked(false);
+        checkBoxendurance.setChecked(false);
+        checkBoxdexterity.setChecked(false);
+        checkBoxintelligence.setChecked(false);
+        checkBoxwisdom.setChecked(false);
+        checkBoxcharisma.setChecked(false);
     }
 
     /**
@@ -340,26 +360,34 @@ public class QuestAdding extends AppCompatActivity {
         } else {
             tvcorrectField.setVisibility(View.INVISIBLE);
             int intervalNumber;
-            if (interval.getText().toString().length() != 0) {
-                intervalNumber = Integer.parseInt(interval.getText().toString());
+            if (editTextinterval.getText().toString().length() != 0) {
+                intervalNumber = Integer.parseInt(editTextinterval.getText().toString());
             }else {
                 intervalNumber = 0;
             }
-            Quest quest = new Quest(description.getText().toString()
-                    , getExperience(experienceMultiplier.getSelectedItem().toString())
-                    , getDateFromString(endDate.getText().toString())
+            Quest quest = new Quest(editTextdescription.getText().toString()
+                    , getExperience(spinnerexperienceMultiplier.getSelectedItem().toString())
+                    , getDateFromString(editTextendDate.getText().toString())
                     , getAttributeFromCheckBox()
-                    , repeatable.isChecked()
+                    , checkBoxrepeatable.isChecked()
                     , intervalNumber,this);
             quests.addLast(quest);
             FileManager filemanager = new FileManager();
             filemanager.serializationQuests(quests, userAddFileAddress, getApplicationContext());
             SharedPreferences shared = getSharedPreferences(sharedName,MODE_PRIVATE);
             SharedPreferences.Editor editor = shared.edit();
-            editor.putBoolean("addQuests",true);
-            editor.apply();
-            Toast.makeText(getApplicationContext(),getResources().getText(R.string.text_questWasAdd),Toast.LENGTH_SHORT).show();
-            cleanField();
+            if (mode.equals("modifyQuest")){
+                editor.putBoolean("addQuest",false);
+                editor.putBoolean("modify",true);
+                editor.apply();
+                Toast.makeText(getApplicationContext(),getResources().getText(R.string.text_questWasModify),Toast.LENGTH_SHORT).show();
+                finish();
+            }else {
+                editor.putBoolean("addQuests",true);
+                editor.apply();
+                Toast.makeText(getApplicationContext(),getResources().getText(R.string.text_questWasAdd),Toast.LENGTH_SHORT).show();
+                cleanField();
+            }
         }
     }
 }

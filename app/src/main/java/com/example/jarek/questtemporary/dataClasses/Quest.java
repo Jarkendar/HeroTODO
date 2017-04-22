@@ -72,7 +72,17 @@ public class Quest implements Serializable {
      * @return łańcuch reprezentujący datę
      */
     public String getDateFormatString() {
-        String date = timeToLiveDate.get(Calendar.DAY_OF_MONTH)+"-"+(timeToLiveDate.get(Calendar.MONTH)+1)+"-"+timeToLiveDate.get(Calendar.YEAR);
+        String date;
+        if (timeToLiveDate.get(Calendar.DAY_OF_MONTH)<10){
+            date = "0"+timeToLiveDate.get(Calendar.DAY_OF_MONTH);
+        }else{
+            date = ""+timeToLiveDate.get(Calendar.DAY_OF_MONTH);
+        }
+        if (timeToLiveDate.get(Calendar.MONTH)+1 < 10){
+            date = date.concat("-0"+(timeToLiveDate.get(Calendar.MONTH)+1)+"-"+timeToLiveDate.get(Calendar.YEAR));
+        }else {
+            date = date.concat("-"+(timeToLiveDate.get(Calendar.MONTH)+1)+"-"+timeToLiveDate.get(Calendar.YEAR));
+        }
         return date;
     }
 
