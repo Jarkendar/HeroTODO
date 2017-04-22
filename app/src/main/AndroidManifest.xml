@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activityClasses.QuestAdding" />
-        <activity android:name=".activityClasses.OptionActivity"></activity>
+        <activity android:name=".activityClasses.OptionActivity" />
+        <activity android:name=".activityClasses.StatisticActivity"></activity>
     </application>
 
 </manifest>
