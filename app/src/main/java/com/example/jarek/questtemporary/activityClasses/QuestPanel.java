@@ -208,7 +208,7 @@ public class QuestPanel extends AppCompatActivity implements Observer{
 
 
 //TODO graficzna obróbka wierszy
-//TODO activity help, statistics
+//TODO activity help
 
     /**
      * Metoda wiążąca elementy interfejsu użytkownika ze zmiennymi wykorzystywanymi w kodzie.
@@ -243,12 +243,8 @@ public class QuestPanel extends AppCompatActivity implements Observer{
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //TODO kod do włączania poszczególnych acticity
-        int id = item.getItemId(); //pobranie id klikniętego pola
-
-        switch (id) {
+        switch (item.getItemId()) {
             case R.id.app_bar_add: {
-                //kliknięcie w dodanie nowego zadania
                 Intent intent = new Intent(this, QuestAdding.class);
                 intent.putExtra("fileAddress", userAddQuest);
                 intent.putExtra("whatdo","addQuest");
@@ -269,7 +265,6 @@ public class QuestPanel extends AppCompatActivity implements Observer{
             case R.id.app_bar_option: {
                 Intent intent = new Intent(this, OptionActivity.class);
                 startActivity(intent);
-                //kliknięcie w opcje
                 break;
             }
             case R.id.app_bar_help: {
