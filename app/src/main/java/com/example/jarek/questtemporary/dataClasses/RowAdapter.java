@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.activityClasses.QuestPanel;
@@ -26,12 +26,11 @@ import java.util.Observable;
 //TODO zrobić opis
 
 public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
-    Context context;
-    int layoutResourceID;
-    LinkedList<Quest> data = null;
-    int clickedRow = -1;
-    ArrayList<QuestPanel> observers;
-    String order;
+    private Context context;
+    private int layoutResourceID;
+    private LinkedList<Quest> data = null;
+    private ArrayList<QuestPanel> observers;
+    private String order;
 
     public RowAdapter(Context context, int layoutResourceID, LinkedList<Quest> data) {
         super(context, layoutResourceID, data);
@@ -50,7 +49,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View row = convertView;
-        RowQuestHolder holder = null;
+        RowQuestHolder holder;
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -101,8 +100,6 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         row.setOnClickListener(new View.OnClickListener() {//kliknięcie w wiersz
             @Override
             public void onClick(View view) {
-                clickedRow = position;
-                Toast.makeText(getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
                 order = "clickRow;" + position;
                 notifyObservers();
             }
@@ -112,8 +109,6 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         holder.confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "ID number " + quest.getIdNumber(), Toast.LENGTH_SHORT).show();
-                clickedRow = position;
                 order = "succeed;" + position;
                 notifyObservers();
             }
@@ -123,8 +118,6 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         holder.cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "Cancel " + position, Toast.LENGTH_SHORT).show();
-                clickedRow = position;
                 order = "failed;" + position;
                 notifyObservers();
             }
@@ -150,7 +143,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         }
     }
 
-    static class RowQuestHolder {
+    private static class RowQuestHolder {
         TextView description;
         Button confirm;
         Button cancel;

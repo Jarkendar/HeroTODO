@@ -1,7 +1,9 @@
 package com.example.jarek.questtemporary.activityClasses;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -107,9 +109,7 @@ public class OptionActivity extends AppCompatActivity {
         buttonaccept.setVisibility(View.VISIBLE);
     }
 
-    public void selectClass(View view) {
-        String newHeroClass = spinnerlistClass.getSelectedItem().toString();
-        int newHeroClassID = R.string.class_native;
+    private void saveChooseClass(String newHeroClass, int newHeroClassID){
         tvClass.setText(newHeroClass);
         buttonselectClass.setEnabled(false);
         buttonaccept.setVisibility(View.GONE);
@@ -124,6 +124,26 @@ public class OptionActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("heroClass",newHeroClassID);
         editor.apply();
+    }
+
+    public void selectClass(View view) {
+        final String newHeroClass = spinnerlistClass.getSelectedItem().toString();
+        final int newHeroClassID = R.string.class_native;
+        new AlertDialog.Builder(this)
+                .setTitle(getText(R.string.text_confirm))//tytuł
+                .setMessage(getString(R.string.text_areYouSureThisClass)+ " " + newHeroClass +"?" +
+                getString(R.string.text_laterChangeIsNotPossible))
+                //opis
+                .setPositiveButton(getText(R.string.text_yes), new DialogInterface.OnClickListener() {
+                    //kliknięcie tak usuwa element
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        saveChooseClass(newHeroClass,newHeroClassID);
+                    }
+                })
+                .setNegativeButton(getText(R.string.text_no), null)//kliknięcie NIE nic nie robi
+                .show();//pokaż
+
     }
 
 }

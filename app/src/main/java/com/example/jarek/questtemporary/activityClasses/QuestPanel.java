@@ -40,7 +40,6 @@ public class QuestPanel extends AppCompatActivity implements Observer{
     private LinkedList<Quest> quests;
     private ListView listView;
     private TextView tClassName, tClassLevel, tExperience;
-    private int heroClassID;
     private RowAdapter rowAdapter;
     private int iposition;
     private Button buttonModify, buttonDelete;
@@ -129,7 +128,7 @@ public class QuestPanel extends AppCompatActivity implements Observer{
      */
     private void readHeroFromShared(){
         SharedPreferences sharedPreferences1 = getSharedPreferences(heroShared,MODE_PRIVATE);
-        heroClassID = sharedPreferences1.getInt("heroClass",R.string.class_native);
+        int heroClassID = sharedPreferences1.getInt("heroClass", R.string.class_native);
         tClassName.setText(getString(heroClassID));
         if (heroClassID != R.string.class_native) {
             double strength = (double) sharedPreferences1.getFloat("strength",0);
@@ -226,8 +225,8 @@ public class QuestPanel extends AppCompatActivity implements Observer{
 
     /**
      * Metoda podłączająca layout wyglądu ActionBar'a.
-     * @param menu
-     * @return
+     * @param menu obiekt reprezentujący menu
+     * @return true podłączenie się powiodło
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -240,7 +239,7 @@ public class QuestPanel extends AppCompatActivity implements Observer{
     /**
      * Metoda obsługująca przyciski z rozwijanego paska opcji w ActionBar.
      * @param item wybrana opcja z paska
-     * @return
+     * @return odpowiedź z nadklasy
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -290,55 +289,65 @@ public class QuestPanel extends AppCompatActivity implements Observer{
     private void serviceObserveButtons(String order){
         String[] partsOfOrder = order.split(";");
         int position = Integer.parseInt(partsOfOrder[1]);
-        if (partsOfOrder[0].equals("succeed")){
-            buttonModify.setEnabled(false);
-            buttonDelete.setEnabled(false);
-            String[] attributes = quests.get(position).getAtributes();
-            for (int i = 0; i<attributes.length ; i++){
-                if (attributes[i].equals(getText(R.string.attribute_strength))) userHero.addStrengthExperience(quests.get(position).getExperiencePoints()/attributes.length);
-                if (attributes[i].equals(getText(R.string.attribute_endurance))) userHero.addEnduranceExperience(quests.get(position).getExperiencePoints()/attributes.length);
-                if (attributes[i].equals(getText(R.string.attribute_dexterity))) userHero.addDexterityExperience(quests.get(position).getExperiencePoints()/attributes.length);
-                if (attributes[i].equals(getText(R.string.attribute_intelligence))) userHero.addIntelligenceExperience(quests.get(position).getExperiencePoints()/attributes.length);
-                if (attributes[i].equals(getText(R.string.attribute_wisdom))) userHero.addWisdomExperience(quests.get(position).getExperiencePoints()/attributes.length);
-                if (attributes[i].equals(getText(R.string.attribute_charisma))) userHero.addCharismaExperience(quests.get(position).getExperiencePoints()/attributes.length);
-            }
-            if (quests.get(position).isRepeatable()){
-                Calendar calendar = quests.get(position).getTimeToLiveDate();
-                calendar.add(Calendar.DAY_OF_MONTH,quests.get(position).getRepeatInterval());
-                quests.addLast(new Quest(quests.get(position).getDescription(),
-                        quests.get(position).getExperiencePoints(),
-                        calendar,
-                        quests.get(position).getAtributes(),
-                        quests.get(position).isRepeatable(),
-                        quests.get(position).getRepeatInterval(),
-                        this));
-                Log.d("--------","Stworzyłem nowe zadanie");
-            }
+        switch (partsOfOrder[0]) {
+            case "succeed":
+                buttonModify.setEnabled(false);
+                buttonDelete.setEnabled(false);
+                String[] attributes = quests.get(position).getAtributes();
+                for (String attribute : attributes) {
+                    if (attribute.equals(getText(R.string.attribute_strength)))
+                        userHero.addStrengthExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                    if (attribute.equals(getText(R.string.attribute_endurance)))
+                        userHero.addEnduranceExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                    if (attribute.equals(getText(R.string.attribute_dexterity)))
+                        userHero.addDexterityExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                    if (attribute.equals(getText(R.string.attribute_intelligence)))
+                        userHero.addIntelligenceExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                    if (attribute.equals(getText(R.string.attribute_wisdom)))
+                        userHero.addWisdomExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                    if (attribute.equals(getText(R.string.attribute_charisma)))
+                        userHero.addCharismaExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                }
+                if (quests.get(position).isRepeatable()) {
+                    Calendar calendar = quests.get(position).getTimeToLiveDate();
+                    calendar.add(Calendar.DAY_OF_MONTH, quests.get(position).getRepeatInterval());
+                    quests.addLast(new Quest(quests.get(position).getDescription(),
+                            quests.get(position).getExperiencePoints(),
+                            calendar,
+                            quests.get(position).getAtributes(),
+                            quests.get(position).isRepeatable(),
+                            quests.get(position).getRepeatInterval(),
+                            this));
+                    Log.d("--------", "Stworzyłem nowe zadanie");
+                }
 
-            quests.remove(position);
-            Log.d("----------", "usunąłem stare zadanie");
-        }else if (partsOfOrder[0].equals("failed")){
-            buttonModify.setEnabled(false);
-            buttonDelete.setEnabled(false);
-            if (quests.get(position).isRepeatable()){
-                Calendar calendar = quests.get(position).getTimeToLiveDate();
-                calendar.add(Calendar.DAY_OF_MONTH,quests.get(position).getRepeatInterval());
-                quests.addLast(new Quest(quests.get(position).getDescription(),
-                        quests.get(position).getExperiencePoints(),
-                        calendar,
-                        quests.get(position).getAtributes(),
-                        quests.get(position).isRepeatable(),
-                        quests.get(position).getRepeatInterval(),
-                        this));
-                Log.d("--------","Stworzyłem nowe zadanie");
-            }
+                quests.remove(position);
+                Log.d("----------", "usunąłem stare zadanie");
+                break;
+            case "failed":
+                buttonModify.setEnabled(false);
+                buttonDelete.setEnabled(false);
+                if (quests.get(position).isRepeatable()) {
+                    Calendar calendar = quests.get(position).getTimeToLiveDate();
+                    calendar.add(Calendar.DAY_OF_MONTH, quests.get(position).getRepeatInterval());
+                    quests.addLast(new Quest(quests.get(position).getDescription(),
+                            quests.get(position).getExperiencePoints(),
+                            calendar,
+                            quests.get(position).getAtributes(),
+                            quests.get(position).isRepeatable(),
+                            quests.get(position).getRepeatInterval(),
+                            this));
+                    Log.d("--------", "Stworzyłem nowe zadanie");
+                }
 
-            quests.remove(position);
-            Log.d("----------", "usunąłem stare zadanie");
-        } else if(partsOfOrder[0].equals("clickRow")){
-            buttonModify.setEnabled(true);
-            buttonDelete.setEnabled(true);
-            iposition = Integer.parseInt(partsOfOrder[1]);
+                quests.remove(position);
+                Log.d("----------", "usunąłem stare zadanie");
+                break;
+            case "clickRow":
+                buttonModify.setEnabled(true);
+                buttonDelete.setEnabled(true);
+                iposition = Integer.parseInt(partsOfOrder[1]);
+                break;
         }
     }
 
@@ -385,7 +394,7 @@ public class QuestPanel extends AppCompatActivity implements Observer{
     /**
      * Metoda kliknięcia na przycisk usunięcia. Wyświetla AlertDialog potwierdzający wybór użytkownika
      * zapobiegato przypadkowemu naciśnięciu przycisku usunięcia.
-     * @param view
+     * @param view obiekt komponentu wywołującego
      */
     public void clickDeleteQuest(View view) {
         new AlertDialog.Builder(this)
