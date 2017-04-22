@@ -1,15 +1,21 @@
 package com.example.jarek.questtemporary.activityClasses;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
@@ -24,7 +30,6 @@ import com.example.jarek.questtemporary.heroClasses.Merchant;
 import com.example.jarek.questtemporary.heroClasses.Warrior;
 
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -39,6 +44,8 @@ public class QuestPanel extends AppCompatActivity implements Observer{
     private TextView tClassName, tClassLevel, tExperience;
     private int heroClassID;
     private RowAdapter rowAdapter;
+    private int iposition;
+    private Button buttonModify, buttonDelete;
 
     private final String userQuestFile = "userQuestFile";
     private final String userAddQuest = "userAddQuest";
@@ -59,10 +66,17 @@ public class QuestPanel extends AppCompatActivity implements Observer{
 
         rowAdapter = new RowAdapter(this, R.layout.layout_quest, quests);
         rowAdapter.addObserver(this);
+        buttonModify.setEnabled(false);
+        buttonDelete.setEnabled(false);
 
         adapterRefresh();
     }
 
+    /**
+     * Metoda odświeżania zawartości listView. Sortuje zadania wg daty zakończenia zadania rosnąco
+     * (zadania wcześniejsze są wyżej w listView). Ustawia adapterowi listę zadań. Na koniec
+     * podłącza adapter pod listView.
+     */
     private void adapterRefresh(){
         Collections.sort(quests, new Comparator<Quest>() {
             @Override
@@ -74,6 +88,13 @@ public class QuestPanel extends AppCompatActivity implements Observer{
         listView.setAdapter(rowAdapter);
     }
 
+    /**
+     * Nadpisana metoda onResume. Czyści listę zadań. Tworzy obiekt zarządzający plikami i karze
+     * mu wczytać wszystkie zadania z pliku. Dodatkowo sprawdza czy flaga nowego zadania jest
+     * podniesiona, jeśli tak to wczytuje dodane zadania i opuszcza flagę oraz łączy wczytaną
+     * listę z resztą zadań, jeśli nie to żadne nowe zadanie nie zostało dodane. Następnie
+     * wywołuje metodę wczytującą Hero z SharedPreference. Na koniec odświeża listView.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -143,12 +164,19 @@ public class QuestPanel extends AppCompatActivity implements Observer{
         }
     }
 
+    /**
+     * Metoda odświeżająca komponenty Activity zwiazane z Hero.
+     */
     private void refreshHeroInfo(){
         tClassLevel.setText(String.valueOf(userHero.getHeroLVL()).concat(" "+getString(R.string.text_level)));
         pBExperience.setProgress((int)userHero.getHeroEXP()%100);
         tExperience.setText(String.valueOf((int)userHero.getHeroEXP()%100).concat(getString(R.string.text_experienceEpmty)));
     }
 
+    /**
+     * Nadpisana metoda onPause. Tworzy obiekt zarządzający plikami, przekazuje listę zadań do
+     * zapisu oraz wywołuje metodę zapisu statystyk Hero.
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -157,6 +185,9 @@ public class QuestPanel extends AppCompatActivity implements Observer{
         saveHeroToShared();
     }
 
+    /**
+     * Metoda zapisująca (jeśli Hero istnieje) statystyki do SharedPreferences.
+     */
     private void saveHeroToShared(){
         if (userHero!= null) {
             SharedPreferences.Editor editor = getSharedPreferences(heroShared, MODE_PRIVATE).edit();
@@ -173,7 +204,6 @@ public class QuestPanel extends AppCompatActivity implements Observer{
 
 //TODO graficzna obróbka wierszy
 //TODO activity help, statistics
-//TODO doświadczenie na poziom pomysł na doświadczenie liczone wg statystyk, każdy poziom statystyki == 100 exp w zależności od przelicznika klasy
 
     /**
      * Metoda wiążąca elementy interfejsu użytkownika ze zmiennymi wykorzystywanymi w kodzie.
@@ -184,8 +214,15 @@ public class QuestPanel extends AppCompatActivity implements Observer{
         tExperience = (TextView) findViewById(R.id.textView_Experience);
         pBExperience = (ProgressBar) findViewById(R.id.progressBar_Experience);
         listView = (ListView) findViewById(R.id.listView_QuestList);
+        buttonModify = (Button)findViewById(R.id.button_Modify);
+        buttonDelete = (Button)findViewById(R.id.button_Delete);
     }
 
+    /**
+     * Metoda podłączająca layout wyglądu ActionBar'a.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // show menu when menu button is pressed
@@ -194,6 +231,11 @@ public class QuestPanel extends AppCompatActivity implements Observer{
         return true;
     }
 
+    /**
+     * Metoda obsługująca przyciski z rozwijanego paska opcji w ActionBar.
+     * @param item wybrana opcja z paska
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //TODO kod do włączania poszczególnych acticity
@@ -226,10 +268,24 @@ public class QuestPanel extends AppCompatActivity implements Observer{
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Metoda obsługująca rozkazy. W pierwszej kolejności rozdziela rozkaz na część wg ";". Następnie
+     * wybiera odpowiedni if który obsługuje dany rozkaz.
+     * "succeed" wypełnienie zadania, dodaje do statystyk Hero ilość punktów doświadczenia z zadania
+     * "failed" nie podołanie zadaniu, usuwa dane zadanie z listy zadań
+     * Powyższe rozkazy dodatkowo sprawdzajączy zadanie jest powtarzalne, jeśli tak to tworzą nowe
+     * identyczne z poprzednim ze zmienioną datą zakończenia. Zmiana jest określona przez długość
+     * interwału zadania.
+     * "clickRow" wiersz został kliknięty, otwiera możliwość modyfikacji lub usunięcia zadania,
+     * poprzez włączenie dostępności przycisków button_Modify i button_Delete.
+     * @param order rozkaz składający się z "polecenie;numer wiersza"
+     */
     private void serviceObserveButtons(String order){
         String[] partsOfOrder = order.split(";");
         int position = Integer.parseInt(partsOfOrder[1]);
         if (partsOfOrder[0].equals("succeed")){
+            buttonModify.setEnabled(false);
+            buttonDelete.setEnabled(false);
             String[] attributes = quests.get(position).getAtributes();
             for (int i = 0; i<attributes.length ; i++){
                 if (attributes[i].equals(getText(R.string.attribute_strength))) userHero.addStrengthExperience(quests.get(position).getExperiencePoints()/attributes.length);
@@ -255,6 +311,8 @@ public class QuestPanel extends AppCompatActivity implements Observer{
             quests.remove(position);
             Log.d("----------", "usunąłem stare zadanie");
         }else if (partsOfOrder[0].equals("failed")){
+            buttonModify.setEnabled(false);
+            buttonDelete.setEnabled(false);
             if (quests.get(position).isRepeatable()){
                 Calendar calendar = quests.get(position).getTimeToLiveDate();
                 calendar.add(Calendar.DAY_OF_MONTH,quests.get(position).getRepeatInterval());
@@ -270,14 +328,56 @@ public class QuestPanel extends AppCompatActivity implements Observer{
 
             quests.remove(position);
             Log.d("----------", "usunąłem stare zadanie");
+        } else if(partsOfOrder[0].equals("clickRow")){
+            buttonModify.setEnabled(true);
+            buttonDelete.setEnabled(true);
+            iposition = Integer.parseInt(partsOfOrder[1]);
         }
     }
 
+    /**
+     * Metoda zaimplementowana z interfejsu Observer, przy zgłoszeniu zmiany obsługuje zgłoszenie.
+     * Przekazuje rozkaz do metody serviceObserveButtons. Odświerza listView oraz statystyki Hero.
+     * @param observable obiekt obserwowany
+     * @param o obiekt rozkazu w tym przypadku string wg wzoru "*;*"
+     */
     @Override
     public void update(Observable observable, Object o) {
         Log.d("-------------------", o.toString());
         serviceObserveButtons(o.toString());
         adapterRefresh();
         refreshHeroInfo();
+    }
+
+    public void clickModifyQuest(View view) {
+    }
+
+    /**
+     * Metoda usuwa zadanie z listy zadań i odświeża listView.
+     */
+    private void deleteListElement(){
+        quests.remove(iposition);
+        adapterRefresh();
+    }
+
+    /**
+     * Metoda kliknięcia na przycisk usunięcia. Wyświetla AlertDialog potwierdzający wybór użytkownika
+     * zapobiegato przypadkowemu naciśnięciu przycisku usunięcia.
+     * @param view
+     */
+    public void clickDeleteQuest(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle(getText(R.string.text_confirm))//tytuł
+                .setMessage(getString(R.string.text_areYouSureDelete)+ " " + quests.get(iposition).getDescription())
+                //opis
+                .setPositiveButton(getText(R.string.text_yes), new DialogInterface.OnClickListener() {
+                    //kliknięcie tak usuwa element
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteListElement();
+                    }
+                })
+                .setNegativeButton(getText(R.string.text_no), null)//kliknięcie NIE nic nie robi
+                .show();//pokaż
     }
 }

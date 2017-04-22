@@ -41,9 +41,10 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         observers = new ArrayList<>();
     }
 
-    public void setData(LinkedList<Quest> data){
+    public void setData(LinkedList<Quest> data) {
         this.data = data;
     }
+
 
     @NonNull
     @Override
@@ -93,9 +94,19 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
         if (!quest.parseQuestDateWithCurrDate()) {
             holder.confirm.setEnabled(false);
-        }else {
+        } else {
             holder.confirm.setEnabled(true);
         }
+
+        row.setOnClickListener(new View.OnClickListener() {//kliknięcie w wiersz
+            @Override
+            public void onClick(View view) {
+                clickedRow = position;
+                Toast.makeText(getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
+                order = "clickRow;" + position;
+                notifyObservers();
+            }
+        });
 
         //nasłuchiwacz do akcepta
         holder.confirm.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +125,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
             public void onClick(View view) {
                 Toast.makeText(getContext(), "Cancel " + position, Toast.LENGTH_SHORT).show();
                 clickedRow = position;
-                order = "failed;"+ position;
+                order = "failed;" + position;
                 notifyObservers();
             }
         });
@@ -134,7 +145,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
     @Override
     public void notifyObservers() {
-        for (QuestPanel o : observers){
+        for (QuestPanel o : observers) {
             o.update(new Observable(), order);
         }
     }

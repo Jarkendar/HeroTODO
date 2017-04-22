@@ -24,6 +24,10 @@
     <string name="text_selectClass">Wybierz klasę</string>
     <string name="text_accept">Akceptuj</string>
     <string name="text_selectedClass">Wybrano klasę</string>
+    <string name="text_modify">Modyfikuj</string>
+    <string name="text_delete">Usuń</string>
+    <string name="text_confirm">Potwierdź</string>
+    <string name="text_areYouSureDelete">Czy na pewno chcesz usunąć:</string>
 
     <string name="hint_fieldMustBeFill">Pole musi być wypełnione.</string>
     <string name="hint_failedData">Błędna dana.</string>
