@@ -16,14 +16,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="10">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:weightSum="4"
-                    android:layout_margin="5dp">
+                    android:layout_margin="5dp"
+                    android:layout_weight="9">
 
                     <TextView
                         android:id="@+id/textView_StatisticStrength"
@@ -50,9 +52,12 @@
                     android:id="@+id/progressBar_StatisticStrength"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:progress="50"/>
+                    android:layout_height="20dp"
+                    android:progress="50"
+                    android:visibility="visible"
+                    tools:visibility="visible"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"/>
             </LinearLayout>
         </TableRow>
 
@@ -63,14 +68,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="10">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:weightSum="4"
-                    android:layout_margin="5dp">
+                    android:layout_margin="5dp"
+                    android:layout_weight="9">
 
                     <TextView
                         android:id="@+id/textView_StatisticEndurance"
@@ -97,9 +104,12 @@
                     android:id="@+id/progressBar_StatisticEndurance"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:progress="50"/>
+                    android:layout_height="20dp"
+                    android:progress="50"
+                    android:visibility="visible"
+                    tools:visibility="visible"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"/>
             </LinearLayout>
         </TableRow>
         <TableRow
@@ -109,14 +119,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="10">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:weightSum="4"
-                    android:layout_margin="5dp">
+                    android:layout_margin="5dp"
+                    android:layout_weight="9">
 
                     <TextView
                         android:id="@+id/textView_StatisticDexterity"
@@ -142,9 +154,12 @@
                     android:id="@+id/progressBar_StatisticDexterity"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:progress="50"/>
+                    android:layout_height="20dp"
+                    android:progress="50"
+                    android:visibility="visible"
+                    tools:visibility="visible"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"/>
             </LinearLayout>
         </TableRow>
         <TableRow
@@ -154,14 +169,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="10">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:weightSum="4"
-                    android:layout_margin="5dp">
+                    android:layout_margin="5dp"
+                    android:layout_weight="9">
 
                     <TextView
                         android:id="@+id/textView_StatisticIntelligence"
@@ -187,9 +204,12 @@
                     android:id="@+id/progressBar_StatisticIntelligence"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:progress="50"/>
+                    android:layout_height="20dp"
+                    android:progress="50"
+                    android:visibility="visible"
+                    tools:visibility="visible"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"/>
             </LinearLayout>
         </TableRow>
         <TableRow
@@ -199,14 +219,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="10">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:weightSum="4"
-                    android:layout_margin="5dp">
+                    android:layout_margin="5dp"
+                    android:layout_weight="9">
 
                     <TextView
                         android:id="@+id/textView_StatisticWisdom"
@@ -232,9 +254,12 @@
                     android:id="@+id/progressBar_StatisticWisdom"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:progress="50"/>
+                    android:layout_height="20dp"
+                    android:progress="50"
+                    android:visibility="visible"
+                    tools:visibility="visible"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"/>
             </LinearLayout>
         </TableRow>
         <TableRow
@@ -244,14 +269,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="10">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:weightSum="4"
-                    android:layout_margin="5dp">
+                    android:layout_margin="5dp"
+                    android:layout_weight="9">
 
                     <TextView
                         android:id="@+id/textView_StatisticCharisma"
@@ -277,9 +304,12 @@
                     android:id="@+id/progressBar_StatisticCharisma"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:progress="50"/>
+                    android:layout_height="20dp"
+                    android:progress="50"
+                    android:visibility="visible"
+                    tools:visibility="visible"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"/>
             </LinearLayout>
         </TableRow>
     </TableLayout>

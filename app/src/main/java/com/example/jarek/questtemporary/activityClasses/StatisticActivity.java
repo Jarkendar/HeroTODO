@@ -3,6 +3,7 @@ package com.example.jarek.questtemporary.activityClasses;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -18,7 +19,6 @@ public class StatisticActivity extends AppCompatActivity {
             ,progressBarIntelligence, progressBarWisdom, progressBarCharisma;
 
     private double strength, endurance, dexterity, intelligence, wisdom, charisma;
-    private long firstClickBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,12 @@ public class StatisticActivity extends AppCompatActivity {
 
         joinComponentsWithVariable();
         getBundleExtras();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setLevelTextViews();
         setProgressBars();
     }
@@ -49,17 +55,12 @@ public class StatisticActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(getApplicationContext(), getText(R.string.text_allert_back), Toast.LENGTH_SHORT).show();
-        if (System.currentTimeMillis() - firstClickBack <= 3000) {
             super.onBackPressed();
-        } else {
-            firstClickBack = System.currentTimeMillis();
-        }
-        super.onBackPressed();
     }
 
     private void setProgressBars(){
         progressBarStrenght.setProgress((int)strength%100);
+        Log.d("+++++=", String.valueOf((int)strength%100));
         progressBarEndurance.setProgress((int)endurance%100);
         progressBarDexterity.setProgress((int)dexterity%100);
         progressBarIntelligence.setProgress((int)intelligence%100);
@@ -84,6 +85,12 @@ public class StatisticActivity extends AppCompatActivity {
         intelligence = (double)bundle.getFloat("intelligence");
         wisdom = (double)bundle.getFloat("wisdom");
         charisma = (double)bundle.getFloat("charisma");
+        Log.d("++++++++++",String.valueOf(strength));
+        Log.d("++++++++++",String.valueOf(endurance));
+        Log.d("++++++++++",String.valueOf(dexterity));
+        Log.d("++++++++++",String.valueOf(intelligence));
+        Log.d("++++++++++",String.valueOf(wisdom));
+        Log.d("++++++++++",String.valueOf(charisma));
     }
 
     private void joinComponentsWithVariable(){

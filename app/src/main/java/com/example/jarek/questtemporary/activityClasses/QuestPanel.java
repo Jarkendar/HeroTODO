@@ -256,7 +256,14 @@ public class QuestPanel extends AppCompatActivity implements Observer{
                 break;
             }
             case R.id.app_bar_statistics: {
-                //kliknięcie w wyświetlenie statystyk
+                Intent intent = new Intent(this, StatisticActivity.class);
+                intent.putExtra("strength",(float) userHero.getStrengthExperience());
+                intent.putExtra("endurance",(float)userHero.getEnduranceExperience());
+                intent.putExtra("dexterity",(float)userHero.getDexterityExperience());
+                intent.putExtra("intelligence",(float)userHero.getIntelligenceExperience());
+                intent.putExtra("wisdom",(float)userHero.getWisdomExperience());
+                intent.putExtra("charisma",(float)userHero.getCharismaExperience());
+                startActivity(intent);
                 break;
             }
             case R.id.app_bar_option: {
@@ -318,11 +325,9 @@ public class QuestPanel extends AppCompatActivity implements Observer{
                             quests.get(position).isRepeatable(),
                             quests.get(position).getRepeatInterval(),
                             this));
-                    Log.d("--------", "Stworzyłem nowe zadanie");
                 }
 
                 quests.remove(position);
-                Log.d("----------", "usunąłem stare zadanie");
                 break;
             case "failed":
                 buttonModify.setEnabled(false);
@@ -337,11 +342,8 @@ public class QuestPanel extends AppCompatActivity implements Observer{
                             quests.get(position).isRepeatable(),
                             quests.get(position).getRepeatInterval(),
                             this));
-                    Log.d("--------", "Stworzyłem nowe zadanie");
                 }
-
                 quests.remove(position);
-                Log.d("----------", "usunąłem stare zadanie");
                 break;
             case "clickRow":
                 buttonModify.setEnabled(true);
@@ -359,7 +361,6 @@ public class QuestPanel extends AppCompatActivity implements Observer{
      */
     @Override
     public void update(Observable observable, Object o) {
-        Log.d("-------------------", o.toString());
         serviceObserveButtons(o.toString());
         adapterRefresh();
         refreshHeroInfo();
