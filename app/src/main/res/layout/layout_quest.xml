@@ -36,7 +36,8 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:text="F" />
+                android:text="F"
+                android:layout_marginRight="5dp"/>
 
         </LinearLayout>
     </TableRow>

@@ -123,6 +123,12 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
             }
         });
 
+        if (position%2 == 0){
+            row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundWhite));
+        }else{
+            row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundGray));
+        }
+
         return row;
     }
 

@@ -6,6 +6,9 @@
     <color name="color_Red">#FF0000</color>
     <color name="color_Black">#000000</color>
 
+    <color name="color_backgroundWhite">#FFFFFF</color>
+    <color name="color_backgroundGray">#CCCCCC</color>
+
     <color name="color_intelligence">#00BFFF</color>
     <color name="color_wisdom">#000080</color>
     <color name="color_dexterity">#006400</color>
