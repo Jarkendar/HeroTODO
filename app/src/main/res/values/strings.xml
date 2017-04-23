@@ -31,6 +31,7 @@
     <string name="text_areYouSureDelete">Czy na pewno chcesz usunąć:</string>
     <string name="text_areYouSureThisClass">Czy na pewno chcesz wybrać klasę:</string>
     <string name="text_laterChangeIsNotPossible">Późniejsza zmiana nie jest możliwa.</string>
+    <string name="text_firstChooseClass">Najpierw wybierz klasę.</string>
 
     <string name="hint_fieldMustBeFill">Pole musi być wypełnione.</string>
     <string name="hint_failedData">Błędna dana.</string>

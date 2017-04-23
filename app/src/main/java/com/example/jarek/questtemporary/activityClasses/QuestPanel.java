@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
@@ -252,14 +253,18 @@ public class QuestPanel extends AppCompatActivity implements Observer{
                 break;
             }
             case R.id.app_bar_statistics: {
-                Intent intent = new Intent(this, StatisticActivity.class);
-                intent.putExtra("strength",(float) userHero.getStrengthExperience());
-                intent.putExtra("endurance",(float)userHero.getEnduranceExperience());
-                intent.putExtra("dexterity",(float)userHero.getDexterityExperience());
-                intent.putExtra("intelligence",(float)userHero.getIntelligenceExperience());
-                intent.putExtra("wisdom",(float)userHero.getWisdomExperience());
-                intent.putExtra("charisma",(float)userHero.getCharismaExperience());
-                startActivity(intent);
+                if (userHero != null) {
+                    Intent intent = new Intent(this, StatisticActivity.class);
+                    intent.putExtra("strength", (float) userHero.getStrengthExperience());
+                    intent.putExtra("endurance", (float) userHero.getEnduranceExperience());
+                    intent.putExtra("dexterity", (float) userHero.getDexterityExperience());
+                    intent.putExtra("intelligence", (float) userHero.getIntelligenceExperience());
+                    intent.putExtra("wisdom", (float) userHero.getWisdomExperience());
+                    intent.putExtra("charisma", (float) userHero.getCharismaExperience());
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(this,getText(R.string.text_firstChooseClass),Toast.LENGTH_SHORT).show();
+                }
                 break;
             }
             case R.id.app_bar_option: {
