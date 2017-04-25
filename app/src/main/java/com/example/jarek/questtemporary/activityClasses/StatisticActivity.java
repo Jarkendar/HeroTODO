@@ -84,7 +84,7 @@ public class StatisticActivity extends AppCompatActivity {
         float[] wPoint = {(x-(float)(a*sections[4]*Math.sqrt(3)/2)),(y+a*sections[4]/2)};
         float[] cPoint = {(x-(float)(a*sections[5]*Math.sqrt(3)/2)),(y-a*sections[5]/2)};
 
-        painter.setStrokeWidth(4);
+        painter.setStrokeWidth(3);
         //narysowanie punktów, kwestia estetyczna (ładniej wygląda)
         canvas.drawPoint(sPoint[0],sPoint[1],painter);
         canvas.drawPoint(ePoint[0],ePoint[1],painter);
@@ -93,7 +93,7 @@ public class StatisticActivity extends AppCompatActivity {
         canvas.drawPoint(wPoint[0],wPoint[1],painter);
         canvas.drawPoint(cPoint[0],cPoint[1],painter);
 
-        painter.setStrokeWidth(7);
+        painter.setStrokeWidth(4);
         //narysowanie odcinków między punktami poszczególnych punktów statystycznych
         canvas.drawLine(sPoint[0],sPoint[1],ePoint[0],ePoint[1],painter);
         canvas.drawLine(ePoint[0],ePoint[1],dPoint[0],dPoint[1],painter);

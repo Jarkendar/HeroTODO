@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="color_Red">#FF0000</color>
     <color name="color_Black">#000000</color>
+    <color name="color_Blue">#3f3fff</color>
 
     <color name="color_backgroundWhite">#FFFFFF</color>
     <color name="color_backgroundGray">#CCCCCC</color>

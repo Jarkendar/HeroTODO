@@ -273,7 +273,8 @@ public class QuestPanel extends AppCompatActivity implements Observer{
                 break;
             }
             case R.id.app_bar_help: {
-                //kliknięcie w pomoc
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
                 break;
             }
         }
