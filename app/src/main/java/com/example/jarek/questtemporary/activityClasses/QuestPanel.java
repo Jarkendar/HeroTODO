@@ -164,9 +164,7 @@ public class QuestPanel extends AppCompatActivity implements Observer{
                     break;
                 }
             }
-            tClassLevel.setText(String.valueOf(userHero.getHeroLVL()).concat(" "+getString(R.string.text_level)));
-            pBExperience.setProgress((int)userHero.getHeroEXP()%100);
-            tExperience.setText(String.valueOf((int)userHero.getHeroEXP()%100).concat(getString(R.string.text_experienceEpmty)));
+            refreshHeroInfo();
         }
     }
 

@@ -32,6 +32,40 @@
     <string name="text_areYouSureThisClass">Czy na pewno chcesz wybrać klasę:</string>
     <string name="text_laterChangeIsNotPossible">Późniejsza zmiana nie jest możliwa.</string>
     <string name="text_firstChooseClass">Najpierw wybierz klasę.</string>
+    <string name="text_close">Zamknij</string>
+
+    <string name="help_aboutApp">O aplikacji</string>
+    <string name="category_description_aboutApp">Aplikacja powstała, aby trochę urozmaicić nudne listy TODO. Czy spełni swoje zadanie? Mam nadzieje. Głównym celem jest choć troszeczkę zgrywalizować to nudne życie. Aplikacja pozwala zobrazować to kim jesteśmy, jakie mamy ogólne cechy. Nie jest żadnym testem psychologicznym, zatem wszystkie zawarte tutaj informacje należy traktować półżartem. Statystyki z dużym prawdopodobieństwem nie odwzorują rzeczywistości, chyba że użytkownik naprawdę się postara, a każda jego decyzja będzie przemyślana (w co powiątpiewam, jesteśmy tylko ludźmi).  </string>
+    <string name="help_aboutMe">O mnie</string>
+    <string name="category_description_aboutMe">Mam na imię Jarek, jestem studentem informatyki. Interesuję się wieloma dziedzinami, staram się ciągle rozwijać i być otawrtym na nowe doświadczenie. Interesuję się informatyką, fizyką, psychologią, człowiekiem (od anatomi do działania mózgu). Lubię czytać (szczególnie fantastykę), jeździć na rowerze, pokopać czy pouderzać piłkę w siatkówce czy piłce nożnej (ciężko to nazwać grą), gram na gitarze (głównie dla siebie brzdąkam), coś tam pogram(choć czasu mało). Cech podawać nie będę, jestem przecież leniwym informatykiem. To by było na tyle o mnie. Twórca ze mnie marny, czasem przyjdą do głowy głupie pomysły, mam nadzieje że ta aplikacj anie jest jednym z nich. Na koniec jeszczę dopiszę, że lubię pisać, nie tylko kody.</string>
+    <string name="help_category_class">Co to są klasy?</string>
+    <string name="category_description_class">Klasa to rodzaj kategorii postaci. Charakteryzuje postać, określa jej słabe i silne strony. Można utożsamiać z przynależnością do grupy społecznej, bądź cechu.</string>
+    <string name="help_category_rang">Co to są rangi?</string>
+    <string name="category_description_rang">Ranga to podklasa, podkategoria klasy służąca lepszemu sprecyzowaniu na jakim poziomie rozwoju jest bohater. Przeważnie zhierarchizowana, prościej przedstawiona w postaci drabinki. Każdy szczebel to kolejny kamień milowy rozwoju herosa.</string>
+    <string name="help_category_statistics">Co to są statystyki?</string>
+    <string name="category_description_statistics">Statystyki takie jak np. siła, inteligencja, określają w sposób prosty, liczbowy poziom zaawansowania cechy bohatera. Ogólnie przyjęte jest że ludzie potrafią się rozwijać. Znane są przypadki cofania się w rozwoju, przeważnie mężczyzn. Aplikacja jednak nie przewiduje takiej możliwości.</string>
+    <string name="help_category_correctDataFormat">Jak wygląda poprawny format daty?</string>
+    <string name="category_description_correctDataFormat">Poprawny format daty to dd-MM-yyyy, gdzie dd = dzień miesiąca, MM = miesiąc, yyyy = rok. Między poszczególnymi liczbami konieczny jest znak "-". Każdy inny format daty jest nie akceptowalny, więc jeśli ci nie odpowiada skonsultuj się z programistą.</string>
+    <string name="help_category_whenQuestEnd">Kiedy zadanie się kończy?</string>
+    <string name="category_description_whenQuestEnd">Zadanie kończy się w momencie wciśnięcia przycisku powodzenia lub niepowodzenia. Przycisk powodzenia można wcisnąć tylko do dnia zakończenia zadania (włącznie). Po przekroczeniu wspomnianej daty można wcisnąć tylko przycisk niepowodzieni. Zadanie pojawi się ponownie z nową datą zakończenia jeśli jest powtarzalne.</string>
+    <string name="help_category_experience">Jak przydzielane jest doświadczenie?</string>
+    <string name="category_description_experience">Każde zadanie posiada nagrodę w postaci doświadczenia. Ilość punktów doświadczenia przydzielana jest każdemu atrybutowi (z zadania) postaci w tej samej ilości. Co za tym idzie jeśli chcesz szybko się rozwinąć ustawiaj maksymalną pulę doświadczenia i wszystkie atrybuty. Zyskasz znacznie więcej doświadczenia. Herosowi jednak nie wypada oszukiwać.</string>
+    <string name="help_category_hexGraph">O co chodzi z tym sześciokątnym wykresem?</string>
+    <string name="category_description_hexGraph">Wykres ten przedstawia statystyki. Pokazuje proporcje między konkretnymi atrybutami. Pozwala na pierwszy rzut oka stwierdzić kierunek rozwoju bohatera. Wykres jest sześciokątny, ponieważ jest 6 statystyk. Prawdziwym powodem tego wykresu jest widzimisie twórcy, ale o tym nikt nie musi wiedzieć.</string>
+    <string name="help_category_level">Dlaczego mój poziom jest większy niż wychodzi ze średniej arytmetycznej statystyk?</string>
+    <string name="category_description_level">Poziom bohatera jest przeliczany według mnożników statystyk. Każda klasa posiada własny zestaw mnożników specyficzny tylko dla tej klasy. Mnożniki są odwzorowaniem ogólnego (nie koniecznie obieranego) kierunku rozwoju klasy. Mnożniki są schowane przed użytkownikiem, odszyfrowanie ich nie jest trudne, jeśli użytkownik znajdzie odpowiedni sposób.</string>
+    <string name="help_category_strength">Statystyka: Siła</string>
+    <string name="category_description_strength">Siła stanowi odwzorowanie siły i sprawności fizycznej bohatera, bohater silny jest w stanie z łatwością mierzyć się z przeciwnikami, stawi czoła każdej bestii oraz da radę otworzyć każdy słoik. </string>
+    <string name="help_category_endurance">Statystyka: Wytrzymałość</string>
+    <string name="category_description_endurance">Wytrzymałość przedstawia jak nasz bohater jest wytrzymały na ból, na przeciwności losu. Atrybut pokazuje wytrzymałość w dążeniu do celu, oraz kondycje bohatera. Nie można zaniedbywać tego atrybutu. Nikt nie lubi herosa, który się szybko męczy.</string>
+    <string name="help_category_dexterity">Statystyka: Zręczność</string>
+    <string name="category_description_dexterity">Zręczność to umiejętności manualne, posługiwanie się swoim ciałem, ogólna giętkość, umiejętność utrzymywania równowagi oraz balansowania ciałem. Wyższy poziom tej statystyki może umożliwić zadziwienie grona znajomych sztuczkami karcianymi, bądź zaimponować płci pięknej grą na instrumencie.</string>
+    <string name="help_category_intelligence">Statystyka: Inteligencja</string>
+    <string name="category_description_intelligence">Inteligencja atrybut przedstawiający jak nasz bohater jest rozwinięty umysłowo. Zdolność łączenia zdobytych informacji, umiejętność skupiania się, chęć zdobywania nowej wiedzy, czasami zdarza się również, że heros z rozwiniętym atrybutem inteligencji posiada poczucie humoru.</string>
+    <string name="help_category_wisdom">Statystyka: Wiedza</string>
+    <string name="category_description_wisdom">Wiedza to atrubut przedstawiajacy poziom w jakim bohater opanował tajniki ksiąg bibliotek świata. Obrazuje w jakim stopniu heros jest w stanie zabłysnąć w towarzystwie ciekawostkami np. spektrum widzenia ustonogów.</string>
+    <string name="help_category_charisma">Statystyka: Charyzma</string>
+    <string name="category_description_charisma">Charyzma to cecha bohaterów otwartych, nie bojących się przejąć inicjatywy. Heros z rozwiniętą charyzmą potrafi porywać tłumy, jego zdolności przywódcze są ponad przeciętną, jeśli tylko by chciał mógłby zmanipulować każdego, nie robi jednak tego, gdyż jest człekiem prawym i sprawiedliwym.</string>
 
     <string name="shortcut_strength">S</string>
     <string name="shortcut_endurance">E</string>
