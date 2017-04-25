@@ -76,7 +76,6 @@ public class StatisticActivity extends AppCompatActivity {
         canvas.drawLine(x-(float)(c *Math.sqrt(3)/2),y-c/2,x,y-c,painter);
 
         float[] sections = getLenghtStatsLine();//pobiera stosunki długości
-
         //ustawienie punktów odpowiednich statystyk
         float[] sPoint = {x, y-a*sections[0]};
         float[] ePoint = {(x+(float)(a*sections[1]*Math.sqrt(3)/2)),(y-a*sections[1]/2)};
@@ -102,6 +101,20 @@ public class StatisticActivity extends AppCompatActivity {
         canvas.drawLine(iPoint[0],iPoint[1],wPoint[0],wPoint[1],painter);
         canvas.drawLine(wPoint[0],wPoint[1],cPoint[0],cPoint[1],painter);
         canvas.drawLine(cPoint[0],cPoint[1],sPoint[0],sPoint[1],painter);
+
+        painter.setColor(getResources().getColor(R.color.color_strength));
+        painter.setTextSize(12);
+        canvas.drawText(getText(R.string.shortcut_strength).toString(),(float)x,(float)(y-a*1.05),painter);
+        painter.setColor(getResources().getColor(R.color.color_endurance));
+        canvas.drawText(getText(R.string.shortcut_endurance).toString(),x+(float)(a*1.05*Math.sqrt(3)/2 ),(float)(y-(a/2)*1.05),painter);
+        painter.setColor(getResources().getColor(R.color.color_dexterity));
+        canvas.drawText(getText(R.string.shortcut_dexterity).toString(),x+(float)(a*1.05*Math.sqrt(3)/2),(float)(y+(a/2)*1.05),painter);
+        painter.setColor(getResources().getColor(R.color.color_intelligence));
+        canvas.drawText(getText(R.string.shortcut_intelligence).toString(),(float)x,(float)(y+a*1.13),painter);
+        painter.setColor(getResources().getColor(R.color.color_wisdom));
+        canvas.drawText(getText(R.string.shortcut_wisdom).toString(),x-(float)(a*1.15*Math.sqrt(3)/2),(float)(y+(a/2)*1.15),painter);
+        painter.setColor(getResources().getColor(R.color.color_charisma));
+        canvas.drawText(getText(R.string.shortcut_charisma).toString(),x-(float)(a*1.1*Math.sqrt(3)/2),(float)(y-(a/2)*1.1),painter);
 
         //wgranie stworzonego obrazka(wykresu) do obiektu imageView
         imageView.setImageBitmap(bitmap);
