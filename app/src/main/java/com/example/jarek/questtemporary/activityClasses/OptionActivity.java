@@ -49,9 +49,10 @@ public class OptionActivity extends AppCompatActivity {
     private void enableSelectComponent(){
         if (heroClass == R.string.class_native){
             buttonselectClass.setEnabled(true);
-
+            tvClass.setVisibility(View.GONE);
         }else {
             buttonselectClass.setEnabled(false);
+            tvClass.setVisibility(View.VISIBLE);
         }
         spinnerlistClass.setVisibility(View.GONE);
         buttonaccept.setVisibility(View.GONE);

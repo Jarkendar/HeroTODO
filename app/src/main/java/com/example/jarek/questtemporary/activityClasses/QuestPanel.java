@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,13 +19,7 @@ import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
 import com.example.jarek.questtemporary.dataClasses.RowAdapter;
 import com.example.jarek.questtemporary.dataClasses.Quest;
-import com.example.jarek.questtemporary.heroClasses.Bard;
 import com.example.jarek.questtemporary.heroClasses.Hero;
-import com.example.jarek.questtemporary.heroClasses.Hunter;
-import com.example.jarek.questtemporary.heroClasses.Lord;
-import com.example.jarek.questtemporary.heroClasses.Mage;
-import com.example.jarek.questtemporary.heroClasses.Merchant;
-import com.example.jarek.questtemporary.heroClasses.Warrior;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -102,10 +95,8 @@ public class QuestPanel extends AppCompatActivity implements Observer{
         String userInfoShared = "userInfoShared";
         SharedPreferences sharedPreferences = getSharedPreferences(userInfoShared, MODE_PRIVATE);
         if (sharedPreferences.getBoolean("addQuests", false)){
-            Log.d("++++++++++++++++++", "onResume: wczytuje");
             LinkedList<Quest> addQuests;
             addQuests = fileManager.deserializationQuests(userAddQuest, getApplicationContext());
-            Log.d("++++++++++++++++++", "onResume: długość" + addQuests.size());
             quests.addAll(addQuests);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("addQuests",false);
@@ -140,27 +131,33 @@ public class QuestPanel extends AppCompatActivity implements Observer{
             double charisma = (double)sharedPreferences1.getFloat("charisma",0);
             switch (heroClassID) {
                 case R.string.class_bard: {
-                    userHero = new Bard(strength,endurance,dexterity,intelligence,wisdom,charisma);
+                    double[] multipliers = {3, 2, 2, 1, 0.5, 1};
+                    userHero = new Hero(strength,endurance,dexterity,intelligence,wisdom,charisma,getResources().getStringArray(R.array.bard_ranks),multipliers);
                     break;
                 }
                 case R.string.class_hunter:{
-                    userHero = new Hunter(strength,endurance,dexterity,intelligence,wisdom,charisma);
+                    double[] multipliers = {3, 2, 2, 1, 0.5, 1};
+                    userHero = new Hero(strength,endurance,dexterity,intelligence,wisdom,charisma,getResources().getStringArray(R.array.hunter_ranks),multipliers);
                     break;
                 }
                 case R.string.class_merchant:{
-                    userHero = new Merchant(strength,endurance,dexterity,intelligence,wisdom,charisma);
+                    double[] multipliers = {3, 2, 2, 1, 0.5, 1};
+                    userHero = new Hero(strength,endurance,dexterity,intelligence,wisdom,charisma,getResources().getStringArray(R.array.merchant_ranks),multipliers);
                     break;
                 }
                 case R.string.class_mage:{
-                    userHero = new Mage(strength,endurance,dexterity,intelligence,wisdom,charisma);
+                    double[] multipliers = {3, 2, 2, 1, 0.5, 1};
+                    userHero = new Hero(strength,endurance,dexterity,intelligence,wisdom,charisma,getResources().getStringArray(R.array.mage_ranks),multipliers);
                     break;
                 }
                 case R.string.class_lord:{
-                    userHero = new Lord(strength,endurance,dexterity,intelligence,wisdom,charisma);
+                    double[] multipliers = {3, 2, 2, 1, 0.5, 1};
+                    userHero = new Hero(strength,endurance,dexterity,intelligence,wisdom,charisma,getResources().getStringArray(R.array.lord_ranks),multipliers);
                     break;
                 }
                 case R.string.class_warrior:{
-                    userHero = new Warrior(strength,endurance,dexterity,intelligence,wisdom,charisma);
+                    double[] multipliers = {3, 2, 2, 1, 0.5, 1};
+                    userHero = new Hero(strength,endurance,dexterity,intelligence,wisdom,charisma, getResources().getStringArray(R.array.warrior_ranks), multipliers);
                     break;
                 }
             }
@@ -172,6 +169,7 @@ public class QuestPanel extends AppCompatActivity implements Observer{
      * Metoda odświeżająca komponenty Activity zwiazane z Hero.
      */
     private void refreshHeroInfo(){
+        tClassName.setText(userHero.getClassRank());
         tClassLevel.setText(String.valueOf(userHero.getHeroLVL()).concat(" "+getString(R.string.text_level)));
         pBExperience.setProgress((int)userHero.getHeroEXP()%100);
         tExperience.setText(String.valueOf((int)userHero.getHeroEXP()%100).concat(getString(R.string.text_experienceEpmty)));
