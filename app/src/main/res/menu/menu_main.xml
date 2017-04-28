@@ -2,34 +2,34 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.jarek.questtemporary.activityClasses.QuestPanel">
+    tools:context="com.example.jarek.questtemporary.activityClasses.QuestPanelMain">
 
     <item
         android:id="@+id/app_bar_add"
         android:icon="@drawable/ic_add_black_48dp"
         android:title="@string/text_add"
-        app:actionLayout="@layout/activity_quest_panel"
+        app:actionLayout="@layout/activity_quest_panel_main"
         android:orderInCategory="100"
         app:showAsAction="never" />
     <item
         android:id="@+id/app_bar_statistics"
         android:title="@string/text_statistics"
         android:icon="@drawable/ic_account_circle_black_48dp"
-        android:actionLayout="@layout/activity_quest_panel"
+        android:actionLayout="@layout/activity_quest_panel_main"
         android:orderInCategory="150"
         app:showAsAction="never"/>
     <item
         android:id="@+id/app_bar_option"
         android:icon="@drawable/ic_settings_black_48dp"
         android:title="@string/text_option"
-        app:actionLayout="@layout/activity_quest_panel"
+        app:actionLayout="@layout/activity_quest_panel_main"
         android:orderInCategory="200"
         app:showAsAction="never" />
     <item
         android:id="@+id/app_bar_help"
         android:icon="@drawable/ic_help_outline_black_48dp"
         android:title="@string/text_help"
-        app:actionLayout="@layout/activity_quest_panel"
+        app:actionLayout="@layout/activity_quest_panel_main"
         android:orderInCategory="300"
         app:showAsAction="never" />
 </menu>

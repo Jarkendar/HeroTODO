@@ -8,7 +8,7 @@
     <string name="native_zeroLevel">0 poziom</string>
     <string name="text_level">poziom</string>
     <string name="text_experience">0/100PD</string>
-    <string name="text_experienceEpmty">/100PD</string>
+    <string name="text_experienceEmpty">/100PD</string>
     <string name="text_reward">Nagroda:</string>
     <string name="text_sufix_experiencePoints">PD</string>
     <string name="text_together">Łącznie: </string>
@@ -32,6 +32,9 @@
     <string name="text_areYouSureThisClass">Czy na pewno chcesz wybrać klasę:</string>
     <string name="text_laterChangeIsNotPossible">Późniejsza zmiana nie jest możliwa.</string>
     <string name="text_firstChooseClass">Najpierw wybierz klasę.</string>
+    <string name="text_restartClass">Zrestartuj klasę.</string>
+    <string name="text_areYouSureRestart">Czy na pewno chcesz zrestartować klasę, a wraz z nią
+    WSZYSTKIE postępy? (*zadania nie zostaną usunięte)</string>
     <string name="text_close">Zamknij</string>
 
     <string name="help_aboutApp">O aplikacji</string>
@@ -66,11 +69,6 @@
         określają w sposób prosty, liczbowy poziom zaawansowania cechy bohatera. Ogólnie przyjęte
         jest że ludzie potrafią się rozwijać. Znane są przypadki cofania się w rozwoju, przeważnie
         mężczyzn. Aplikacja jednak nie przewiduje takiej możliwości.</string>
-    <string name="help_category_correctDataFormat">Jak wygląda poprawny format daty?</string>
-    <string name="category_description_correctDataFormat">Poprawny format daty to dd-MM-yyyy, gdzie
-        dd = dzień miesiąca, MM = miesiąc, yyyy = rok. Między poszczególnymi liczbami konieczny jest
-        znak "-". Każdy inny format daty jest nie akceptowalny, więc jeśli ci nie odpowiada
-        skonsultuj się z programistą.</string>
     <string name="help_category_whenQuestEnd">Kiedy zadanie się kończy?</string>
     <string name="category_description_whenQuestEnd">Zadanie kończy się w momencie wciśnięcia
         przycisku powodzenia lub niepowodzenia. Przycisk powodzenia można wcisnąć tylko do dnia

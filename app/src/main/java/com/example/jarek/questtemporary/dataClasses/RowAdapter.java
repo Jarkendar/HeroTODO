@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 
 import com.example.jarek.questtemporary.R;
-import com.example.jarek.questtemporary.activityClasses.QuestPanel;
+import com.example.jarek.questtemporary.activityClasses.QuestPanelMain;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -29,7 +29,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
     private Context context;
     private int layoutResourceID;
     private LinkedList<Quest> data = null;
-    private ArrayList<QuestPanel> observers;
+    private ArrayList<QuestPanelMain> observers;
     private String order;
 
     public RowAdapter(Context context, int layoutResourceID, LinkedList<Quest> data) {
@@ -133,18 +133,18 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
     }
 
     @Override
-    public void addObserver(QuestPanel o) {
+    public void addObserver(QuestPanelMain o) {
         observers.add(o);
     }
 
     @Override
-    public void delObserver(QuestPanel o) {
+    public void delObserver(QuestPanelMain o) {
         observers.remove(o);
     }
 
     @Override
     public void notifyObservers() {
-        for (QuestPanel o : observers) {
+        for (QuestPanelMain o : observers) {
             o.update(new Observable(), order);
         }
     }

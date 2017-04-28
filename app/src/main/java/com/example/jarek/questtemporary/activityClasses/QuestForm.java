@@ -24,7 +24,7 @@ import com.example.jarek.questtemporary.dataClasses.Quest;
 import java.util.Calendar;
 import java.util.LinkedList;
 
-public class QuestAdding extends AppCompatActivity {
+public class QuestForm extends AppCompatActivity {
 
     private LinkedList<Quest> quests = new LinkedList<>();
 
@@ -49,7 +49,7 @@ public class QuestAdding extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quest_adding);
+        setContentView(R.layout.activity_quest_form);
 
         joinComponentsWithVariable();
         getBundleExtras();

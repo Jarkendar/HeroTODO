@@ -25,6 +25,8 @@ public class OptionActivity extends AppCompatActivity {
     private Button buttonselectClass, buttonaccept;
     private Spinner spinnerlistClass;
 
+    private final String heroShared = "heroShared";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +38,11 @@ public class OptionActivity extends AppCompatActivity {
         actionBar.setTitle(getText(R.string.text_option));
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        String heroShared = "heroShared";
         sharedPreferences =getSharedPreferences(heroShared,MODE_PRIVATE);
         heroClass = sharedPreferences.getInt("heroClass",R.string.class_native);
 
         joinComponentsWithVariable();
+
 
         tvClass.setText(getString(heroClass));
         enableSelectComponent();
@@ -131,10 +133,10 @@ public class OptionActivity extends AppCompatActivity {
                 getString(R.string.text_laterChangeIsNotPossible))
                 //opis
                 .setPositiveButton(getText(R.string.text_yes), new DialogInterface.OnClickListener() {
-                    //kliknięcie tak usuwa element
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         saveChooseClass(newHeroClass,newHeroClassID);
+                        tvClass.setVisibility(View.VISIBLE);
                     }
                 })
                 .setNegativeButton(getText(R.string.text_no), null)//kliknięcie NIE nic nie robi
@@ -142,4 +144,33 @@ public class OptionActivity extends AppCompatActivity {
 
     }
 
+    private void deleteAllProgress(){
+        SharedPreferences sharedPreferences = getSharedPreferences(heroShared,MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("heroClass", R.string.class_native);
+        editor.putFloat("strength", 0);
+        editor.putFloat("endurance", 0);
+        editor.putFloat("dexterity", 0);
+        editor.putFloat("intelligence", 0);
+        editor.putFloat("wisdom", 0);
+        editor.putFloat("charisma", 0);
+        editor.apply();
+        heroClass = sharedPreferences.getInt("heroClass",R.string.class_native);
+        enableSelectComponent();
+    }
+
+    public void restartAll(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle(getText(R.string.text_confirm))//tytuł
+                .setMessage(getString(R.string.text_areYouSureRestart))
+                //opis
+                .setPositiveButton(getText(R.string.text_yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteAllProgress();
+                    }
+                })
+                .setNegativeButton(getText(R.string.text_no), null)//kliknięcie NIE nic nie robi
+                .show();//pokaż
+    }
 }

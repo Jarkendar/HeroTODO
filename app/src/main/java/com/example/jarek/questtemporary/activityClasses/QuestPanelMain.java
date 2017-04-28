@@ -28,7 +28,7 @@ import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class QuestPanel extends AppCompatActivity implements Observer {
+public class QuestPanelMain extends AppCompatActivity implements Observer {
 
     private ProgressBar pBExperience;
     private LinkedList<Quest> quests;
@@ -47,11 +47,9 @@ public class QuestPanel extends AppCompatActivity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quest_panel);
+        setContentView(R.layout.activity_quest_panel_main);
 
         joinComponentsWithVariable();
-
-        pBExperience.setProgress(50);//test
 
         quests = new LinkedList<>();
 
@@ -122,6 +120,9 @@ public class QuestPanel extends AppCompatActivity implements Observer {
         SharedPreferences sharedPreferences1 = getSharedPreferences(heroShared, MODE_PRIVATE);
         int heroClassID = sharedPreferences1.getInt("heroClass", R.string.class_native);
         tClassName.setText(getString(heroClassID));
+        tClassLevel.setText(getString(R.string.native_zeroLevel));
+        pBExperience.setProgress(0);
+        tExperience.setText(getString(R.string.text_experience));
         if (heroClassID != R.string.class_native) {
             double strength = (double) sharedPreferences1.getFloat("strength", 0);
             double endurance = (double) sharedPreferences1.getFloat("endurance", 0);
@@ -169,10 +170,12 @@ public class QuestPanel extends AppCompatActivity implements Observer {
      * Metoda odświeżająca komponenty Activity zwiazane z Hero.
      */
     private void refreshHeroInfo() {
-        tClassName.setText(userHero.getClassRank());
-        tClassLevel.setText(String.valueOf(userHero.getHeroLVL()).concat(" " + getString(R.string.text_level)));
-        pBExperience.setProgress((int) userHero.getHeroEXP() % 100);
-        tExperience.setText(String.valueOf((int) userHero.getHeroEXP() % 100).concat(getString(R.string.text_experienceEpmty)));
+        if (userHero != null) {
+            tClassName.setText(userHero.getClassRank());
+            tClassLevel.setText(String.valueOf(userHero.getHeroLVL()).concat(" " + getString(R.string.text_level)));
+            pBExperience.setProgress((int) userHero.getHeroEXP() % 100);
+            tExperience.setText(String.valueOf((int) userHero.getHeroEXP() % 100).concat(getString(R.string.text_experienceEmpty)));
+        }
     }
 
     /**
@@ -196,7 +199,7 @@ public class QuestPanel extends AppCompatActivity implements Observer {
             editor.putFloat("strength", (float) userHero.getStrengthExperience());
             editor.putFloat("endurance", (float) userHero.getEnduranceExperience());
             editor.putFloat("dexterity", (float) userHero.getDexterityExperience());
-            editor.putFloat("intelligence", (float) userHero.getDexterityExperience());
+            editor.putFloat("intelligence", (float) userHero.getIntelligenceExperience());
             editor.putFloat("wisdom", (float) userHero.getWisdomExperience());
             editor.putFloat("charisma", (float) userHero.getCharismaExperience());
             editor.apply();
@@ -243,7 +246,7 @@ public class QuestPanel extends AppCompatActivity implements Observer {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.app_bar_add: {
-                Intent intent = new Intent(this, QuestAdding.class);
+                Intent intent = new Intent(this, QuestForm.class);
                 intent.putExtra("fileAddress", userAddQuest);
                 intent.putExtra("whatdo", "addQuest");
                 startActivity(intent);
@@ -267,6 +270,7 @@ public class QuestPanel extends AppCompatActivity implements Observer {
             case R.id.app_bar_option: {
                 Intent intent = new Intent(this, OptionActivity.class);
                 startActivity(intent);
+                userHero = null;
                 break;
             }
             case R.id.app_bar_help: {
@@ -300,19 +304,21 @@ public class QuestPanel extends AppCompatActivity implements Observer {
                 buttonModify.setEnabled(false);
                 buttonDelete.setEnabled(false);
                 String[] attributes = quests.get(position).getAtributes();
-                for (String attribute : attributes) {
-                    if (attribute.equals(getText(R.string.attribute_strength)))
-                        userHero.addStrengthExperience(quests.get(position).getExperiencePoints() / attributes.length);
-                    if (attribute.equals(getText(R.string.attribute_endurance)))
-                        userHero.addEnduranceExperience(quests.get(position).getExperiencePoints() / attributes.length);
-                    if (attribute.equals(getText(R.string.attribute_dexterity)))
-                        userHero.addDexterityExperience(quests.get(position).getExperiencePoints() / attributes.length);
-                    if (attribute.equals(getText(R.string.attribute_intelligence)))
-                        userHero.addIntelligenceExperience(quests.get(position).getExperiencePoints() / attributes.length);
-                    if (attribute.equals(getText(R.string.attribute_wisdom)))
-                        userHero.addWisdomExperience(quests.get(position).getExperiencePoints() / attributes.length);
-                    if (attribute.equals(getText(R.string.attribute_charisma)))
-                        userHero.addCharismaExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                if (userHero != null) {
+                    for (String attribute : attributes) {
+                        if (attribute.equals(getText(R.string.attribute_strength)))
+                            userHero.addStrengthExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                        if (attribute.equals(getText(R.string.attribute_endurance)))
+                            userHero.addEnduranceExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                        if (attribute.equals(getText(R.string.attribute_dexterity)))
+                            userHero.addDexterityExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                        if (attribute.equals(getText(R.string.attribute_intelligence)))
+                            userHero.addIntelligenceExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                        if (attribute.equals(getText(R.string.attribute_wisdom)))
+                            userHero.addWisdomExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                        if (attribute.equals(getText(R.string.attribute_charisma)))
+                            userHero.addCharismaExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                    }
                 }
                 if (quests.get(position).isRepeatable()) {
                     Calendar calendar = quests.get(position).getTimeToLiveDate();
@@ -372,7 +378,7 @@ public class QuestPanel extends AppCompatActivity implements Observer {
             attributes = attributes.concat(x + ";");
         }
         attributes = attributes.substring(0, attributes.length() - 1);
-        Intent intent = new Intent(this, QuestAdding.class);
+        Intent intent = new Intent(this, QuestForm.class);
         intent.putExtra("fileAddress", userAddQuest);
         intent.putExtra("whatdo", "modifyQuest");
         intent.putExtra("description", quests.get(iposition).getDescription());

@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -178,9 +179,10 @@ public class StatisticActivity extends AppCompatActivity {
             relations[4] = (float) (3 * wisdom / sum);
             relations[5] = (float) (3 * charisma / sum);
             for (int i = 0; i < relations.length; i++) {
-                if (relations[i] > sum) {
+                if (relations[i] > sum/sum) {
                     relations[i] = sum / sum;
                 }
+                Log.d("+++++++",String.valueOf(relations[i]));
             }
         }
         return relations;
