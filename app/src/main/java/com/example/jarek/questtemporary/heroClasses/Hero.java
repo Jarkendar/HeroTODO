@@ -3,7 +3,7 @@ package com.example.jarek.questtemporary.heroClasses;
 /**
  * Created by Jarek on 2017-04-18.
  */
-
+//TODO zrobić opis
 public class Hero {
     private double strengthExperience;
     private double enduranceExperience;

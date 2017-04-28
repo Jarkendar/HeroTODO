@@ -125,10 +125,10 @@
         każdego, nie robi jednak tego, gdyż jest człekiem prawym i sprawiedliwym.</string>
 
     <string name="shortcut_strength">S</string>
-    <string name="shortcut_endurance">E</string>
-    <string name="shortcut_dexterity">D</string>
+    <string name="shortcut_endurance">W</string>
+    <string name="shortcut_dexterity">Z</string>
     <string name="shortcut_intelligence">I</string>
-    <string name="shortcut_wisdom">W</string>
+    <string name="shortcut_wisdom">M</string>
     <string name="shortcut_charisma">C</string>
 
     <string name="hint_fieldMustBeFill">Pole musi być wypełnione.</string>

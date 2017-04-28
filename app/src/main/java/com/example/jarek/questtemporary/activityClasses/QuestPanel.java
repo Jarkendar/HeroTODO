@@ -205,7 +205,6 @@ public class QuestPanel extends AppCompatActivity implements Observer{
 
 
 //TODO graficzna obróbka wierszy
-//TODO activity help
 
     /**
      * Metoda wiążąca elementy interfejsu użytkownika ze zmiennymi wykorzystywanymi w kodzie.

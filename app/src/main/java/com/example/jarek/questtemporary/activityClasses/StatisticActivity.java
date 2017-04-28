@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -39,87 +38,131 @@ public class StatisticActivity extends AppCompatActivity {
         drawHexStats();
     }
 
+    /**
+     * Metoda obliczająca tablicę wierzchołków dla obiektu canvas metody drawLines.
+     * @param centerX szerokość środka wykresu
+     * @param centerY wysokość środka wykresu
+     * @param lenght długość największego sześciąkąta tła
+     * @return tablica wierzchołków, rozmiar 24 (2 na każdy wierzchołek) wartości są zdublowane dla
+     * metody canvas.drawLines
+     */
+    private float[] createHexVertexTable(float centerX, float centerY, float lenght){
+        return new float[]{centerX,centerY-lenght,
+                centerX+(float)(lenght *Math.sqrt(3)/2),centerY-lenght/2,
+                centerX+(float)(lenght *Math.sqrt(3)/2),centerY-lenght/2,
+                centerX+(float)(lenght *Math.sqrt(3)/2),centerY+lenght/2,
+                centerX+(float)(lenght *Math.sqrt(3)/2),centerY+lenght/2,
+                centerX,centerY+lenght,
+                centerX,centerY+lenght,
+                centerX-(float)(lenght *Math.sqrt(3)/2),centerY+lenght/2,
+                centerX-(float)(lenght *Math.sqrt(3)/2),centerY+lenght/2,
+                centerX-(float)(lenght *Math.sqrt(3)/2),centerY-lenght/2,
+                centerX-(float)(lenght *Math.sqrt(3)/2),centerY-lenght/2,
+                centerX,centerY-lenght};
+    }
+
+    /**
+     * Metoda obliczająca położenie wierzchołków wielokąta przedstawiającego wykres.
+     * @param centerX szerokość środka wykresu
+     * @param centerY wysokość środka wykresu
+     * @param lenght długość największego sześciąkąta tła
+     * @param sections stosunki poszczególnych statystyk
+     * @return tablica wierzchołków, rozmiar 24 (2 na każdy wierzchołek) wartości są zdublowane dla
+     * metody canvas.drawLines
+     */
+    private float[] createStatsVertexTable(float centerX, float centerY, float lenght, float[] sections){
+        return new float[]{centerX, centerY-lenght*sections[0],
+        (centerX+(float)(lenght*sections[1]*Math.sqrt(3)/2)),(centerY-lenght*sections[1]/2),
+        (centerX+(float)(lenght*sections[1]*Math.sqrt(3)/2)),(centerY-lenght*sections[1]/2),
+        (centerX+(float)(lenght*sections[2]*Math.sqrt(3)/2)),(centerY+lenght*sections[2]/2),
+        (centerX+(float)(lenght*sections[2]*Math.sqrt(3)/2)),(centerY+lenght*sections[2]/2),
+        centerX, centerY+lenght*sections[3],
+        centerX, centerY+lenght*sections[3],
+        (centerX-(float)(lenght*sections[4]*Math.sqrt(3)/2)),(centerY+lenght*sections[4]/2),
+        (centerX-(float)(lenght*sections[4]*Math.sqrt(3)/2)),(centerY+lenght*sections[4]/2),
+        (centerX-(float)(lenght*sections[5]*Math.sqrt(3)/2)),(centerY-lenght*sections[5]/2),
+        (centerX-(float)(lenght*sections[5]*Math.sqrt(3)/2)),(centerY-lenght*sections[5]/2),
+        centerX, centerY-lenght*sections[0],};
+    }
+
+    /**
+     * Metoda rysuje punkty w miejscu zakończenia się słupków statystyk. Służą one ładniejszemu
+     * przedstawieniu odcinków.
+     * @param centerX szerokość środka wykresu
+     * @param centerY wysokość środka wykresu
+     * @param lenght długość największego sześciąkąta tła
+     * @param sections stosunki poszczególnych statystyk
+     * @return tablica wierzchołków, rozmiar 12 (2 na każdy wierzchołek)
+     */
+    private float[] createPointsTable(float centerX,float centerY, float lenght, float[] sections){
+        return new float[]{centerX, centerY-lenght*sections[0],
+                (centerX+(float)(lenght*sections[1]*Math.sqrt(3)/2)),(centerY-lenght*sections[1]/2),
+                (centerX+(float)(lenght*sections[2]*Math.sqrt(3)/2)),(centerY+lenght*sections[2]/2),
+                centerX, centerY+lenght*sections[3],
+                (centerX-(float)(lenght*sections[4]*Math.sqrt(3)/2)),(centerY+lenght*sections[4]/2),
+                (centerX-(float)(lenght*sections[5]*Math.sqrt(3)/2)),(centerY-lenght*sections[5]/2)};
+    }
+
+    /**
+     * Metoda rysująca wykres sześciokątny na bitmapie. Najpierw wyliczane są tablice wierzchołków
+     * za pomocą odpowiednich metod, następnie rysowane są linie. Wykres składa się z tła złożonego
+     * z 3 sześciokątów o  3 różnych rozmiarach, przekątnych największego z sześciokątów. Drugim
+     * elementem wykresu jest wielokąt reprezentujący odpowiednie statystyki. Ostatnim elementem
+     * wykresu są oznaczenia konkretnych słupków, złożone z pierwszej litery stastystyki.
+     */
     private void drawHexStats(){
-        int x = 200;//X środka
-        int y = 120;//Y środka
-        int a = 100;//promień największego hexa
-        int b = 66;//promień średniego hexa
-        int c = 33;//promień najmniejszego hexa
+        int centerX = 200;//X środka
+        int centerY = 120;//Y środka
+        int radiusOutsideHex = 100;//promień największego hexa
+        int radiudBeetwenHex = 66;//promień średniego hexa
+        int radiusInsideHex = 33;//promień najmniejszego hexa
 
         Bitmap bitmap = Bitmap.createBitmap(400,250, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Paint painter = new Paint();
+
+        painter.setAntiAlias(true);//włączenie wygładzania krawędzi
         //przekątne
-        canvas.drawLine(x,y-a,x,y+a,painter);
-        canvas.drawLine(x-(float)(a *Math.sqrt(3)/2),y-a/2,x+(float)(a *Math.sqrt(3)/2),y+a/2,painter);
-        canvas.drawLine(x-(float)(a *Math.sqrt(3)/2),y+a/2,x+(float)(a *Math.sqrt(3)/2),y-a/2,painter);
-        //największy hex
-        canvas.drawLine(x,y-a,x+(float)(a *Math.sqrt(3)/2),y-a/2,painter);
-        canvas.drawLine(x+(float)(a *Math.sqrt(3)/2),y-a/2,x+(float)(a *Math.sqrt(3)/2),y+a/2,painter);
-        canvas.drawLine(x+(float)(a *Math.sqrt(3)/2),y+a/2,x,y+a,painter);
-        canvas.drawLine(x,y+a,x-(float)(a *Math.sqrt(3)/2),y+a/2,painter);
-        canvas.drawLine(x-(float)(a *Math.sqrt(3)/2),y+a/2,x-(float)(a *Math.sqrt(3)/2),y-a/2,painter);
-        canvas.drawLine(x-(float)(a *Math.sqrt(3)/2),y-a/2,x,y-a,painter);
-        //średni hex
-        canvas.drawLine(x,y-b,x+(float)(b *Math.sqrt(3)/2),y-b/2,painter);
-        canvas.drawLine(x+(float)(b *Math.sqrt(3)/2),y-b/2,x+(float)(b *Math.sqrt(3)/2),y+b/2,painter);
-        canvas.drawLine(x+(float)(b *Math.sqrt(3)/2),y+b/2,x,y+b,painter);
-        canvas.drawLine(x,y+b,x-(float)(b *Math.sqrt(3)/2),y+b/2,painter);
-        canvas.drawLine(x-(float)(b *Math.sqrt(3)/2),y+b/2,x-(float)(b *Math.sqrt(3)/2),y-b/2,painter);
-        canvas.drawLine(x-(float)(b *Math.sqrt(3)/2),y-b/2,x,y-b,painter);
-        //najmniejszy hex
-        canvas.drawLine(x,y-c,x+(float)(c *Math.sqrt(3)/2),y-c/2,painter);
-        canvas.drawLine(x+(float)(c *Math.sqrt(3)/2),y-c/2,x+(float)(c *Math.sqrt(3)/2),y+c/2,painter);
-        canvas.drawLine(x+(float)(c *Math.sqrt(3)/2),y+c/2,x,y+c,painter);
-        canvas.drawLine(x,y+c,x-(float)(c *Math.sqrt(3)/2),y+c/2,painter);
-        canvas.drawLine(x-(float)(c *Math.sqrt(3)/2),y+c/2,x-(float)(c *Math.sqrt(3)/2),y-c/2,painter);
-        canvas.drawLine(x-(float)(c *Math.sqrt(3)/2),y-c/2,x,y-c,painter);
-
+        float[] vertexToLine = createHexVertexTable(centerX, centerY, radiusOutsideHex);
+        canvas.drawLine(vertexToLine[0],vertexToLine[1],vertexToLine[12],vertexToLine[13],painter);
+        canvas.drawLine(vertexToLine[2],vertexToLine[3],vertexToLine[16],vertexToLine[17],painter);
+        canvas.drawLine(vertexToLine[6],vertexToLine[7],vertexToLine[20],vertexToLine[21],painter);
+        //rysowanie hexów tła
+        canvas.drawLines(createHexVertexTable(centerX,centerY,radiusOutsideHex),painter);
+        canvas.drawLines(createHexVertexTable(centerX,centerY,radiudBeetwenHex),painter);
+        canvas.drawLines(createHexVertexTable(centerX,centerY,radiusInsideHex),painter);
+        //rysowanie linii wykresu statystyk, kropki służą polepszeniu efektu wizualnego
         float[] sections = getLenghtStatsLine();//pobiera stosunki długości
-        //ustawienie punktów odpowiednich statystyk
-        float[] sPoint = {x, y-a*sections[0]};
-        float[] ePoint = {(x+(float)(a*sections[1]*Math.sqrt(3)/2)),(y-a*sections[1]/2)};
-        float[] dPoint = {(x+(float)(a*sections[2]*Math.sqrt(3)/2)),(y+a*sections[2]/2)};
-        float[] iPoint = {x, y+a*sections[3]};
-        float[] wPoint = {(x-(float)(a*sections[4]*Math.sqrt(3)/2)),(y+a*sections[4]/2)};
-        float[] cPoint = {(x-(float)(a*sections[5]*Math.sqrt(3)/2)),(y-a*sections[5]/2)};
-
         painter.setStrokeWidth(3);
-        //narysowanie punktów, kwestia estetyczna (ładniej wygląda)
-        canvas.drawPoint(sPoint[0],sPoint[1],painter);
-        canvas.drawPoint(ePoint[0],ePoint[1],painter);
-        canvas.drawPoint(dPoint[0],dPoint[1],painter);
-        canvas.drawPoint(iPoint[0],iPoint[1],painter);
-        canvas.drawPoint(wPoint[0],wPoint[1],painter);
-        canvas.drawPoint(cPoint[0],cPoint[1],painter);
-
+        canvas.drawPoints(createPointsTable(centerX,centerY,radiusOutsideHex,sections),painter);
         painter.setStrokeWidth(4);
-        //narysowanie odcinków między punktami poszczególnych punktów statystycznych
-        canvas.drawLine(sPoint[0],sPoint[1],ePoint[0],ePoint[1],painter);
-        canvas.drawLine(ePoint[0],ePoint[1],dPoint[0],dPoint[1],painter);
-        canvas.drawLine(dPoint[0],dPoint[1],iPoint[0],iPoint[1],painter);
-        canvas.drawLine(iPoint[0],iPoint[1],wPoint[0],wPoint[1],painter);
-        canvas.drawLine(wPoint[0],wPoint[1],cPoint[0],cPoint[1],painter);
-        canvas.drawLine(cPoint[0],cPoint[1],sPoint[0],sPoint[1],painter);
-
-        painter.setColor(getResources().getColor(R.color.color_strength));
+        canvas.drawLines(createStatsVertexTable(centerX,centerY,radiusOutsideHex,sections),painter);
+        //rysowanie liter skrótów statystyk
         painter.setTextSize(12);
-        canvas.drawText(getText(R.string.shortcut_strength).toString(),(float)x,(float)(y-a*1.05),painter);
+        painter.setColor(getResources().getColor(R.color.color_strength));
+        canvas.drawText(getText(R.string.shortcut_strength).toString(),(float)centerX,(float)(centerY-radiusOutsideHex*1.05),painter);
         painter.setColor(getResources().getColor(R.color.color_endurance));
-        canvas.drawText(getText(R.string.shortcut_endurance).toString(),x+(float)(a*1.05*Math.sqrt(3)/2 ),(float)(y-(a/2)*1.05),painter);
+        canvas.drawText(getText(R.string.shortcut_endurance).toString(),centerX+(float)(radiusOutsideHex*1.05*Math.sqrt(3)/2 ),(float)(centerY-(radiusOutsideHex/2)*1.05),painter);
         painter.setColor(getResources().getColor(R.color.color_dexterity));
-        canvas.drawText(getText(R.string.shortcut_dexterity).toString(),x+(float)(a*1.05*Math.sqrt(3)/2),(float)(y+(a/2)*1.05),painter);
+        canvas.drawText(getText(R.string.shortcut_dexterity).toString(),centerX+(float)(radiusOutsideHex*1.05*Math.sqrt(3)/2),(float)(centerY+(radiusOutsideHex/2)*1.05),painter);
         painter.setColor(getResources().getColor(R.color.color_intelligence));
-        canvas.drawText(getText(R.string.shortcut_intelligence).toString(),(float)x,(float)(y+a*1.13),painter);
+        canvas.drawText(getText(R.string.shortcut_intelligence).toString(),(float)centerX,(float)(centerY+radiusOutsideHex*1.13),painter);
         painter.setColor(getResources().getColor(R.color.color_wisdom));
-        canvas.drawText(getText(R.string.shortcut_wisdom).toString(),x-(float)(a*1.15*Math.sqrt(3)/2),(float)(y+(a/2)*1.15),painter);
+        canvas.drawText(getText(R.string.shortcut_wisdom).toString(),centerX-(float)(radiusOutsideHex*1.15*Math.sqrt(3)/2),(float)(centerY+(radiusOutsideHex/2)*1.15),painter);
         painter.setColor(getResources().getColor(R.color.color_charisma));
-        canvas.drawText(getText(R.string.shortcut_charisma).toString(),x-(float)(a*1.1*Math.sqrt(3)/2),(float)(y-(a/2)*1.1),painter);
-
+        canvas.drawText(getText(R.string.shortcut_charisma).toString(),centerX-(float)(radiusOutsideHex*1.1*Math.sqrt(3)/2),(float)(centerY-(radiusOutsideHex/2)*1.1),painter);
         //wgranie stworzonego obrazka(wykresu) do obiektu imageView
         imageView.setImageBitmap(bitmap);
     }
 
+    /**
+     * Metoda obliczająca stosunki między doświadczeniem różnych stastyk. Najpierw zliczana jest
+     * suma doświadczenia. Następnie wyliczane są poszczególne stastyki. Mnożone są one przez 3,
+     * aby zwiększyć widoczność statystyk na wykresie. W razie przekroczenia wartości 1 wymnożonych
+     * statystyk, wartość jest ustawiana na 1.
+     * @return tablice stosunków doświadczenia w kolejności siła, wytrzymałość, zręczność,
+     * iteligencja, mądrość, charyzma, wartości z przedziału <0;1>
+     */
     private float[] getLenghtStatsLine(){
         float sum = (float)(strength+endurance+dexterity+intelligence+wisdom+charisma);
         float[] relations = {0,0,0,0,0,0};
@@ -141,6 +184,9 @@ public class StatisticActivity extends AppCompatActivity {
         return relations;
     }
 
+    /**
+     * Metoda cyklu życiowego activity. Odpala metody wczytujące dane do kompontentów interfejsu.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -148,6 +194,12 @@ public class StatisticActivity extends AppCompatActivity {
             setProgressBars();
     }
 
+    /**
+     * Metoda włączana automatycznie gdy użytkownik kliknie w przycisk w actionBar.
+     *
+     * @param item id przycisku, w który użytkownik kliknął
+     * @return ?
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -164,9 +216,12 @@ public class StatisticActivity extends AppCompatActivity {
             super.onBackPressed();
     }
 
+    /**
+     * Metoda ustawiająca progress bar'y. Progres ustawiany na resztę z dzielenia przez 100
+     * całkowitego doświadczenia, odpowiada to wypełnieniu paska doświadczenia na aktualny poziom.
+     */
     private void setProgressBars(){
         progressBarStrenght.setProgress((int)strength%100);
-        Log.d("+++++=", String.valueOf((int)strength%100));
         progressBarEndurance.setProgress((int)endurance%100);
         progressBarDexterity.setProgress((int)dexterity%100);
         progressBarIntelligence.setProgress((int)intelligence%100);
@@ -174,6 +229,10 @@ public class StatisticActivity extends AppCompatActivity {
         progressBarCharisma.setProgress((int)charisma%100);
     }
 
+    /**
+     * Metoda ustawiająca tekst reprezentujący poziom poszczególnych statystyk. Poziom wyliczany poprzez
+     * podzielenie całkowitego doświadczenia przez 100.
+     */
     private void setLevelTextViews(){
         textViewStrength.setText(((int)strength/100)+" "+getText(R.string.text_level));
         textViewEndurance.setText(((int)endurance/100)+" "+getText(R.string.text_level));
@@ -183,6 +242,9 @@ public class StatisticActivity extends AppCompatActivity {
         textViewCharisma.setText(((int)charisma/100)+" "+getText(R.string.text_level));
     }
 
+    /**
+     * Metoda pobierająca wszystkie przekazane wartości z activity wywołującej.
+     */
     private void getBundleExtras() {
         Bundle bundle = getIntent().getExtras();
         strength = (double)bundle.getFloat("strength");
@@ -191,14 +253,11 @@ public class StatisticActivity extends AppCompatActivity {
         intelligence = (double)bundle.getFloat("intelligence");
         wisdom = (double)bundle.getFloat("wisdom");
         charisma = (double)bundle.getFloat("charisma");
-        Log.d("++++++++++",String.valueOf(strength));
-        Log.d("++++++++++",String.valueOf(endurance));
-        Log.d("++++++++++",String.valueOf(dexterity));
-        Log.d("++++++++++",String.valueOf(intelligence));
-        Log.d("++++++++++",String.valueOf(wisdom));
-        Log.d("++++++++++",String.valueOf(charisma));
     }
 
+    /**
+     * Metoda wiążąca elementy interfejsu użytkownika ze zmiennymi wykorzystywanymi w kodzie.
+     */
     private void joinComponentsWithVariable(){
         textViewStrength = (TextView)findViewById(R.id.textView_StatisticStrengthLevel);
         textViewEndurance = (TextView)findViewById(R.id.textView_StatisticEnduranceLevel);
