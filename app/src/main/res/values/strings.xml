@@ -214,5 +214,6 @@
         <item>Normalny +2.0%</item>
         <item>Łatwy +1.0%</item>
         <item>Dziecinny +0.5%</item>
+        <item>Niemożliwy +100.0%</item>
     </string-array>
 </resources>

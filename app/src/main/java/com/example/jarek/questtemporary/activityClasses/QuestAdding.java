@@ -1,13 +1,17 @@
 package com.example.jarek.questtemporary.activityClasses;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,16 +30,21 @@ public class QuestAdding extends AppCompatActivity {
 
     private String mode = "";
 
-    private TextView tvdescription,  tvendDate, tvinterval, tvattributes, tvcorrectField;
-    private CheckBox checkBoxrepeatable, checkBoxstrength, checkBoxendurance, checkBoxdexterity,
+    private TextView tvdescription, tvendDate, tvinterval, tvattributes, tvcorrectField;
+    private CheckBox checkBoxRepeatable, checkBoxstrength, checkBoxendurance, checkBoxdexterity,
             checkBoxintelligence, checkBoxwisdom, checkBoxcharisma;
-    private EditText editTextdescription, editTextendDate, editTextinterval;
-    private Button buttonaddQuest;
+    private EditText editTextdescription, editTextinterval;
+    private Button buttonaddQuest, buttonDate;
     private Spinner spinnerexperienceMultiplier;
 
     private long firstClickBack = 0;
     private final String sharedName = "userInfoShared";
     private String userAddFileAddress;//adres do serializacji obiektu
+    private Calendar chooseDate;
+    private DatePickerDialog datePickerDialog;
+
+    private int yearDate, monthDate, dayDate;
+    static final int DIALOG_ID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,32 +53,113 @@ public class QuestAdding extends AppCompatActivity {
 
         joinComponentsWithVariable();
         getBundleExtras();
+        makeDatePickerDialog();
 
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
-        if (mode.equals("modifyQuest")){
+        if (mode.equals("modifyQuest")) {
             actionBar.setTitle(getText(R.string.text_modify));
             buttonaddQuest.setText(getText(R.string.text_modify));
-        }else {
+        } else {
             actionBar.setTitle(getText(R.string.text_add));
             buttonaddQuest.setText(getText(R.string.text_add));
         }
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        checkBoxrepeatable.setOnClickListener(new View.OnClickListener() {
+        setListeners();
+
+        buttonDate.setText(dayDate+"-"+(monthDate+1)+"-"+yearDate);
+    }
+
+    private void setListeners(){
+        buttonDate.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showDialog(DIALOG_ID);
+                    }
+                }
+        );
+        checkBoxRepeatable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkBoxrepeatable.isChecked()) {
-                    checkBoxrepeatable.setText(getText(R.string.text_yes));
+                if (checkBoxRepeatable.isChecked()) {
+                    checkBoxRepeatable.setText(getText(R.string.text_yes));
                     editTextinterval.setHint(getText(R.string.hint_canWrite));
                     editTextinterval.setEnabled(true);
                 } else {
-                    checkBoxrepeatable.setText(getText(R.string.text_no));
+                    checkBoxRepeatable.setText(getText(R.string.text_no));
                     editTextinterval.setHint(getText(R.string.hint_noEnable));
                     editTextinterval.setEnabled(false);
                 }
             }
         });
+        tvendDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                datePickerDialog.show();
+            }
+        });
+
+        spinnerexperienceMultiplier.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String[] params = getResources().getStringArray(R.array.level_Hierarchy);
+                if (spinnerexperienceMultiplier.getSelectedItem().toString().equals(params[5])){
+                    checkBoxRepeatable.setText(getText(R.string.text_no));
+                    checkBoxRepeatable.setChecked(false);
+                    checkBoxRepeatable.setEnabled(false);
+                }else {
+                    checkBoxRepeatable.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+    }
+
+    private void setDefaultDate(){
+        Calendar calendar = Calendar.getInstance();
+        yearDate = calendar.get(Calendar.YEAR);
+        monthDate = calendar.get(Calendar.MONTH);
+        dayDate = calendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        if (id == DIALOG_ID){
+            return new DatePickerDialog(this,datePickerListener,yearDate,monthDate,dayDate);
+        }
+        return null;
+    }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+            yearDate = year;
+            monthDate = month;
+            dayDate = day;
+            buttonDate.setText(dayDate+"-"+(monthDate+1)+"-"+yearDate);
+        }
+    };
+
+    private void makeDatePickerDialog (){
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                chooseDate = Calendar.getInstance();
+                chooseDate.set(Calendar.YEAR, i);
+                chooseDate.set(Calendar.MONTH,i1);
+                chooseDate.set(Calendar.DAY_OF_MONTH,i2);
+            }
+        };
+        Calendar calendar = Calendar.getInstance();
+        int a = calendar.get(Calendar.YEAR);
+        int b =calendar.get(Calendar.MONTH);
+        int c =calendar.get(Calendar.DAY_OF_MONTH);
+        datePickerDialog = new DatePickerDialog(getApplicationContext(),dateSetListener,a,b,c);
     }
 
     /**
@@ -79,7 +169,8 @@ public class QuestAdding extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         userAddFileAddress = bundle.getString("fileAddress");
         mode = bundle.getString("whatdo");
-        if (mode != null && mode.equals("modifyQuest")){
+        setDefaultDate();
+        if (mode != null && mode.equals("modifyQuest")) {
             editTextdescription.setText(bundle.getString("description"));
             double mExperience = bundle.getDouble("experience");
             int pos = 0;
@@ -88,22 +179,31 @@ public class QuestAdding extends AppCompatActivity {
             if (mExperience == 2.0) pos = 2;
             if (mExperience == 1.0) pos = 3;
             if (mExperience == 0.5) pos = 4;
+            if (mExperience == 100.0) pos = 5;
             spinnerexperienceMultiplier.setSelection(pos);
-            editTextendDate.setText(bundle.getString("timeToLive"));
             String attributes = bundle.getString("attributes");
             assert attributes != null;
             String[] mAttributes = attributes.split(";");
-            for (String x : mAttributes){
-                if (x.equals(getString(R.string.attribute_strength))) checkBoxstrength.setChecked(true);
-                if (x.equals(getString(R.string.attribute_endurance))) checkBoxendurance.setChecked(true);
-                if (x.equals(getString(R.string.attribute_dexterity))) checkBoxdexterity.setChecked(true);
-                if (x.equals(getString(R.string.attribute_intelligence))) checkBoxintelligence.setChecked(true);
+            for (String x : mAttributes) {
+                if (x.equals(getString(R.string.attribute_strength)))
+                    checkBoxstrength.setChecked(true);
+                if (x.equals(getString(R.string.attribute_endurance)))
+                    checkBoxendurance.setChecked(true);
+                if (x.equals(getString(R.string.attribute_dexterity)))
+                    checkBoxdexterity.setChecked(true);
+                if (x.equals(getString(R.string.attribute_intelligence)))
+                    checkBoxintelligence.setChecked(true);
                 if (x.equals(getString(R.string.attribute_wisdom))) checkBoxwisdom.setChecked(true);
-                if (x.equals(getString(R.string.attribute_charisma))) checkBoxcharisma.setChecked(true);
+                if (x.equals(getString(R.string.attribute_charisma)))
+                    checkBoxcharisma.setChecked(true);
             }
-            checkBoxrepeatable.setChecked(bundle.getBoolean("repeatable"));
-            if (checkBoxrepeatable.isChecked()){
-                checkBoxrepeatable.setText(getText(R.string.text_yes));
+            yearDate = bundle.getInt("yearDate");
+            monthDate = bundle.getInt("monthDate");
+            dayDate = bundle.getInt("dayDate");
+            buttonDate.setText(dayDate+"-"+(monthDate+1)+"-"+yearDate);
+            checkBoxRepeatable.setChecked(bundle.getBoolean("repeatable"));
+            if (checkBoxRepeatable.isChecked()) {
+                checkBoxRepeatable.setText(getText(R.string.text_yes));
                 editTextinterval.setEnabled(true);
             }
             editTextinterval.setText(String.valueOf(bundle.getInt("interval")));
@@ -160,15 +260,16 @@ public class QuestAdding extends AppCompatActivity {
         checkBoxintelligence = (CheckBox) findViewById(R.id.checkBox_Intelligence);
         checkBoxwisdom = (CheckBox) findViewById(R.id.checkBox_Wisdom);
         checkBoxcharisma = (CheckBox) findViewById(R.id.checkBox_Charisma);
-        checkBoxrepeatable = (CheckBox) findViewById(R.id.checkBox_Repeatable);
+        checkBoxRepeatable = (CheckBox) findViewById(R.id.checkBox_Repeatable);
 
         editTextdescription = (EditText) findViewById(R.id.editText_Description);
-        editTextendDate = (EditText) findViewById(R.id.editText_Date);
         editTextinterval = (EditText) findViewById(R.id.editText_Interval);
 
+        buttonDate = (Button)findViewById(R.id.button_DateDialog);
         buttonaddQuest = (Button) findViewById(R.id.button_AddQuest);
 
         spinnerexperienceMultiplier = (Spinner) findViewById(R.id.spinner_Level);
+
     }
 
     /**
@@ -189,67 +290,12 @@ public class QuestAdding extends AppCompatActivity {
     }
 
     /**
-     * Metoda sprawdzająca czy data jest w poprawnym formacie dd-MM-yyyy.
-     *
-     * @return true jeśli data jest w odpowiednim formaci, false jeśli zawiera błąd
-     */
-    private boolean checkDateField() {
-        if (editTextendDate.getText().toString().length() == 0 || editTextendDate.getText().toString().length() != 10) {
-            return false;
-        } else {
-            String[] dateTab = editTextendDate.getText().toString().split("-");
-            if (dateTab.length < 3 || dateTab.length > 3) {
-                return false;
-            } else {
-                if (Integer.parseInt(dateTab[2]) < 2000 || Integer.parseInt(dateTab[2]) > 2100) {
-                    return false;
-                } else {
-                    int valueMonth = Integer.parseInt(dateTab[1]);
-                    int modulo2Month = Integer.parseInt(dateTab[1]) % 2;
-                    if (valueMonth > 12 || valueMonth <= 0 || Integer.parseInt(dateTab[0]) == 0) {
-                        return false;
-                    } else if (valueMonth == 2) {
-                        return !((Integer.parseInt(dateTab[0]) > 28 && Integer.parseInt(dateTab[2]) % 4 != 0)
-                                || (Integer.parseInt(dateTab[0]) > 29 && Integer.parseInt(dateTab[2]) % 4 == 0));
-                    } else if (valueMonth <= 7 && modulo2Month == 1) {
-                        return Integer.parseInt(dateTab[0]) <= 31;
-                    } else if (valueMonth <= 7 && modulo2Month == 0) {
-                        return Integer.parseInt(dateTab[0]) <= 30;
-                    } else if (valueMonth > 7 && modulo2Month == 1) {
-                        return Integer.parseInt(dateTab[0]) <= 30;
-                    } else {
-                        return Integer.parseInt(dateTab[0]) <= 31;
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Metoda obsługująca błędny format daty. Pełni też rolę pośrednika w przekazywaniu informacji
-     * o poprawności danych.
-     *
-     * @return true jeśli data jest w odpowiednim formaci, false jeśli zawiera błąd
-     */
-    private boolean dateFieldOperating() {
-        if (checkDateField()) {
-            tvendDate.setTextColor(getResources().getColor(R.color.color_Black));
-            return true;
-        } else {
-            tvendDate.setTextColor(getResources().getColor(R.color.color_Red));
-            editTextendDate.setText("");
-            editTextendDate.setHint(R.string.hint_dateFormat);
-            return false;
-        }
-    }
-
-    /**
-     * Metoda sprawdzająca poprawność formatu pola interwał, jeśli checkBox checkBoxrepeatable jest odznaczony.
+     * Metoda sprawdzająca poprawność formatu pola interwał, jeśli checkBox checkBoxRepeatable jest odznaczony.
      *
      * @return true jeśli nie jest puste oraz jest większe od zera, false w przeciwnym razie
      */
     private boolean checkIntervalField() {
-        if (checkBoxrepeatable.isChecked() && (editTextinterval.getText().toString().length() == 0 || Integer.parseInt(editTextinterval.getText().toString()) <= 0)) {
+        if (checkBoxRepeatable.isChecked() && (editTextinterval.getText().toString().length() == 0 || Integer.parseInt(editTextinterval.getText().toString()) <= 0)) {
             tvinterval.setTextColor(getResources().getColor(R.color.color_Red));
             editTextinterval.setText("");
             editTextinterval.setHint(R.string.hint_failedData);
@@ -260,7 +306,7 @@ public class QuestAdding extends AppCompatActivity {
         }
     }
 
-    private boolean checkAttributesCheckBox(){
+    private boolean checkAttributesCheckBox() {
         int countActivateCheckBox = 0;
 
         if (checkBoxstrength.isChecked()) countActivateCheckBox++;
@@ -270,23 +316,29 @@ public class QuestAdding extends AppCompatActivity {
         if (checkBoxwisdom.isChecked()) countActivateCheckBox++;
         if (checkBoxcharisma.isChecked()) countActivateCheckBox++;
 
-        if (countActivateCheckBox == 0){
+        if (countActivateCheckBox == 0) {
             tvattributes.setTextColor(getResources().getColor(R.color.color_Red));
             return false;
-        }else{
+        } else {
             tvattributes.setTextColor(getResources().getColor(R.color.color_Black));
             return true;
         }
     }
 
-    private String[] getAttributeFromCheckBox(){
+    private String[] getAttributeFromCheckBox() {
         LinkedList<String> attribute = new LinkedList<>();
-        if (checkBoxstrength.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_strength).toString());
-        if (checkBoxendurance.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_endurance).toString());
-        if (checkBoxdexterity.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_dexterity).toString());
-        if (checkBoxintelligence.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_intelligence).toString());
-        if (checkBoxwisdom.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_wisdom).toString());
-        if (checkBoxcharisma.isChecked()) attribute.addLast(getResources().getText(R.string.attribute_charisma).toString());
+        if (checkBoxstrength.isChecked())
+            attribute.addLast(getResources().getText(R.string.attribute_strength).toString());
+        if (checkBoxendurance.isChecked())
+            attribute.addLast(getResources().getText(R.string.attribute_endurance).toString());
+        if (checkBoxdexterity.isChecked())
+            attribute.addLast(getResources().getText(R.string.attribute_dexterity).toString());
+        if (checkBoxintelligence.isChecked())
+            attribute.addLast(getResources().getText(R.string.attribute_intelligence).toString());
+        if (checkBoxwisdom.isChecked())
+            attribute.addLast(getResources().getText(R.string.attribute_wisdom).toString());
+        if (checkBoxcharisma.isChecked())
+            attribute.addLast(getResources().getText(R.string.attribute_charisma).toString());
         return attribute.toArray(new String[0]);
     }
 
@@ -296,11 +348,10 @@ public class QuestAdding extends AppCompatActivity {
      * @return true jeśli wszystkie pola są prawidłowe, false jeśli któregolwiek pole jest źle wypełnione
      */
     private boolean checkCorrectAllData() {
-        boolean check[] = new boolean[4];
+        boolean check[] = new boolean[3];
         check[0] = checkDescriptionField();
-        check[1] = dateFieldOperating();
-        check[2] = checkIntervalField();
-        check[3] = checkAttributesCheckBox();
+        check[1] = checkIntervalField();
+        check[2] = checkAttributesCheckBox();
 
         for (boolean x : check) {
             if (!x) return false;
@@ -308,34 +359,40 @@ public class QuestAdding extends AppCompatActivity {
         return true;
     }
 
-    private Calendar getDateFromString(String date){
-        String[] fieldOfDate = date.split("-");
+    private Calendar getCalendarDate() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR,Integer.parseInt(fieldOfDate[2]));
-        calendar.set(Calendar.MONTH,Integer.parseInt(fieldOfDate[1])-1);
-        calendar.set(Calendar.DAY_OF_MONTH,Integer.parseInt(fieldOfDate[0]));
+        calendar.set(Calendar.YEAR, yearDate);
+        calendar.set(Calendar.MONTH, monthDate);
+        calendar.set(Calendar.DAY_OF_MONTH, dayDate);
         return calendar;
     }
 
-    private double getExperience(String nameMul){
+    private double getExperience(String nameMul) {
         String[] params = getResources().getStringArray(R.array.level_Hierarchy);
-        if (nameMul.equals(params[0])) return Double.parseDouble(params[0].substring(params[0].length()-4,params[0].length()-1));
-        if (nameMul.equals(params[1])) return Double.parseDouble(params[1].substring(params[1].length()-4,params[1].length()-1));
-        if (nameMul.equals(params[2])) return Double.parseDouble(params[2].substring(params[2].length()-4,params[2].length()-1));
-        if (nameMul.equals(params[3])) return Double.parseDouble(params[3].substring(params[3].length()-4,params[3].length()-1));
-        if (nameMul.equals(params[4])) return Double.parseDouble(params[4].substring(params[4].length()-4,params[4].length()-1));
+        if (nameMul.equals(params[0]))
+            return Double.parseDouble(params[0].substring(params[0].length() - 4, params[0].length() - 1));
+        if (nameMul.equals(params[1]))
+            return Double.parseDouble(params[1].substring(params[1].length() - 4, params[1].length() - 1));
+        if (nameMul.equals(params[2]))
+            return Double.parseDouble(params[2].substring(params[2].length() - 4, params[2].length() - 1));
+        if (nameMul.equals(params[3]))
+            return Double.parseDouble(params[3].substring(params[3].length() - 4, params[3].length() - 1));
+        if (nameMul.equals(params[4]))
+            return Double.parseDouble(params[4].substring(params[4].length() - 4, params[4].length() - 1));
+        if (nameMul.equals(params[5]))
+            return Double.parseDouble(params[5].substring(params[5].length() - 6, params[5].length() - 1));
         return 0.0;
     }
 
     /**
      * Metoda czyszcząca pola, powrót do ustawień domyślnych.
      */
-    private void cleanField(){
+    private void cleanField() {
         editTextdescription.setText("");
         editTextdescription.setHint("");
-        editTextendDate.setText("");
-        editTextendDate.setHint(R.string.hint_dateFormat);
-        checkBoxrepeatable.setChecked(false);
+        setDefaultDate();
+        buttonDate.setText(dayDate+"-"+(monthDate+1)+"-"+yearDate);
+        checkBoxRepeatable.setChecked(false);
         editTextinterval.setText("");
         editTextinterval.setHint(R.string.hint_noEnable);
         checkBoxstrength.setChecked(false);
@@ -359,30 +416,30 @@ public class QuestAdding extends AppCompatActivity {
             int intervalNumber;
             if (editTextinterval.getText().toString().length() != 0) {
                 intervalNumber = Integer.parseInt(editTextinterval.getText().toString());
-            }else {
+            } else {
                 intervalNumber = 0;
             }
             Quest quest = new Quest(editTextdescription.getText().toString()
                     , getExperience(spinnerexperienceMultiplier.getSelectedItem().toString())
-                    , getDateFromString(editTextendDate.getText().toString())
+                    , getCalendarDate()
                     , getAttributeFromCheckBox()
-                    , checkBoxrepeatable.isChecked()
-                    , intervalNumber,this);
+                    , checkBoxRepeatable.isChecked()
+                    , intervalNumber, this);
             quests.addLast(quest);
             FileManager filemanager = new FileManager();
             filemanager.serializationQuests(quests, userAddFileAddress, getApplicationContext());
-            SharedPreferences shared = getSharedPreferences(sharedName,MODE_PRIVATE);
+            SharedPreferences shared = getSharedPreferences(sharedName, MODE_PRIVATE);
             SharedPreferences.Editor editor = shared.edit();
-            if (mode.equals("modifyQuest")){
-                editor.putBoolean("addQuest",false);
-                editor.putBoolean("modify",true);
+            if (mode.equals("modifyQuest")) {
+                editor.putBoolean("addQuest", false);
+                editor.putBoolean("modify", true);
                 editor.apply();
-                Toast.makeText(getApplicationContext(),getResources().getText(R.string.text_questWasModify),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getText(R.string.text_questWasModify), Toast.LENGTH_SHORT).show();
                 finish();
-            }else {
-                editor.putBoolean("addQuests",true);
+            } else {
+                editor.putBoolean("addQuests", true);
                 editor.apply();
-                Toast.makeText(getApplicationContext(),getResources().getText(R.string.text_questWasAdd),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getText(R.string.text_questWasAdd), Toast.LENGTH_SHORT).show();
                 cleanField();
             }
         }
