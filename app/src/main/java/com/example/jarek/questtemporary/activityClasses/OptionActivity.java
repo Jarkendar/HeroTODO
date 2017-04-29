@@ -17,7 +17,6 @@ import com.example.jarek.questtemporary.R;
 
 public class OptionActivity extends AppCompatActivity {
 
-    private long firstClickBack = 0;
     private int heroClass;
     private SharedPreferences sharedPreferences;
 
@@ -94,12 +93,7 @@ public class OptionActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
-        Toast.makeText(getApplicationContext(), getText(R.string.text_allert_back), Toast.LENGTH_SHORT).show();
-        if (System.currentTimeMillis() - firstClickBack <= 3000) {
-            super.onBackPressed();
-        } else {
-            firstClickBack = System.currentTimeMillis();
-        }
+        super.onBackPressed();
     }
 
     public void enableSelectClass(View view) {
@@ -129,7 +123,7 @@ public class OptionActivity extends AppCompatActivity {
         final int newHeroClassID = R.string.class_native;
         new AlertDialog.Builder(this)
                 .setTitle(getText(R.string.text_confirm))//tytuł
-                .setMessage(getString(R.string.text_areYouSureThisClass)+ " " + newHeroClass +"?" +
+                .setMessage(getString(R.string.text_areYouSureThisClass)+ " " + newHeroClass +" ? " +
                 getString(R.string.text_laterChangeIsNotPossible))
                 //opis
                 .setPositiveButton(getText(R.string.text_yes), new DialogInterface.OnClickListener() {
