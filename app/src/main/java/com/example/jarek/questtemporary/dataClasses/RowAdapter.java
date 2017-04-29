@@ -22,16 +22,19 @@ import java.util.Observable;
 /**
  * Created by Jarek on 2017-04-15.
  */
-
-//TODO zrobić opis
-
 public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
     private Context context;
     private int layoutResourceID;
     private LinkedList<Quest> data = null;
-    private ArrayList<QuestPanelMain> observers;
-    private String order;
+    private ArrayList<QuestPanelMain> observers;//tablica obserwatorów, których trzeba informować o zmianach
+    private String order;//rozkaz przekazywany obserwatorom, przy zmianie parametru
 
+    /**
+     * Konstruktor klasy RowAdapter.
+     * @param context obiekt łącznika pomiędzy plikami xml, a kodem java
+     * @param layoutResourceID id layoutu podłączonego do adaptera
+     * @param data lista zadań
+     */
     public RowAdapter(Context context, int layoutResourceID, LinkedList<Quest> data) {
         super(context, layoutResourceID, data);
         this.context = context;
@@ -40,34 +43,48 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         observers = new ArrayList<>();
     }
 
+    /**
+     * Setter listy zadań.
+     * @param data lista zadań
+     */
     public void setData(LinkedList<Quest> data) {
         this.data = data;
     }
 
 
+    /**
+     * Metoda obsługująca każdy wiersz list view do którego adapter jest podłączony
+     * @param position pozycja wiersza, int reprezentujący numer wiersza od 0
+     * @param convertView widok wiersza
+     * @param parent rodzic wiersza
+     * @return View wiersza
+     */
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View row = convertView;
         RowQuestHolder holder;
 
-        if (row == null) {
-            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            row = inflater.inflate(layoutResourceID, parent, false);
+        if (row == null) {//jeśli wiersz jest pusty
+            LayoutInflater inflater = ((Activity) context).getLayoutInflater();//obiekt pośredniczący w podłączaniu layoutu
+            row = inflater.inflate(layoutResourceID, parent, false);//podłącza pod wiersz layoutu layoutResourceID, dodaje mu rodzica parent, oraz nie podłącza go pod korzeń
 
-            holder = new RowQuestHolder();
+            holder = new RowQuestHolder(); //tworzy nowy uchwyt danych przechowywujący i obsługujący komponenty wiersza
+            //podłączenie komponentów wiersza
             holder.confirm = (Button) row.findViewById(R.id.button_Confirm);
             holder.cancel = (Button) row.findViewById(R.id.button_Cancel);
             holder.description = (TextView) row.findViewById(R.id.textView_Description);
             holder.reward = (TextView) row.findViewById(R.id.textView_Reward);
             holder.dateField = (TextView) row.findViewById(R.id.textView_TimeToLive);
 
-            row.setTag(holder);
+            row.setTag(holder);//połączenie wiersza z uchwytem danych
         } else {
-            holder = (RowQuestHolder) row.getTag();
+            holder = (RowQuestHolder) row.getTag();//pobranie uchwytu z wiersza
         }
 
-        final Quest quest = data.get(position);
+        final Quest quest = data.get(position);//pobranie z listy zadań zadania tego konkretnego wiersza
+
+        //wyświetlanie danych
         holder.description.setText(quest.getDescription());
         holder.dateField.setText(quest.getDateFormatString());
 
@@ -97,6 +114,10 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
             holder.confirm.setEnabled(true);
         }
 
+        /**
+         * Listener kliknięcia wiersza. Tworzy rozkaz zawierający polecienie "clickRow;pozycja", i
+         * wywołuje powiadomienie obserwatorów.
+         */
         row.setOnClickListener(new View.OnClickListener() {//kliknięcie w wiersz
             @Override
             public void onClick(View view) {
@@ -105,7 +126,10 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
             }
         });
 
-        //nasłuchiwacz do akcepta
+        /**
+         * Listener kliknięcia przycisku accept. Tworzy rozkaz zawierający polecenie "succeed;pozycja", i
+         * wywołuje powiadomienie obserwatorów.
+         */
         holder.confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,7 +138,10 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
             }
         });
 
-        //nasłuchiwacz do cancela
+        /**
+         * Listener kliknięcia przycisku cancel. Tworzy rozkaz zawierający polecenie "failed;pozycja", i
+         * wywołuje powiadomienie obserwatorów.
+         */
         holder.cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,6 +150,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
             }
         });
 
+        //kolorowanie wierszy parzystych na biało, nieparzystych na szaro
         if (position%2 == 0){
             row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundWhite));
         }else{
@@ -132,16 +160,27 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         return row;
     }
 
+    /**
+     * Metoda dodająca obserwatora.
+     * @param o obiekt obserwatora
+     */
     @Override
     public void addObserver(QuestPanelMain o) {
         observers.add(o);
     }
 
+    /**
+     * Metoda usuwająca obserwatora.
+     * @param o obiekt obserwatora
+     */
     @Override
     public void delObserver(QuestPanelMain o) {
         observers.remove(o);
     }
 
+    /**
+     * Metoda powiadamiająca wszystkich obserwatorów. Przekazuje obserwatorom rozkaz, który muszą obsłużyć.
+     */
     @Override
     public void notifyObservers() {
         for (QuestPanelMain o : observers) {
@@ -149,6 +188,9 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         }
     }
 
+    /**
+     * Klasa wewnętrza przechowywująca komponenty View.
+     */
     private static class RowQuestHolder {
         TextView description;
         Button confirm;
@@ -156,6 +198,4 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         TextView reward;
         TextView dateField;
     }
-
-
 }

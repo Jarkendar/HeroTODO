@@ -3,7 +3,6 @@ package com.example.jarek.questtemporary.heroClasses;
 /**
  * Created by Jarek on 2017-04-18.
  */
-//TODO zrobić opis
 public class Hero {
     private double strengthExperience;
     private double enduranceExperience;
@@ -14,6 +13,18 @@ public class Hero {
     private String[] ranksName;
     private double[] statsMultipliers;
 
+    /**
+     * Konstruktor klasy.
+     *
+     * @param strengthExperience     ilość doświadczenia statystyki siła
+     * @param enduranceExperience    ilość doświadczenia statystyki wytrzymałość
+     * @param dexterityExperience    ilość doświadczenia statystyki zręczność
+     * @param intelligenceExperience ilość doświadczenia statystyki inteligencja
+     * @param wisdomExperience       ilość doświadczenia statystyki mądrość
+     * @param charismaExperience     ilość doświadczenia statystyki charyzma
+     * @param ranksName              tablica nazw rang
+     * @param statsMultipliers       tablica mnożników statystyk w kolejności siła, wytrzymałość, zręczność, inteligencja, mądrość, charyzma
+     */
     public Hero(double strengthExperience, double enduranceExperience, double dexterityExperience, double intelligenceExperience, double wisdomExperience, double charismaExperience, String[] ranksName, double[] statsMultipliers) {
         this.strengthExperience = strengthExperience;
         this.enduranceExperience = enduranceExperience;
@@ -25,6 +36,11 @@ public class Hero {
         this.statsMultipliers = statsMultipliers;
     }
 
+    /**
+     * Metoda dopasowująca rangę do aktualnego poziomu herosa.
+     *
+     * @return string będący nazwą rangi
+     */
     public String getClassRank() {
         String heroReturnInfo = "";
         int levelMultiply = 25;
@@ -40,6 +56,12 @@ public class Hero {
         return heroReturnInfo;
     }
 
+    /**
+     * Metoda obliczająca na podstawie aktualnego doświadczenia statystyk i mnożników klasy herosa
+     * jego poziom.
+     *
+     * @return int będący poziomem herosa
+     */
     public int getHeroLVL() {
         int lvl = (int) (getStrengthExperience() * statsMultipliers[0]
                 + getEnduranceExperience() * statsMultipliers[1]
@@ -50,6 +72,12 @@ public class Hero {
         return lvl / 100;
     }
 
+    /**
+     * Metoda obliczająca sumę doświadczenia herosa wykorzystując poziom doświadczenia statystyk i
+     * ich mnożniki.
+     *
+     * @return double będące obliczoną sumą doświadczenia
+     */
     public double getHeroEXP() {
         return (getStrengthExperience() * statsMultipliers[0]
                 + getEnduranceExperience() * statsMultipliers[1]
@@ -58,6 +86,9 @@ public class Hero {
                 + getWisdomExperience() * statsMultipliers[4]
                 + getCharismaExperience() * statsMultipliers[5]);
     }
+
+    /*Getery statystyk standardowe. Setery statystyk zamienione na metody dodające ilość
+     * doświadczenia dostarczoną w parametrze do puli doświadczenia herosa. */
 
     public double getStrengthExperience() {
         return strengthExperience;

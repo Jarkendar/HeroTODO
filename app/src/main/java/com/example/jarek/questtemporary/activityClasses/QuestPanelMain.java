@@ -213,9 +213,6 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         }
     }
 
-
-//TODO graficzna obróbka wierszy
-
     /**
      * Metoda wiążąca elementy interfejsu użytkownika ze zmiennymi wykorzystywanymi w kodzie.
      */
@@ -237,8 +234,6 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // show menu when menu button is pressed
-        //TODO opisać
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -379,6 +374,12 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         refreshHeroInfo();
     }
 
+    /**
+     * Metoda obsługi kliknięcia w przycisk modyfikacji. Zapisuje wszystkie marametry wybranego
+     * zadania do wywoływanego activity.
+     *
+     * @param view komponent wywołujący metodę
+     */
     public void clickModifyQuest(View view) {
         String attributes = "";
         for (String x : quests.get(iposition).getAtributes()) {
