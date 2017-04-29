@@ -20,6 +20,7 @@ import com.example.jarek.questtemporary.dataClasses.FileManager;
 import com.example.jarek.questtemporary.dataClasses.RowAdapter;
 import com.example.jarek.questtemporary.dataClasses.Quest;
 import com.example.jarek.questtemporary.heroClasses.Hero;
+import com.example.jarek.questtemporary.heroClasses.StatsMultiplier;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -130,35 +131,48 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
             double intelligence = (double) sharedPreferences1.getFloat("intelligence", 0);
             double wisdom = (double) sharedPreferences1.getFloat("wisdom", 0);
             double charisma = (double) sharedPreferences1.getFloat("charisma", 0);
+            StatsMultiplier statsMultiplier = new StatsMultiplier();
             switch (heroClassID) {
                 case R.string.class_bard: {
-                    double[] multipliers = {3, 2, 2, 1, 0.5, 1};
-                    userHero = new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma, getResources().getStringArray(R.array.bard_ranks), multipliers);
+                    userHero =
+                            new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma,
+                                    getResources().getStringArray(R.array.bard_ranks),
+                                    statsMultiplier.getBardMultiplier());
                     break;
                 }
                 case R.string.class_hunter: {
-                    double[] multipliers = {3, 2, 2, 1, 0.5, 1};
-                    userHero = new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma, getResources().getStringArray(R.array.hunter_ranks), multipliers);
+                    userHero =
+                            new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma,
+                                    getResources().getStringArray(R.array.hunter_ranks),
+                                    statsMultiplier.getHunterMultiplier());
                     break;
                 }
                 case R.string.class_merchant: {
-                    double[] multipliers = {3, 2, 2, 1, 0.5, 1};
-                    userHero = new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma, getResources().getStringArray(R.array.merchant_ranks), multipliers);
+                    userHero =
+                            new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma,
+                                    getResources().getStringArray(R.array.merchant_ranks),
+                                    statsMultiplier.getMerchantMultiplier());
                     break;
                 }
                 case R.string.class_mage: {
-                    double[] multipliers = {3, 2, 2, 1, 0.5, 1};
-                    userHero = new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma, getResources().getStringArray(R.array.mage_ranks), multipliers);
+                    userHero =
+                            new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma,
+                                    getResources().getStringArray(R.array.mage_ranks),
+                                    statsMultiplier.getMageMultiplier());
                     break;
                 }
                 case R.string.class_lord: {
-                    double[] multipliers = {3, 2, 2, 1, 0.5, 1};
-                    userHero = new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma, getResources().getStringArray(R.array.lord_ranks), multipliers);
+                    userHero =
+                            new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma,
+                                    getResources().getStringArray(R.array.lord_ranks),
+                                    statsMultiplier.getLordMultiplier());
                     break;
                 }
                 case R.string.class_warrior: {
-                    double[] multipliers = {3, 2, 2, 1, 0.5, 1};
-                    userHero = new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma, getResources().getStringArray(R.array.warrior_ranks), multipliers);
+                    userHero =
+                            new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma,
+                                    getResources().getStringArray(R.array.warrior_ranks),
+                                    statsMultiplier.getWarriorMultiplier());
                     break;
                 }
             }
