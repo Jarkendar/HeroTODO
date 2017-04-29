@@ -59,11 +59,6 @@
     <string name="category_description_class">Klasa to rodzaj kategorii postaci. Charakteryzuje
         postać, określa jej słabe i silne strony. Można utożsamiać z przynależnością do grupy
         społecznej, bądź cechu.</string>
-    <string name="help_category_rang">Co to są rangi?</string>
-    <string name="category_description_rang">Ranga to podklasa, podkategoria klasy służąca lepszemu
-        sprecyzowaniu na jakim poziomie rozwoju jest bohater. Przeważnie zhierarchizowana, prościej
-        przedstawiona w postaci drabinki. Każdy szczebel to kolejny kamień milowy rozwoju herosa.
-    </string>
     <string name="help_category_statistics">Co to są statystyki?</string>
     <string name="category_description_statistics">Statystyki takie jak np. siła, inteligencja,
         określają w sposób prosty, liczbowy poziom zaawansowania cechy bohatera. Ogólnie przyjęte
@@ -86,7 +81,7 @@
         proporcje między konkretnymi atrybutami. Pozwala na pierwszy rzut oka stwierdzić kierunek
         rozwoju bohatera. Wykres jest sześciokątny, ponieważ jest 6 statystyk. Prawdziwym powodem
         tego wykresu jest widzimisie twórcy, ale o tym nikt nie musi wiedzieć.</string>
-    <string name="help_category_level">Dlaczego mój poziom jest większy niż wychodzi ze średniej
+    <string name="help_category_level">Dlaczego mój poziom jest większy, niż wychodzi ze średniej
         arytmetycznej statystyk?</string>
     <string name="category_description_level">Poziom bohatera jest przeliczany według mnożników
         statystyk. Każda klasa posiada własny zestaw mnożników specyficzny tylko dla tej klasy.
@@ -121,6 +116,13 @@
         bojących się przejąć inicjatywy. Heros z rozwiniętą charyzmą potrafi porywać tłumy,
         jego zdolności przywódcze są ponad przeciętną, jeśli tylko by chciał mógłby zmanipulować
         każdego, nie robi jednak tego, gdyż jest człekiem prawym i sprawiedliwym.</string>
+    <string name="help_category_ranks">Co to są rangi i jak można je zmienić?</string>
+    <string name="category_description_ranks">Rangi to system liniowego drzewka rozwoju, właściwie
+        w takiej sytuacji to system kija rozwoju. Kolejność rang jest subiektywna i nie reprezentuje
+        faktycznego, rzeczywistej kolejności zdobywania statusu. Jak można zmienić aktualną rangę?
+        Poprzez zdobywania poziomu, co pewien czas przy zdobyciu poziomu ranga automatycznie się zmieni.
+        Każdy szczebel to kolejny kamień milowy rozwoju herosa.
+    </string>
 
     <string name="shortcut_strength">S</string>
     <string name="shortcut_endurance">W</string>
@@ -252,7 +254,6 @@
         <item>Władca</item>
         <item>Wojownik</item>
     </string-array>
-
 
     <string-array name="level_Hierarchy">
         <item>Wyzwanie +5.0%</item>

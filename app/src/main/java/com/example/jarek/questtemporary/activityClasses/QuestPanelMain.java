@@ -132,36 +132,43 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
             double wisdom = (double) sharedPreferences1.getFloat("wisdom", 0);
             double charisma = (double) sharedPreferences1.getFloat("charisma", 0);
             StatsMultiplier statsMultiplier = new StatsMultiplier();
+            double[] multiplier = new double[0];
             String[] ranksArray = new String[0];
             switch (heroClassID) {
                 case R.string.class_bard: {
                     ranksArray = getResources().getStringArray(R.array.bard_ranks);
+                    multiplier = statsMultiplier.getBardMultiplier();
                     break;
                 }
                 case R.string.class_hunter: {
                     ranksArray = getResources().getStringArray(R.array.hunter_ranks);
+                    multiplier = statsMultiplier.getHunterMultiplier();
                     break;
                 }
                 case R.string.class_merchant: {
                     ranksArray = getResources().getStringArray(R.array.merchant_ranks);
+                    multiplier = statsMultiplier.getMerchantMultiplier();
                     break;
                 }
                 case R.string.class_mage: {
                     ranksArray = getResources().getStringArray(R.array.mage_ranks);
+                    multiplier = statsMultiplier.getMageMultiplier();
                     break;
                 }
                 case R.string.class_lord: {
                     ranksArray = getResources().getStringArray(R.array.lord_ranks);
+                    multiplier = statsMultiplier.getLordMultiplier();
                     break;
                 }
                 case R.string.class_warrior: {
                     ranksArray = getResources().getStringArray(R.array.warrior_ranks);
+                    multiplier = statsMultiplier.getWarriorMultiplier();
                     break;
                 }
             }
             userHero =
                     new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma,
-                            ranksArray, statsMultiplier.getWarriorMultiplier());
+                            ranksArray, multiplier);
             refreshHeroInfo();
         }
     }

@@ -37,21 +37,20 @@ public class OptionActivity extends AppCompatActivity {
         actionBar.setTitle(getText(R.string.text_option));
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        sharedPreferences =getSharedPreferences(heroShared,MODE_PRIVATE);
-        heroClass = sharedPreferences.getInt("heroClass",R.string.class_native);
+        sharedPreferences = getSharedPreferences(heroShared, MODE_PRIVATE);
+        heroClass = sharedPreferences.getInt("heroClass", R.string.class_native);
 
         joinComponentsWithVariable();
-
 
         tvClass.setText(getString(heroClass));
         enableSelectComponent();
     }
 
-    private void enableSelectComponent(){
-        if (heroClass == R.string.class_native){
+    private void enableSelectComponent() {
+        if (heroClass == R.string.class_native) {
             buttonselectClass.setEnabled(true);
             tvClass.setVisibility(View.GONE);
-        }else {
+        } else {
             buttonselectClass.setEnabled(false);
             tvClass.setVisibility(View.VISIBLE);
         }
@@ -87,9 +86,6 @@ public class OptionActivity extends AppCompatActivity {
 
     /**
      * Metoda automatycznie włączana gdy użytkownik naciśnie przycisk back telefonu.
-     * W tej aplikacji dodatkowo sprawdzam czy użytkownik na pewno chce się cofnąć czy może przez
-     * przypadek kliknął w przycisk back. Użytkownik na potwierdzenie wyboru ma 3s. Po pierwszym
-     * kliknięciu użytkownik dostaje infromacje o dalszym kroku, gdy chce na prawdę się cofnąć.
      */
     @Override
     public void onBackPressed() {
@@ -101,20 +97,26 @@ public class OptionActivity extends AppCompatActivity {
         buttonaccept.setVisibility(View.VISIBLE);
     }
 
-    private void saveChooseClass(String newHeroClass, int newHeroClassID){
+    private void saveChooseClass(String newHeroClass, int newHeroClassID) {
         tvClass.setText(newHeroClass);
         buttonselectClass.setEnabled(false);
         buttonaccept.setVisibility(View.GONE);
         spinnerlistClass.setVisibility(View.GONE);
-        Toast.makeText(getApplicationContext(),getResources().getText(R.string.text_selectedClass),Toast.LENGTH_LONG).show();
-        if (newHeroClass.equals(getString(R.string.class_bard))) newHeroClassID = R.string.class_bard;
-        else if (newHeroClass.equals(getString(R.string.class_hunter))) newHeroClassID = R.string.class_hunter;
-        else if (newHeroClass.equals(getString(R.string.class_lord))) newHeroClassID = R.string.class_lord;
-        else if (newHeroClass.equals(getString(R.string.class_mage))) newHeroClassID = R.string.class_mage;
-        else if (newHeroClass.equals(getString(R.string.class_merchant))) newHeroClassID = R.string.class_merchant;
-        else if (newHeroClass.equals(getString(R.string.class_warrior))) newHeroClassID = R.string.class_warrior;
+        Toast.makeText(getApplicationContext(), getResources().getText(R.string.text_selectedClass), Toast.LENGTH_LONG).show();
+        if (newHeroClass.equals(getString(R.string.class_bard)))
+            newHeroClassID = R.string.class_bard;
+        else if (newHeroClass.equals(getString(R.string.class_hunter)))
+            newHeroClassID = R.string.class_hunter;
+        else if (newHeroClass.equals(getString(R.string.class_lord)))
+            newHeroClassID = R.string.class_lord;
+        else if (newHeroClass.equals(getString(R.string.class_mage)))
+            newHeroClassID = R.string.class_mage;
+        else if (newHeroClass.equals(getString(R.string.class_merchant)))
+            newHeroClassID = R.string.class_merchant;
+        else if (newHeroClass.equals(getString(R.string.class_warrior)))
+            newHeroClassID = R.string.class_warrior;
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("heroClass",newHeroClassID);
+        editor.putInt("heroClass", newHeroClassID);
         editor.apply();
     }
 
@@ -123,13 +125,13 @@ public class OptionActivity extends AppCompatActivity {
         final int newHeroClassID = R.string.class_native;
         new AlertDialog.Builder(this)
                 .setTitle(getText(R.string.text_confirm))//tytuł
-                .setMessage(getString(R.string.text_areYouSureThisClass)+ " " + newHeroClass +" ? " +
-                getString(R.string.text_laterChangeIsNotPossible))
+                .setMessage(getString(R.string.text_areYouSureThisClass) + " " + newHeroClass + " ? " +
+                        getString(R.string.text_laterChangeIsNotPossible))
                 //opis
                 .setPositiveButton(getText(R.string.text_yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        saveChooseClass(newHeroClass,newHeroClassID);
+                        saveChooseClass(newHeroClass, newHeroClassID);
                         tvClass.setVisibility(View.VISIBLE);
                     }
                 })
@@ -138,8 +140,8 @@ public class OptionActivity extends AppCompatActivity {
 
     }
 
-    private void deleteAllProgress(){
-        SharedPreferences sharedPreferences = getSharedPreferences(heroShared,MODE_PRIVATE);
+    private void deleteAllProgress() {
+        SharedPreferences sharedPreferences = getSharedPreferences(heroShared, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("heroClass", R.string.class_native);
         editor.putFloat("strength", 0);
@@ -149,7 +151,7 @@ public class OptionActivity extends AppCompatActivity {
         editor.putFloat("wisdom", 0);
         editor.putFloat("charisma", 0);
         editor.apply();
-        heroClass = sharedPreferences.getInt("heroClass",R.string.class_native);
+        heroClass = sharedPreferences.getInt("heroClass", R.string.class_native);
         enableSelectComponent();
     }
 
