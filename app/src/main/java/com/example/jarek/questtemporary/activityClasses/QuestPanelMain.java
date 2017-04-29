@@ -132,50 +132,36 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
             double wisdom = (double) sharedPreferences1.getFloat("wisdom", 0);
             double charisma = (double) sharedPreferences1.getFloat("charisma", 0);
             StatsMultiplier statsMultiplier = new StatsMultiplier();
+            String[] ranksArray = new String[0];
             switch (heroClassID) {
                 case R.string.class_bard: {
-                    userHero =
-                            new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma,
-                                    getResources().getStringArray(R.array.bard_ranks),
-                                    statsMultiplier.getBardMultiplier());
+                    ranksArray = getResources().getStringArray(R.array.bard_ranks);
                     break;
                 }
                 case R.string.class_hunter: {
-                    userHero =
-                            new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma,
-                                    getResources().getStringArray(R.array.hunter_ranks),
-                                    statsMultiplier.getHunterMultiplier());
+                    ranksArray = getResources().getStringArray(R.array.hunter_ranks);
                     break;
                 }
                 case R.string.class_merchant: {
-                    userHero =
-                            new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma,
-                                    getResources().getStringArray(R.array.merchant_ranks),
-                                    statsMultiplier.getMerchantMultiplier());
+                    ranksArray = getResources().getStringArray(R.array.merchant_ranks);
                     break;
                 }
                 case R.string.class_mage: {
-                    userHero =
-                            new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma,
-                                    getResources().getStringArray(R.array.mage_ranks),
-                                    statsMultiplier.getMageMultiplier());
+                    ranksArray = getResources().getStringArray(R.array.mage_ranks);
                     break;
                 }
                 case R.string.class_lord: {
-                    userHero =
-                            new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma,
-                                    getResources().getStringArray(R.array.lord_ranks),
-                                    statsMultiplier.getLordMultiplier());
+                    ranksArray = getResources().getStringArray(R.array.lord_ranks);
                     break;
                 }
                 case R.string.class_warrior: {
-                    userHero =
-                            new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma,
-                                    getResources().getStringArray(R.array.warrior_ranks),
-                                    statsMultiplier.getWarriorMultiplier());
+                    ranksArray = getResources().getStringArray(R.array.warrior_ranks);
                     break;
                 }
             }
+            userHero =
+                    new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma,
+                            ranksArray, statsMultiplier.getWarriorMultiplier());
             refreshHeroInfo();
         }
     }
