@@ -178,24 +178,72 @@
     </string-array>
 
     <string-array name="hunter_ranks">
-
+        <item>Procarz</item>
+        <item>Zwiadowca</item>
+        <item>Łucznik</item>
+        <item>Łowca</item>
+        <item>Kusznik</item>
+        <item>Strzelec</item>
+        <item>Zabójca</item>
+        <item>Snajper</item>
+        <item>Wielki Łowczy</item>
+        <item>Wiedźmin</item>
     </string-array>
 
     <string-array name="lord_ranks">
-
+        <item>Sołtys</item>
+        <item>Burmistrz</item>
+        <item>Rządca</item>
+        <item>Dowódca</item>
+        <item>Strateg</item>
+        <item>Lord</item>
+        <item>Namiestnik</item>
+        <item>Suweren</item>
+        <item>Monarcha</item>
+        <item>Cesarz</item>
     </string-array>
 
     <string-array name="merchant_ranks">
-
+        <item>Pucybut</item>
+        <item>Tragarz</item>
+        <item>Karawaniarz</item>
+        <item>Pomocnik</item>
+        <item>Czeladnik</item>
+        <item>Domokrążca</item>
+        <item>Sklepikarz</item>
+        <item>Rzemieślnik</item>
+        <item>Kupiec</item>
+        <item>Manufakturzysta</item>
+        <item>Mecenas</item>
     </string-array>
 
     <string-array name="mage_ranks">
-
+        <item>Student</item>
+        <item>Bibliotekarz</item>
+        <item>Adept</item>
+        <item>Uczony</item>
+        <item>Wtajemniczony</item>
+        <item>Zaklinacz</item>
+        <item>Czarownik</item>
+        <item>Mag</item>
+        <item>Mag Bitewny</item>
+        <item>Arcymag</item>
+        <item>Gandalf Biały</item>
     </string-array>
 
     <string-array name="bard_ranks">
-
+        <item>Błazen</item>
+        <item>Uliczny grajek</item>
+        <item>Komik</item>
+        <item>Samouk</item>
+        <item>Lutniarz</item>
+        <item>Bard</item>
+        <item>Arlekin</item>
+        <item>Kakafonix</item>
+        <item>Wirtuoz</item>
+        <item>Arick Słodka Pieśń</item>
     </string-array>
+
     <string-array name="class_select">
         <item>Bard</item>
         <item>Kupiec</item>
