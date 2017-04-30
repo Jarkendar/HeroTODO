@@ -60,6 +60,14 @@
         czasem przyjdą do głowy głupie pomysły, mam nadzieje, że ta aplikacja nie jest jednym z
         nich. Na koniec jeszczę dopiszę, że lubię pisać, nie tylko kody, co chyba już zauważyłeś
         drogi użytkowniku.</string>
+    <string name="help_category_start">Od czego zacząć?</string>
+    <string name="category_description_start">Swoją przygodę najlepiej rozpocząć od wybrania klasy.
+    Klasę można wybrać wchodząc w opcje. Jeśli tego nie wykonasz, to całe doświadczenie, które
+    zdobędziesz poprzez wykonywanie zadań przepadnie.</string>
+    <string name="help_category_addQuest">Jak dodać zadanie?</string>
+    <string name="category_description_addQuest">Aby dodać zadanie należy z menu górnego paska wybrać pole
+    "Dodaj", a następnie wypełnić odpowiednie pola danymi. W razie problemów z danymi odpowiednie
+    pola będą wymagać korekcji.</string>
     <string name="help_category_class">Co to są klasy?</string>
     <string name="category_description_class">Klasa to rodzaj kategorii postaci. Charakteryzuje
         postać, określa jej słabe i silne strony. Można utożsamiać z przynależnością do grupy
