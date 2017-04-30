@@ -7,9 +7,12 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.jarek.questtemporary.R;
@@ -91,9 +94,15 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         String dateText = quest.getDateFormatString() + "\n";
 
         if (quest.isRepeatable()) {
-            dateText = dateText + getContext().getText(R.string.text_repeatEvery)
-                    + " " + quest.getRepeatInterval()
-                    + " " + getContext().getText(R.string.text_days);
+            if (quest.getRepeatInterval()==1) {
+                dateText = dateText + getContext().getText(R.string.text_repeatEvery)
+                        + " " + quest.getRepeatInterval()
+                        + " " + getContext().getText(R.string.text_day);
+            }else{
+                dateText = dateText + getContext().getText(R.string.text_repeatEvery)
+                        + " " + quest.getRepeatInterval()
+                        + " " + getContext().getText(R.string.text_days);
+            }
         }
 
         holder.dateField.setText(dateText);
@@ -103,7 +112,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         for (String x : quest.getAtributes()) {
             prize = prize + "\t\t+" + x + "\n";
         }
-        prize = prize + getContext().getText(R.string.text_together)
+        prize = prize + getContext().getText(R.string.text_experienceTogether)
                 + " " + quest.getExperiencePoints()
                 + "% " + getContext().getText(R.string.text_sufix_experiencePoints);
         holder.reward.setText(prize);
@@ -133,6 +142,8 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         holder.confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                makeAnimClick(view);
+                Toast.makeText(context,context.getString(R.string.text_success),Toast.LENGTH_SHORT).show();
                 order = "succeed;" + position;
                 notifyObservers();
             }
@@ -145,6 +156,8 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         holder.cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                makeAnimClick(view);
+                Toast.makeText(context,context.getString(R.string.text_fail),Toast.LENGTH_SHORT).show();
                 order = "failed;" + position;
                 notifyObservers();
             }
@@ -186,6 +199,15 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         for (QuestPanelMain o : observers) {
             o.update(new Observable(), order);
         }
+    }
+
+    /**
+     * Metoda odtwarzająca animacje zmiejsznia się okienka View o 10% w czasie 100ms.
+     * @param view obiekt na którym ma być wykonana animacja
+     */
+    private void makeAnimClick(View view){
+        Animation animation = AnimationUtils.loadAnimation(context,R.anim.anim_click);
+        view.startAnimation(animation);
     }
 
     /**

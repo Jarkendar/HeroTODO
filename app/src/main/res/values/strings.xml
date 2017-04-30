@@ -11,9 +11,10 @@
     <string name="text_experienceEmpty">/100PD</string>
     <string name="text_reward">Nagroda:</string>
     <string name="text_sufix_experiencePoints">PD</string>
-    <string name="text_together">Łącznie: </string>
+    <string name="text_experienceTogether">Doświadczenie: </string>
     <string name="text_repeatEvery">Powtarza się co </string>
     <string name="text_days">dni.</string>
+    <string name="text_day">dzień.</string>
     <string name="text_interval">Interwał:</string>
     <string name="text_AVGExperiencePoints">Średnie punkty doświadczenia:</string>
     <string name="text_dateEnd">Data zakończenia:</string>
@@ -36,6 +37,8 @@
     <string name="text_areYouSureRestart">Czy na pewno chcesz zrestartować klasę, a wraz z nią
     WSZYSTKIE postępy? (*zadania nie zostaną usunięte)</string>
     <string name="text_close">Zamknij</string>
+    <string name="text_success">Brawo Bohaterze wypełniłeś swoje zadanie.</string>
+    <string name="text_fail">Nie podołałeś zadaniu.</string>
 
     <string name="help_aboutApp">O aplikacji</string>
     <string name="category_description_aboutApp">Aplikacja powstała, aby trochę urozmaicić nudne
@@ -53,8 +56,9 @@
         czy pouderzać piłkę w siatkówce czy piłce nożnej (ciężko to nazwać grą), gram na gitarze
         (głównie dla siebie brzdąkam), coś tam pogram(choć czasu mało). Cech podawać nie będę,
         jestem przecież leniwym informatykiem. To by było na tyle o mnie. Twórca ze mnie marny,
-        czasem przyjdą do głowy głupie pomysły, mam nadzieje że ta aplikacj anie jest jednym z
-        nich. Na koniec jeszczę dopiszę, że lubię pisać, nie tylko kody.</string>
+        czasem przyjdą do głowy głupie pomysły, mam nadzieje, że ta aplikacja nie jest jednym z
+        nich. Na koniec jeszczę dopiszę, że lubię pisać, nie tylko kody, co chyba już zauważyłeś
+        drogi użytkowniku.</string>
     <string name="help_category_class">Co to są klasy?</string>
     <string name="category_description_class">Klasa to rodzaj kategorii postaci. Charakteryzuje
         postać, określa jej słabe i silne strony. Można utożsamiać z przynależnością do grupy
@@ -135,7 +139,7 @@
     <string name="hint_failedData">Błędna dana.</string>
     <string name="hint_dateFormat">dd-MM-yyyy</string>
     <string name="hint_noEnable">Nie dostępne</string>
-    <string name="hint_canWrite">Wpisz</string>
+    <string name="hint_canWriteDayNumber">Wpisz ilość dni.</string>
 
     <string name="text_difficultyLevel">Poziom trudności:</string>
     <string name="level_challenge">Wyzwanie</string>

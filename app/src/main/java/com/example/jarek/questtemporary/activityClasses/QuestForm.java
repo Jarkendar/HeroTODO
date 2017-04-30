@@ -85,7 +85,7 @@ public class QuestForm extends AppCompatActivity {
             public void onClick(View view) {
                 if (checkBoxRepeatable.isChecked()) {
                     checkBoxRepeatable.setText(getText(R.string.text_yes));
-                    editTextinterval.setHint(getText(R.string.hint_canWrite));
+                    editTextinterval.setHint(getText(R.string.hint_canWriteDayNumber));
                     editTextinterval.setEnabled(true);
                 } else {
                     checkBoxRepeatable.setText(getText(R.string.text_no));

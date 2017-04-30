@@ -19,7 +19,7 @@
 
             <TextView
                 android:id="@+id/textView_Description"
-                android:layout_width="210dp"
+                android:layout_width="190dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="10"
                 android:text="Opis zadania" />
@@ -29,15 +29,16 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:text="T" />
+                android:background="@drawable/done_button" />
 
             <Button
                 android:id="@+id/button_Cancel"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                android:text="F"
-                android:layout_marginRight="5dp"/>
+                android:background="@drawable/cancel_button" />
 
         </LinearLayout>
     </TableRow>
