@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QuestTemporary</string>
+    <string name="app_name">Hero TODO</string>
     <string name="text_option">Opcje</string>
     <string name="text_help">Pomoc</string>
     <string name="text_add">Dodaj zadanie</string>
@@ -39,6 +39,7 @@
     <string name="text_close">Zamknij</string>
     <string name="text_success">Brawo Bohaterze wypełniłeś swoje zadanie.</string>
     <string name="text_fail">Nie podołałeś zadaniu.</string>
+    <string name="text_author">by Jarosław Skrzypczak</string>
 
     <string name="help_aboutApp">O aplikacji</string>
     <string name="category_description_aboutApp">Aplikacja powstała, aby trochę urozmaicić nudne
