@@ -46,7 +46,7 @@ public class HelpActivity extends AppCompatActivity {
         helpWord.add(new HelpCategory(getString(R.string.help_category_ranks),getString(R.string.category_description_ranks)));
         helpWord.add(new HelpCategory(getString(R.string.help_category_statistics),getString(R.string.category_description_statistics)));
         helpWord.add(new HelpCategory(getString(R.string.help_category_whenQuestEnd),getString(R.string.category_description_whenQuestEnd)));
-        helpWord.add(new HelpCategory(getString(R.string.help_category_experience),getString(R.string.help_category_experience)));
+        helpWord.add(new HelpCategory(getString(R.string.help_category_experience),getString(R.string.category_description_experience)));
         helpWord.add(new HelpCategory(getString(R.string.help_category_hexGraph),getString(R.string.category_description_hexGraph)));
         helpWord.add(new HelpCategory(getString(R.string.help_category_level),getString(R.string.category_description_level)));
         helpWord.add(new HelpCategory(getString(R.string.help_category_strength),getString(R.string.category_description_strength)));
