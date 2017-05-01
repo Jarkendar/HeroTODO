@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,18 +13,14 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
 import com.example.jarek.questtemporary.dataClasses.RowAdapter;
 import com.example.jarek.questtemporary.dataClasses.Quest;
-import com.example.jarek.questtemporary.heroClasses.Bard;
 import com.example.jarek.questtemporary.heroClasses.Hero;
-import com.example.jarek.questtemporary.heroClasses.Hunter;
-import com.example.jarek.questtemporary.heroClasses.Lord;
-import com.example.jarek.questtemporary.heroClasses.Mage;
-import com.example.jarek.questtemporary.heroClasses.Merchant;
-import com.example.jarek.questtemporary.heroClasses.Warrior;
+import com.example.jarek.questtemporary.heroClasses.StatsMultiplier;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -34,7 +29,7 @@ import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class QuestPanel extends AppCompatActivity implements Observer{
+public class QuestPanelMain extends AppCompatActivity implements Observer {
 
     private ProgressBar pBExperience;
     private LinkedList<Quest> quests;
@@ -53,11 +48,9 @@ public class QuestPanel extends AppCompatActivity implements Observer{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quest_panel);
+        setContentView(R.layout.activity_quest_panel_main);
 
         joinComponentsWithVariable();
-
-        pBExperience.setProgress(50);//test
 
         quests = new LinkedList<>();
 
@@ -74,7 +67,7 @@ public class QuestPanel extends AppCompatActivity implements Observer{
      * (zadania wcześniejsze są wyżej w listView). Ustawia adapterowi listę zadań. Na koniec
      * podłącza adapter pod listView.
      */
-    private void adapterRefresh(){
+    private void adapterRefresh() {
         Collections.sort(quests, new Comparator<Quest>() {
             @Override
             public int compare(Quest quest1, Quest quest2) {
@@ -100,21 +93,19 @@ public class QuestPanel extends AppCompatActivity implements Observer{
         quests.addAll(fileManager.deserializationQuests(userQuestFile, getApplicationContext()));
         String userInfoShared = "userInfoShared";
         SharedPreferences sharedPreferences = getSharedPreferences(userInfoShared, MODE_PRIVATE);
-        if (sharedPreferences.getBoolean("addQuests", false)){
-            Log.d("++++++++++++++++++", "onResume: wczytuje");
+        if (sharedPreferences.getBoolean("addQuests", false)) {
             LinkedList<Quest> addQuests;
             addQuests = fileManager.deserializationQuests(userAddQuest, getApplicationContext());
-            Log.d("++++++++++++++++++", "onResume: długość" + addQuests.size());
             quests.addAll(addQuests);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("addQuests",false);
+            editor.putBoolean("addQuests", false);
             editor.apply();
-        }else if (sharedPreferences.getBoolean("modify",false)){
+        } else if (sharedPreferences.getBoolean("modify", false)) {
             LinkedList<Quest> addQuests;
             addQuests = fileManager.deserializationQuests(userAddQuest, getApplicationContext());
             quests.addAll(addQuests);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("modify",false);
+            editor.putBoolean("modify", false);
             deleteListElement();
             editor.apply();
         }
@@ -126,56 +117,72 @@ public class QuestPanel extends AppCompatActivity implements Observer{
     /**
      * Metoda wczytuje postać hero z sharedPreferences.
      */
-    private void readHeroFromShared(){
-        SharedPreferences sharedPreferences1 = getSharedPreferences(heroShared,MODE_PRIVATE);
+    private void readHeroFromShared() {
+        SharedPreferences sharedPreferences1 = getSharedPreferences(heroShared, MODE_PRIVATE);
         int heroClassID = sharedPreferences1.getInt("heroClass", R.string.class_native);
         tClassName.setText(getString(heroClassID));
+        tClassLevel.setText(getString(R.string.native_zeroLevel));
+        pBExperience.setProgress(0);
+        tExperience.setText(getString(R.string.text_experience));
         if (heroClassID != R.string.class_native) {
-            double strength = (double) sharedPreferences1.getFloat("strength",0);
-            double endurance = (double)sharedPreferences1.getFloat("endurance",0);
-            double dexterity = (double)sharedPreferences1.getFloat("dexterity",0);
-            double intelligence = (double)sharedPreferences1.getFloat("intelligence",0);
-            double wisdom =(double) sharedPreferences1.getFloat("wisdom",0);
-            double charisma = (double)sharedPreferences1.getFloat("charisma",0);
+            double strength = (double) sharedPreferences1.getFloat("strength", 0);
+            double endurance = (double) sharedPreferences1.getFloat("endurance", 0);
+            double dexterity = (double) sharedPreferences1.getFloat("dexterity", 0);
+            double intelligence = (double) sharedPreferences1.getFloat("intelligence", 0);
+            double wisdom = (double) sharedPreferences1.getFloat("wisdom", 0);
+            double charisma = (double) sharedPreferences1.getFloat("charisma", 0);
+            StatsMultiplier statsMultiplier = new StatsMultiplier();
+            double[] multiplier = new double[0];
+            String[] ranksArray = new String[0];
             switch (heroClassID) {
                 case R.string.class_bard: {
-                    userHero = new Bard(strength,endurance,dexterity,intelligence,wisdom,charisma);
+                    ranksArray = getResources().getStringArray(R.array.bard_ranks);
+                    multiplier = statsMultiplier.getBardMultiplier();
                     break;
                 }
-                case R.string.class_hunter:{
-                    userHero = new Hunter(strength,endurance,dexterity,intelligence,wisdom,charisma);
+                case R.string.class_hunter: {
+                    ranksArray = getResources().getStringArray(R.array.hunter_ranks);
+                    multiplier = statsMultiplier.getHunterMultiplier();
                     break;
                 }
-                case R.string.class_merchant:{
-                    userHero = new Merchant(strength,endurance,dexterity,intelligence,wisdom,charisma);
+                case R.string.class_merchant: {
+                    ranksArray = getResources().getStringArray(R.array.merchant_ranks);
+                    multiplier = statsMultiplier.getMerchantMultiplier();
                     break;
                 }
-                case R.string.class_mage:{
-                    userHero = new Mage(strength,endurance,dexterity,intelligence,wisdom,charisma);
+                case R.string.class_mage: {
+                    ranksArray = getResources().getStringArray(R.array.mage_ranks);
+                    multiplier = statsMultiplier.getMageMultiplier();
                     break;
                 }
-                case R.string.class_lord:{
-                    userHero = new Lord(strength,endurance,dexterity,intelligence,wisdom,charisma);
+                case R.string.class_lord: {
+                    ranksArray = getResources().getStringArray(R.array.lord_ranks);
+                    multiplier = statsMultiplier.getLordMultiplier();
                     break;
                 }
-                case R.string.class_warrior:{
-                    userHero = new Warrior(strength,endurance,dexterity,intelligence,wisdom,charisma);
+                case R.string.class_warrior: {
+                    ranksArray = getResources().getStringArray(R.array.warrior_ranks);
+                    multiplier = statsMultiplier.getWarriorMultiplier();
                     break;
                 }
             }
-            tClassLevel.setText(String.valueOf(userHero.getHeroLVL()).concat(" "+getString(R.string.text_level)));
-            pBExperience.setProgress((int)userHero.getHeroEXP()%100);
-            tExperience.setText(String.valueOf((int)userHero.getHeroEXP()%100).concat(getString(R.string.text_experienceEpmty)));
+            userHero =
+                    new Hero(strength, endurance, dexterity, intelligence, wisdom, charisma,
+                            ranksArray, multiplier);
+            refreshHeroInfo();
         }
     }
 
     /**
      * Metoda odświeżająca komponenty Activity zwiazane z Hero.
      */
-    private void refreshHeroInfo(){
-        tClassLevel.setText(String.valueOf(userHero.getHeroLVL()).concat(" "+getString(R.string.text_level)));
-        pBExperience.setProgress((int)userHero.getHeroEXP()%100);
-        tExperience.setText(String.valueOf((int)userHero.getHeroEXP()%100).concat(getString(R.string.text_experienceEpmty)));
+    private void refreshHeroInfo() {
+        if (userHero != null) {
+            tClassName.setText(userHero.getClassRank());
+            tClassLevel.setText(String.valueOf(userHero.getHeroLVL()).concat(" " + getString(R.string.text_level)));
+            pBExperience.setProgress((int) userHero.getHeroEXP() % 100);
+            tExperience.setText(String.valueOf((int) userHero.getHeroEXP() % 100).concat(getString(R.string.text_experienceEmpty)));
+        }
     }
 
     /**
@@ -193,22 +200,18 @@ public class QuestPanel extends AppCompatActivity implements Observer{
     /**
      * Metoda zapisująca (jeśli Hero istnieje) statystyki do SharedPreferences.
      */
-    private void saveHeroToShared(){
-        if (userHero!= null) {
+    private void saveHeroToShared() {
+        if (userHero != null) {
             SharedPreferences.Editor editor = getSharedPreferences(heroShared, MODE_PRIVATE).edit();
             editor.putFloat("strength", (float) userHero.getStrengthExperience());
             editor.putFloat("endurance", (float) userHero.getEnduranceExperience());
             editor.putFloat("dexterity", (float) userHero.getDexterityExperience());
-            editor.putFloat("intelligence", (float) userHero.getDexterityExperience());
+            editor.putFloat("intelligence", (float) userHero.getIntelligenceExperience());
             editor.putFloat("wisdom", (float) userHero.getWisdomExperience());
             editor.putFloat("charisma", (float) userHero.getCharismaExperience());
             editor.apply();
         }
     }
-
-
-//TODO graficzna obróbka wierszy
-//TODO activity help
 
     /**
      * Metoda wiążąca elementy interfejsu użytkownika ze zmiennymi wykorzystywanymi w kodzie.
@@ -219,25 +222,25 @@ public class QuestPanel extends AppCompatActivity implements Observer{
         tExperience = (TextView) findViewById(R.id.textView_Experience);
         pBExperience = (ProgressBar) findViewById(R.id.progressBar_Experience);
         listView = (ListView) findViewById(R.id.listView_QuestList);
-        buttonModify = (Button)findViewById(R.id.button_Modify);
-        buttonDelete = (Button)findViewById(R.id.button_Delete);
+        buttonModify = (Button) findViewById(R.id.button_Modify);
+        buttonDelete = (Button) findViewById(R.id.button_Delete);
     }
 
     /**
      * Metoda podłączająca layout wyglądu ActionBar'a.
+     *
      * @param menu obiekt reprezentujący menu
      * @return true podłączenie się powiodło
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // show menu when menu button is pressed
-        //TODO opisać
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     /**
      * Metoda obsługująca przyciski z rozwijanego paska opcji w ActionBar.
+     *
      * @param item wybrana opcja z paska
      * @return odpowiedź z nadklasy
      */
@@ -245,30 +248,36 @@ public class QuestPanel extends AppCompatActivity implements Observer{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.app_bar_add: {
-                Intent intent = new Intent(this, QuestAdding.class);
+                Intent intent = new Intent(this, QuestForm.class);
                 intent.putExtra("fileAddress", userAddQuest);
-                intent.putExtra("whatdo","addQuest");
+                intent.putExtra("whatdo", "addQuest");
                 startActivity(intent);
                 break;
             }
             case R.id.app_bar_statistics: {
-                Intent intent = new Intent(this, StatisticActivity.class);
-                intent.putExtra("strength",(float) userHero.getStrengthExperience());
-                intent.putExtra("endurance",(float)userHero.getEnduranceExperience());
-                intent.putExtra("dexterity",(float)userHero.getDexterityExperience());
-                intent.putExtra("intelligence",(float)userHero.getIntelligenceExperience());
-                intent.putExtra("wisdom",(float)userHero.getWisdomExperience());
-                intent.putExtra("charisma",(float)userHero.getCharismaExperience());
-                startActivity(intent);
+                if (userHero != null) {
+                    Intent intent = new Intent(this, StatisticActivity.class);
+                    intent.putExtra("strength", (float) userHero.getStrengthExperience());
+                    intent.putExtra("endurance", (float) userHero.getEnduranceExperience());
+                    intent.putExtra("dexterity", (float) userHero.getDexterityExperience());
+                    intent.putExtra("intelligence", (float) userHero.getIntelligenceExperience());
+                    intent.putExtra("wisdom", (float) userHero.getWisdomExperience());
+                    intent.putExtra("charisma", (float) userHero.getCharismaExperience());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, getText(R.string.text_firstChooseClass), Toast.LENGTH_SHORT).show();
+                }
                 break;
             }
             case R.id.app_bar_option: {
                 Intent intent = new Intent(this, OptionActivity.class);
                 startActivity(intent);
+                userHero = null;
                 break;
             }
             case R.id.app_bar_help: {
-                //kliknięcie w pomoc
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
                 break;
             }
         }
@@ -286,9 +295,10 @@ public class QuestPanel extends AppCompatActivity implements Observer{
      * interwału zadania.
      * "clickRow" wiersz został kliknięty, otwiera możliwość modyfikacji lub usunięcia zadania,
      * poprzez włączenie dostępności przycisków button_Modify i button_Delete.
+     *
      * @param order rozkaz składający się z "polecenie;numer wiersza"
      */
-    private void serviceObserveButtons(String order){
+    private void serviceObserveButtons(String order) {
         String[] partsOfOrder = order.split(";");
         int position = Integer.parseInt(partsOfOrder[1]);
         switch (partsOfOrder[0]) {
@@ -296,19 +306,21 @@ public class QuestPanel extends AppCompatActivity implements Observer{
                 buttonModify.setEnabled(false);
                 buttonDelete.setEnabled(false);
                 String[] attributes = quests.get(position).getAtributes();
-                for (String attribute : attributes) {
-                    if (attribute.equals(getText(R.string.attribute_strength)))
-                        userHero.addStrengthExperience(quests.get(position).getExperiencePoints() / attributes.length);
-                    if (attribute.equals(getText(R.string.attribute_endurance)))
-                        userHero.addEnduranceExperience(quests.get(position).getExperiencePoints() / attributes.length);
-                    if (attribute.equals(getText(R.string.attribute_dexterity)))
-                        userHero.addDexterityExperience(quests.get(position).getExperiencePoints() / attributes.length);
-                    if (attribute.equals(getText(R.string.attribute_intelligence)))
-                        userHero.addIntelligenceExperience(quests.get(position).getExperiencePoints() / attributes.length);
-                    if (attribute.equals(getText(R.string.attribute_wisdom)))
-                        userHero.addWisdomExperience(quests.get(position).getExperiencePoints() / attributes.length);
-                    if (attribute.equals(getText(R.string.attribute_charisma)))
-                        userHero.addCharismaExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                if (userHero != null) {
+                    for (String attribute : attributes) {
+                        if (attribute.equals(getText(R.string.attribute_strength)))
+                            userHero.addStrengthExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                        if (attribute.equals(getText(R.string.attribute_endurance)))
+                            userHero.addEnduranceExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                        if (attribute.equals(getText(R.string.attribute_dexterity)))
+                            userHero.addDexterityExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                        if (attribute.equals(getText(R.string.attribute_intelligence)))
+                            userHero.addIntelligenceExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                        if (attribute.equals(getText(R.string.attribute_wisdom)))
+                            userHero.addWisdomExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                        if (attribute.equals(getText(R.string.attribute_charisma)))
+                            userHero.addCharismaExperience(quests.get(position).getExperiencePoints() / attributes.length);
+                    }
                 }
                 if (quests.get(position).isRepeatable()) {
                     Calendar calendar = quests.get(position).getTimeToLiveDate();
@@ -351,8 +363,9 @@ public class QuestPanel extends AppCompatActivity implements Observer{
     /**
      * Metoda zaimplementowana z interfejsu Observer, przy zgłoszeniu zmiany obsługuje zgłoszenie.
      * Przekazuje rozkaz do metody serviceObserveButtons. Odświerza listView oraz statystyki Hero.
+     *
      * @param observable obiekt obserwowany
-     * @param o obiekt rozkazu w tym przypadku string wg wzoru "*;*"
+     * @param o          obiekt rozkazu w tym przypadku string wg wzoru "*;*"
      */
     @Override
     public void update(Observable observable, Object o) {
@@ -361,28 +374,38 @@ public class QuestPanel extends AppCompatActivity implements Observer{
         refreshHeroInfo();
     }
 
+    /**
+     * Metoda obsługi kliknięcia w przycisk modyfikacji. Zapisuje wszystkie marametry wybranego
+     * zadania do wywoływanego activity.
+     *
+     * @param view komponent wywołujący metodę
+     */
     public void clickModifyQuest(View view) {
         String attributes = "";
-        for (String x : quests.get(iposition).getAtributes()){
+        for (String x : quests.get(iposition).getAtributes()) {
             attributes = attributes.concat(x + ";");
         }
-        attributes = attributes.substring(0,attributes.length()-1);
-        Intent intent = new Intent(this, QuestAdding.class);
+        attributes = attributes.substring(0, attributes.length() - 1);
+        Intent intent = new Intent(this, QuestForm.class);
         intent.putExtra("fileAddress", userAddQuest);
-        intent.putExtra("whatdo","modifyQuest");
-        intent.putExtra("description",quests.get(iposition).getDescription());
-        intent.putExtra("experience",quests.get(iposition).getExperiencePoints());
-        intent.putExtra("timeToLive",quests.get(iposition).getDateFormatString());
-        intent.putExtra("attributes",attributes);
+        intent.putExtra("whatdo", "modifyQuest");
+        intent.putExtra("description", quests.get(iposition).getDescription());
+        intent.putExtra("experience", quests.get(iposition).getExperiencePoints());
+        intent.putExtra("timeToLive", quests.get(iposition).getDateFormatString());
+        intent.putExtra("attributes", attributes);
+        Calendar calendar = quests.get(iposition).getTimeToLiveDate();
+        intent.putExtra("yearDate", calendar.get(Calendar.YEAR));
+        intent.putExtra("monthDate", calendar.get(Calendar.MONTH));
+        intent.putExtra("dayDate", calendar.get(Calendar.DAY_OF_MONTH));
         intent.putExtra("repeatable", quests.get(iposition).isRepeatable());
-        intent.putExtra("interval",quests.get(iposition).getRepeatInterval());
+        intent.putExtra("interval", quests.get(iposition).getRepeatInterval());
         startActivity(intent);
     }
 
     /**
      * Metoda usuwa zadanie z listy zadań i odświeża listView.
      */
-    private void deleteListElement(){
+    private void deleteListElement() {
         quests.remove(iposition);
         adapterRefresh();
     }
@@ -390,12 +413,13 @@ public class QuestPanel extends AppCompatActivity implements Observer{
     /**
      * Metoda kliknięcia na przycisk usunięcia. Wyświetla AlertDialog potwierdzający wybór użytkownika
      * zapobiegato przypadkowemu naciśnięciu przycisku usunięcia.
+     *
      * @param view obiekt komponentu wywołującego
      */
     public void clickDeleteQuest(View view) {
         new AlertDialog.Builder(this)
                 .setTitle(getText(R.string.text_confirm))//tytuł
-                .setMessage(getString(R.string.text_areYouSureDelete)+ " " + quests.get(iposition).getDescription())
+                .setMessage(getString(R.string.text_areYouSureDelete) + " " + quests.get(iposition).getDescription())
                 //opis
                 .setPositiveButton(getText(R.string.text_yes), new DialogInterface.OnClickListener() {
                     //kliknięcie tak usuwa element

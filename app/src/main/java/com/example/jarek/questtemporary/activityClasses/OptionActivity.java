@@ -17,13 +17,14 @@ import com.example.jarek.questtemporary.R;
 
 public class OptionActivity extends AppCompatActivity {
 
-    private long firstClickBack = 0;
     private int heroClass;
     private SharedPreferences sharedPreferences;
 
     private TextView tvClass;
     private Button buttonselectClass, buttonaccept;
     private Spinner spinnerlistClass;
+
+    private final String heroShared = "heroShared";
 
 
     @Override
@@ -36,9 +37,8 @@ public class OptionActivity extends AppCompatActivity {
         actionBar.setTitle(getText(R.string.text_option));
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        String heroShared = "heroShared";
-        sharedPreferences =getSharedPreferences(heroShared,MODE_PRIVATE);
-        heroClass = sharedPreferences.getInt("heroClass",R.string.class_native);
+        sharedPreferences = getSharedPreferences(heroShared, MODE_PRIVATE);
+        heroClass = sharedPreferences.getInt("heroClass", R.string.class_native);
 
         joinComponentsWithVariable();
 
@@ -46,12 +46,13 @@ public class OptionActivity extends AppCompatActivity {
         enableSelectComponent();
     }
 
-    private void enableSelectComponent(){
-        if (heroClass == R.string.class_native){
+    private void enableSelectComponent() {
+        if (heroClass == R.string.class_native) {
             buttonselectClass.setEnabled(true);
-
-        }else {
+            tvClass.setVisibility(View.GONE);
+        } else {
             buttonselectClass.setEnabled(false);
+            tvClass.setVisibility(View.VISIBLE);
         }
         spinnerlistClass.setVisibility(View.GONE);
         buttonaccept.setVisibility(View.GONE);
@@ -85,18 +86,10 @@ public class OptionActivity extends AppCompatActivity {
 
     /**
      * Metoda automatycznie włączana gdy użytkownik naciśnie przycisk back telefonu.
-     * W tej aplikacji dodatkowo sprawdzam czy użytkownik na pewno chce się cofnąć czy może przez
-     * przypadek kliknął w przycisk back. Użytkownik na potwierdzenie wyboru ma 3s. Po pierwszym
-     * kliknięciu użytkownik dostaje infromacje o dalszym kroku, gdy chce na prawdę się cofnąć.
      */
     @Override
     public void onBackPressed() {
-        Toast.makeText(getApplicationContext(), getText(R.string.text_allert_back), Toast.LENGTH_SHORT).show();
-        if (System.currentTimeMillis() - firstClickBack <= 3000) {
-            super.onBackPressed();
-        } else {
-            firstClickBack = System.currentTimeMillis();
-        }
+        super.onBackPressed();
     }
 
     public void enableSelectClass(View view) {
@@ -104,20 +97,26 @@ public class OptionActivity extends AppCompatActivity {
         buttonaccept.setVisibility(View.VISIBLE);
     }
 
-    private void saveChooseClass(String newHeroClass, int newHeroClassID){
+    private void saveChooseClass(String newHeroClass, int newHeroClassID) {
         tvClass.setText(newHeroClass);
         buttonselectClass.setEnabled(false);
         buttonaccept.setVisibility(View.GONE);
         spinnerlistClass.setVisibility(View.GONE);
-        Toast.makeText(getApplicationContext(),getResources().getText(R.string.text_selectedClass),Toast.LENGTH_LONG).show();
-        if (newHeroClass.equals(getString(R.string.class_bard))) newHeroClassID = R.string.class_bard;
-        else if (newHeroClass.equals(getString(R.string.class_hunter))) newHeroClassID = R.string.class_hunter;
-        else if (newHeroClass.equals(getString(R.string.class_lord))) newHeroClassID = R.string.class_lord;
-        else if (newHeroClass.equals(getString(R.string.class_mage))) newHeroClassID = R.string.class_mage;
-        else if (newHeroClass.equals(getString(R.string.class_merchant))) newHeroClassID = R.string.class_merchant;
-        else if (newHeroClass.equals(getString(R.string.class_warrior))) newHeroClassID = R.string.class_warrior;
+        Toast.makeText(getApplicationContext(), getResources().getText(R.string.text_selectedClass), Toast.LENGTH_LONG).show();
+        if (newHeroClass.equals(getString(R.string.class_bard)))
+            newHeroClassID = R.string.class_bard;
+        else if (newHeroClass.equals(getString(R.string.class_hunter)))
+            newHeroClassID = R.string.class_hunter;
+        else if (newHeroClass.equals(getString(R.string.class_lord)))
+            newHeroClassID = R.string.class_lord;
+        else if (newHeroClass.equals(getString(R.string.class_mage)))
+            newHeroClassID = R.string.class_mage;
+        else if (newHeroClass.equals(getString(R.string.class_merchant)))
+            newHeroClassID = R.string.class_merchant;
+        else if (newHeroClass.equals(getString(R.string.class_warrior)))
+            newHeroClassID = R.string.class_warrior;
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("heroClass",newHeroClassID);
+        editor.putInt("heroClass", newHeroClassID);
         editor.apply();
     }
 
@@ -126,14 +125,14 @@ public class OptionActivity extends AppCompatActivity {
         final int newHeroClassID = R.string.class_native;
         new AlertDialog.Builder(this)
                 .setTitle(getText(R.string.text_confirm))//tytuł
-                .setMessage(getString(R.string.text_areYouSureThisClass)+ " " + newHeroClass +"?" +
-                getString(R.string.text_laterChangeIsNotPossible))
+                .setMessage(getString(R.string.text_areYouSureThisClass) + " " + newHeroClass + " ? " +
+                        getString(R.string.text_laterChangeIsNotPossible))
                 //opis
                 .setPositiveButton(getText(R.string.text_yes), new DialogInterface.OnClickListener() {
-                    //kliknięcie tak usuwa element
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        saveChooseClass(newHeroClass,newHeroClassID);
+                        saveChooseClass(newHeroClass, newHeroClassID);
+                        tvClass.setVisibility(View.VISIBLE);
                     }
                 })
                 .setNegativeButton(getText(R.string.text_no), null)//kliknięcie NIE nic nie robi
@@ -141,4 +140,33 @@ public class OptionActivity extends AppCompatActivity {
 
     }
 
+    private void deleteAllProgress() {
+        SharedPreferences sharedPreferences = getSharedPreferences(heroShared, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("heroClass", R.string.class_native);
+        editor.putFloat("strength", 0);
+        editor.putFloat("endurance", 0);
+        editor.putFloat("dexterity", 0);
+        editor.putFloat("intelligence", 0);
+        editor.putFloat("wisdom", 0);
+        editor.putFloat("charisma", 0);
+        editor.apply();
+        heroClass = sharedPreferences.getInt("heroClass", R.string.class_native);
+        enableSelectComponent();
+    }
+
+    public void restartAll(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle(getText(R.string.text_confirm))//tytuł
+                .setMessage(getString(R.string.text_areYouSureRestart))
+                //opis
+                .setPositiveButton(getText(R.string.text_yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteAllProgress();
+                    }
+                })
+                .setNegativeButton(getText(R.string.text_no), null)//kliknięcie NIE nic nie robi
+                .show();//pokaż
+    }
 }
