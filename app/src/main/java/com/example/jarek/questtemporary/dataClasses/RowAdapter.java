@@ -19,6 +19,7 @@ import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.activityClasses.QuestPanelMain;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Observable;
 
@@ -119,8 +120,10 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
         if (!quest.parseQuestDateWithCurrDate()) {
             holder.confirm.setEnabled(false);
+            holder.confirm.setBackground(getContext().getResources().getDrawable(R.drawable.block_done_button));
         } else {
             holder.confirm.setEnabled(true);
+            holder.confirm.setBackground(getContext().getResources().getDrawable(R.drawable.done_button));
         }
 
         /**
@@ -169,6 +172,12 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         }else{
             row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundGray));
         }
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH,-1);
+        if(quest.getTimeToLiveDate().compareTo(calendar) < 0){
+            row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundOrange));
+        }
+
 
         return row;
     }

@@ -9,6 +9,7 @@
 
     <color name="color_backgroundWhite">#FFFFFF</color>
     <color name="color_backgroundGray">#CCCCCC</color>
+    <color name="color_backgroundOrange">#FF4C00</color>
 
     <color name="color_intelligence">#00BFFF</color>
     <color name="color_wisdom">#000080</color>
