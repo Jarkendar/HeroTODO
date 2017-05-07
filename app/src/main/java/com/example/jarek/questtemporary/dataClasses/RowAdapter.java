@@ -173,7 +173,10 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
             row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundGray));
         }
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH,-1);
+        calendar.set(Calendar.HOUR,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.MILLISECOND,0);
+
         if(quest.getTimeToLiveDate().compareTo(calendar) < 0){
             row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundOrange));
         }
