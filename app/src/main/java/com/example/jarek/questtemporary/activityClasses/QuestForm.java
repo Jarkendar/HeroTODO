@@ -229,22 +229,6 @@ public class QuestForm extends AppCompatActivity {
     }
 
     /**
-     * Metoda automatycznie włączana gdy użytkownik naciśnie przycisk back telefonu.
-     * W tej aplikacji dodatkowo sprawdzam czy użytkownik na pewno chce się cofnąć czy może przez
-     * przypadek kliknął w przycisk back. Użytkownik na potwierdzenie wyboru ma 3s. Po pierwszym
-     * kliknięciu użytkownik dostaje infromacje o dalszym kroku, gdy chce na prawdę się cofnąć.
-     */
-    @Override
-    public void onBackPressed() {
-        Toast.makeText(getApplicationContext(), getText(R.string.text_allert_back), Toast.LENGTH_SHORT).show();
-        if (System.currentTimeMillis() - firstClickBack <= 3000) {
-            super.onBackPressed();
-        } else {
-            firstClickBack = System.currentTimeMillis();
-        }
-    }
-
-    /**
      * Metoda łączy elementy interfejsu użytkownika ze zmiennymi wykorzystywanymi w kodzie.
      */
     private void joinComponentsWithVariable() {

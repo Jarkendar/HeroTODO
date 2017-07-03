@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -178,11 +179,16 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         calendar.set(Calendar.MILLISECOND,0);
 
         if(quest.getTimeToLiveDate().compareTo(calendar) < 0){
+            Log.d("+++++++++", quest.getTimeToLiveDate().toString()+" : "+calendar.toString()+" = "+quest.getTimeToLiveDate().compareTo(calendar));
             row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundOrange));
         }
 
 
         return row;
+    }
+
+    public void switchRowColor(int rowNumber){
+
     }
 
     /**
