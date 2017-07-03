@@ -91,16 +91,13 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
         //wyświetlanie danych
         holder.description.setText(quest.getDescription());
-        holder.dateField.setText(quest.getDateFormatString());
 
         String dateText = quest.getDateFormatString() + "\n";
 
         if (quest.isRepeatable()) {
-            if (quest.getRepeatInterval()==1) {
-                dateText = dateText + getContext().getText(R.string.text_repeatEvery)
-                        + " " + quest.getRepeatInterval()
-                        + " " + getContext().getText(R.string.text_day);
-            }else{
+            if (quest.getRepeatInterval() == 1) {
+                dateText = dateText + getContext().getText(R.string.text_repeatEvery) + " " + getContext().getText(R.string.text_day);
+            } else {
                 dateText = dateText + getContext().getText(R.string.text_repeatEvery)
                         + " " + quest.getRepeatInterval()
                         + " " + getContext().getText(R.string.text_days);
@@ -147,7 +144,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
             @Override
             public void onClick(View view) {
                 makeAnimClick(view);
-                Toast.makeText(context,context.getString(R.string.text_success),Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.text_success), Toast.LENGTH_SHORT).show();
                 order = "succeed;" + position;
                 notifyObservers();
             }
@@ -161,34 +158,35 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
             @Override
             public void onClick(View view) {
                 makeAnimClick(view);
-                Toast.makeText(context,context.getString(R.string.text_fail),Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.text_fail), Toast.LENGTH_SHORT).show();
                 order = "failed;" + position;
                 notifyObservers();
             }
         });
 
         //kolorowanie wierszy parzystych na biało, nieparzystych na szaro
-        if (position%2 == 0){
-            row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundWhite));
-        }else{
-            row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundGray));
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR,0);
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.MILLISECOND,0);
 
-        if(quest.getTimeToLiveDate().compareTo(calendar) < 0){
-            Log.d("+++++++++", quest.getTimeToLiveDate().toString()+" : "+calendar.toString()+" = "+quest.getTimeToLiveDate().compareTo(calendar));
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        if (quest.getTimeToLiveDate().compareTo(calendar) == -1) {
             row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundOrange));
+        } else if (quest.getTimeToLiveDate().compareTo(calendar) == 0) {
+            row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundBlue));
+        }else{
+            if (position % 2 == 0) {
+                row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundWhite));
+            } else {
+                row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundGray));
+            }
         }
+        Log.d("+++++++++", quest.getTimeToLiveDate().toString() + " : " + calendar.toString() + " = " + quest.getTimeToLiveDate().compareTo(calendar));
 
 
         return row;
-    }
-
-    public void switchRowColor(int rowNumber){
-
     }
 
     /**
