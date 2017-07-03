@@ -270,11 +270,11 @@
     </string-array>
 
     <string-array name="level_Hierarchy">
-        <item>Wyzwanie +5.0%</item>
-        <item>Trudny +3.0%</item>
-        <item>Normalny +2.0%</item>
-        <item>Łatwy +1.0%</item>
-        <item>Dziecinny +0.5%</item>
-        <item>Niemożliwy +100.0%</item>
+        <item>Wyzwanie +30.0%</item>
+        <item>Trudny +15.0%</item>
+        <item>Normalny +10.0%</item>
+        <item>Łatwy +5.0%</item>
+        <item>Dziecinny +1.0%</item>
+        <item>Niemożliwy +500.0%</item>
     </string-array>
 </resources>

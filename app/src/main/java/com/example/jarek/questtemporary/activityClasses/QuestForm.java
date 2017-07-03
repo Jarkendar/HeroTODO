@@ -358,19 +358,26 @@ public class QuestForm extends AppCompatActivity {
     private double getExperience(String nameMul) {
         String[] params = getResources().getStringArray(R.array.level_Hierarchy);
         if (nameMul.equals(params[0]))
-            return Double.parseDouble(params[0].substring(params[0].length() - 4, params[0].length() - 1));
+            return getNumberFromDifficultyLevel(params[0]);
         if (nameMul.equals(params[1]))
-            return Double.parseDouble(params[1].substring(params[1].length() - 4, params[1].length() - 1));
+            return getNumberFromDifficultyLevel(params[1]);
         if (nameMul.equals(params[2]))
-            return Double.parseDouble(params[2].substring(params[2].length() - 4, params[2].length() - 1));
+            return getNumberFromDifficultyLevel(params[2]);
         if (nameMul.equals(params[3]))
-            return Double.parseDouble(params[3].substring(params[3].length() - 4, params[3].length() - 1));
+            return getNumberFromDifficultyLevel(params[3]);
         if (nameMul.equals(params[4]))
-            return Double.parseDouble(params[4].substring(params[4].length() - 4, params[4].length() - 1));
+            return getNumberFromDifficultyLevel(params[4]);
         if (nameMul.equals(params[5]))
-            return Double.parseDouble(params[5].substring(params[5].length() - 6, params[5].length() - 1));
+            return getNumberFromDifficultyLevel(params[5]);
         return 0.0;
     }
+
+
+    private double getNumberFromDifficultyLevel(String difficultyLevel){
+        String[] tmp = difficultyLevel.split("\\+");
+        return Double.parseDouble(tmp[1].substring(0,tmp[1].length()-1));
+    }
+
 
     /**
      * Metoda czyszcząca pola, powrót do ustawień domyślnych.
