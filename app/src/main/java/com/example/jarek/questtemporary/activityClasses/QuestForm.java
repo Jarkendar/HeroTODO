@@ -68,10 +68,10 @@ public class QuestForm extends AppCompatActivity {
 
         setListeners();
 
-        buttonDate.setText(dayDate+"-"+(monthDate+1)+"-"+yearDate);
+        buttonDate.setText(dayDate + "-" + (monthDate + 1) + "-" + yearDate);
     }
 
-    private void setListeners(){
+    private void setListeners() {
         buttonDate.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -101,15 +101,15 @@ public class QuestForm extends AppCompatActivity {
             }
         });
 
-        spinnerexperienceMultiplier.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        spinnerexperienceMultiplier.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String[] params = getResources().getStringArray(R.array.level_Hierarchy);
-                if (spinnerexperienceMultiplier.getSelectedItem().toString().equals(params[5])){
+                if (spinnerexperienceMultiplier.getSelectedItem().toString().equals(params[5])) {
                     checkBoxRepeatable.setText(getText(R.string.text_no));
                     checkBoxRepeatable.setChecked(false);
                     checkBoxRepeatable.setEnabled(false);
-                }else {
+                } else {
                     checkBoxRepeatable.setEnabled(true);
                 }
             }
@@ -120,7 +120,7 @@ public class QuestForm extends AppCompatActivity {
         });
     }
 
-    private void setDefaultDate(){
+    private void setDefaultDate() {
         Calendar calendar = Calendar.getInstance();
         yearDate = calendar.get(Calendar.YEAR);
         monthDate = calendar.get(Calendar.MONTH);
@@ -129,8 +129,8 @@ public class QuestForm extends AppCompatActivity {
 
     @Override
     protected Dialog onCreateDialog(int id) {
-        if (id == DIALOG_ID){
-            return new DatePickerDialog(this,datePickerListener,yearDate,monthDate,dayDate);
+        if (id == DIALOG_ID) {
+            return new DatePickerDialog(this, datePickerListener, yearDate, monthDate, dayDate);
         }
         return null;
     }
@@ -141,25 +141,25 @@ public class QuestForm extends AppCompatActivity {
             yearDate = year;
             monthDate = month;
             dayDate = day;
-            buttonDate.setText(dayDate+"-"+(monthDate+1)+"-"+yearDate);
+            buttonDate.setText(dayDate + "-" + (monthDate + 1) + "-" + yearDate);
         }
     };
 
-    private void makeDatePickerDialog (){
+    private void makeDatePickerDialog() {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 chooseDate = Calendar.getInstance();
                 chooseDate.set(Calendar.YEAR, i);
-                chooseDate.set(Calendar.MONTH,i1);
-                chooseDate.set(Calendar.DAY_OF_MONTH,i2);
+                chooseDate.set(Calendar.MONTH, i1);
+                chooseDate.set(Calendar.DAY_OF_MONTH, i2);
             }
         };
         Calendar calendar = Calendar.getInstance();
         int a = calendar.get(Calendar.YEAR);
-        int b =calendar.get(Calendar.MONTH);
-        int c =calendar.get(Calendar.DAY_OF_MONTH);
-        datePickerDialog = new DatePickerDialog(getApplicationContext(),dateSetListener,a,b,c);
+        int b = calendar.get(Calendar.MONTH);
+        int c = calendar.get(Calendar.DAY_OF_MONTH);
+        datePickerDialog = new DatePickerDialog(getApplicationContext(), dateSetListener, a, b, c);
     }
 
     /**
@@ -200,7 +200,7 @@ public class QuestForm extends AppCompatActivity {
             yearDate = bundle.getInt("yearDate");
             monthDate = bundle.getInt("monthDate");
             dayDate = bundle.getInt("dayDate");
-            buttonDate.setText(dayDate+"-"+(monthDate+1)+"-"+yearDate);
+            buttonDate.setText(dayDate + "-" + (monthDate + 1) + "-" + yearDate);
             checkBoxRepeatable.setChecked(bundle.getBoolean("repeatable"));
             if (checkBoxRepeatable.isChecked()) {
                 checkBoxRepeatable.setText(getText(R.string.text_yes));
@@ -249,7 +249,7 @@ public class QuestForm extends AppCompatActivity {
         editTextdescription = (EditText) findViewById(R.id.editText_Description);
         editTextinterval = (EditText) findViewById(R.id.editText_Interval);
 
-        buttonDate = (Button)findViewById(R.id.button_DateDialog);
+        buttonDate = (Button) findViewById(R.id.button_DateDialog);
         buttonaddQuest = (Button) findViewById(R.id.button_AddQuest);
 
         spinnerexperienceMultiplier = (Spinner) findViewById(R.id.spinner_Level);
@@ -348,10 +348,10 @@ public class QuestForm extends AppCompatActivity {
         calendar.set(Calendar.YEAR, yearDate);
         calendar.set(Calendar.MONTH, monthDate);
         calendar.set(Calendar.DAY_OF_MONTH, dayDate);
-        calendar.set(Calendar.HOUR,0);
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.SECOND,0);
-        calendar.set(Calendar.MILLISECOND,0);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         return calendar;
     }
 
@@ -372,10 +372,9 @@ public class QuestForm extends AppCompatActivity {
         return 0.0;
     }
 
-
-    private double getNumberFromDifficultyLevel(String difficultyLevel){
+    private double getNumberFromDifficultyLevel(String difficultyLevel) {
         String[] tmp = difficultyLevel.split("\\+");
-        return Double.parseDouble(tmp[1].substring(0,tmp[1].length()-1));
+        return Double.parseDouble(tmp[1].substring(0, tmp[1].length() - 1));
     }
 
 
@@ -386,7 +385,7 @@ public class QuestForm extends AppCompatActivity {
         editTextdescription.setText("");
         editTextdescription.setHint("");
         setDefaultDate();
-        buttonDate.setText(dayDate+"-"+(monthDate+1)+"-"+yearDate);
+        buttonDate.setText(dayDate + "-" + (monthDate + 1) + "-" + yearDate);
         checkBoxRepeatable.setChecked(false);
         editTextinterval.setText("");
         editTextinterval.setHint(R.string.hint_noEnable);

@@ -36,9 +36,10 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
     /**
      * Konstruktor klasy RowAdapter.
-     * @param context obiekt łącznika pomiędzy plikami xml, a kodem java
+     *
+     * @param context          obiekt łącznika pomiędzy plikami xml, a kodem java
      * @param layoutResourceID id layoutu podłączonego do adaptera
-     * @param data lista zadań
+     * @param data             lista zadań
      */
     public RowAdapter(Context context, int layoutResourceID, LinkedList<Quest> data) {
         super(context, layoutResourceID, data);
@@ -50,6 +51,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
     /**
      * Setter listy zadań.
+     *
      * @param data lista zadań
      */
     public void setData(LinkedList<Quest> data) {
@@ -59,9 +61,10 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
     /**
      * Metoda obsługująca każdy wiersz list view do którego adapter jest podłączony
-     * @param position pozycja wiersza, int reprezentujący numer wiersza od 0
+     *
+     * @param position    pozycja wiersza, int reprezentujący numer wiersza od 0
      * @param convertView widok wiersza
-     * @param parent rodzic wiersza
+     * @param parent      rodzic wiersza
      * @return View wiersza
      */
     @NonNull
@@ -176,7 +179,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
             row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundOrange));
         } else if (quest.getTimeToLiveDate().compareTo(calendar) == 0) {
             row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundBlue));
-        }else{
+        } else {
             if (position % 2 == 0) {
                 row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundWhite));
             } else {
@@ -191,6 +194,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
     /**
      * Metoda dodająca obserwatora.
+     *
      * @param o obiekt obserwatora
      */
     @Override
@@ -200,6 +204,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
     /**
      * Metoda usuwająca obserwatora.
+     *
      * @param o obiekt obserwatora
      */
     @Override
@@ -219,10 +224,11 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
     /**
      * Metoda odtwarzająca animacje zmiejsznia się okienka View o 10% w czasie 100ms.
+     *
      * @param view obiekt na którym ma być wykonana animacja
      */
-    private void makeAnimClick(View view){
-        Animation animation = AnimationUtils.loadAnimation(context,R.anim.anim_click);
+    private void makeAnimClick(View view) {
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.anim_click);
         view.startAnimation(animation);
     }
 
