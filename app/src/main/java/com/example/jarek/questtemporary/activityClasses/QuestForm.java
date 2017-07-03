@@ -348,6 +348,9 @@ public class QuestForm extends AppCompatActivity {
         calendar.set(Calendar.YEAR, yearDate);
         calendar.set(Calendar.MONTH, monthDate);
         calendar.set(Calendar.DAY_OF_MONTH, dayDate);
+        calendar.set(Calendar.HOUR,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.MILLISECOND,0);
         return calendar;
     }
 
