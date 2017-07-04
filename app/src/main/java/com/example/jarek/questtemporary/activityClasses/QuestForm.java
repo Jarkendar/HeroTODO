@@ -257,15 +257,15 @@ public class QuestForm extends AppCompatActivity {
 
     private void setComponentsColor(){
         findViewById(R.id.ScrollViewQuestForm).setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
-        tvdescription.setTextColor(getResources().getColor(R.color.color_Black));
-        tvendDate.setTextColor(getResources().getColor(R.color.color_Black));
-        tvcorrectField.setTextColor(getResources().getColor(R.color.color_Black));
-        tvinterval.setTextColor(getResources().getColor(R.color.color_Black));
-        tvattributes.setTextColor(getResources().getColor(R.color.color_Black));
+        tvdescription.setTextColor(getResources().getColor(R.color.color_Write));
+        tvendDate.setTextColor(getResources().getColor(R.color.color_Write));
+        tvcorrectField.setTextColor(getResources().getColor(R.color.color_Write));
+        tvinterval.setTextColor(getResources().getColor(R.color.color_Write));
+        tvattributes.setTextColor(getResources().getColor(R.color.color_Write));
 
-        editTextdescription.setTextColor(getResources().getColor(R.color.color_Black));
+        editTextdescription.setTextColor(getResources().getColor(R.color.color_Write));
         editTextdescription.setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
-        editTextinterval.setTextColor(getResources().getColor(R.color.color_Black));
+        editTextinterval.setTextColor(getResources().getColor(R.color.color_Write));
         editTextinterval.setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
     }
 
@@ -281,7 +281,7 @@ public class QuestForm extends AppCompatActivity {
             editTextdescription.setHint(R.string.hint_fieldMustBeFill);
             return false;
         } else {
-            tvdescription.setTextColor(getResources().getColor(R.color.color_Black));
+            tvdescription.setTextColor(getResources().getColor(R.color.color_Write));
             return true;
         }
     }
@@ -298,7 +298,7 @@ public class QuestForm extends AppCompatActivity {
             editTextinterval.setHint(R.string.hint_failedData);
             return false;
         } else {
-            tvinterval.setTextColor(getResources().getColor(R.color.color_Black));
+            tvinterval.setTextColor(getResources().getColor(R.color.color_Write));
             return true;
         }
     }
@@ -317,7 +317,7 @@ public class QuestForm extends AppCompatActivity {
             tvattributes.setTextColor(getResources().getColor(R.color.color_Red));
             return false;
         } else {
-            tvattributes.setTextColor(getResources().getColor(R.color.color_Black));
+            tvattributes.setTextColor(getResources().getColor(R.color.color_Write));
             return true;
         }
     }

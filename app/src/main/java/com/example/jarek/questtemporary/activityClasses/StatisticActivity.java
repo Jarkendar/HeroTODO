@@ -60,7 +60,7 @@ public class StatisticActivity extends AppCompatActivity {
         Canvas canvas = new Canvas(bitmap);
         Paint painter = new Paint();
 
-        painter.setColor(getResources().getColor(R.color.color_Black));
+        painter.setColor(getResources().getColor(R.color.color_Write));
 
         painter.setAntiAlias(true);//włączenie wygładzania krawędzi
         //przekątne
@@ -288,12 +288,12 @@ public class StatisticActivity extends AppCompatActivity {
     }
 
     private void setComponentsColor() {
-        textViewStrength.setTextColor(getResources().getColor(R.color.color_Black));
-        textViewEndurance.setTextColor(getResources().getColor(R.color.color_Black));
-        textViewDexterity.setTextColor(getResources().getColor(R.color.color_Black));
-        textViewIntelligence.setTextColor(getResources().getColor(R.color.color_Black));
-        textViewWisdom.setTextColor(getResources().getColor(R.color.color_Black));
-        textViewCharisma.setTextColor(getResources().getColor(R.color.color_Black));
+        textViewStrength.setTextColor(getResources().getColor(R.color.color_Write));
+        textViewEndurance.setTextColor(getResources().getColor(R.color.color_Write));
+        textViewDexterity.setTextColor(getResources().getColor(R.color.color_Write));
+        textViewIntelligence.setTextColor(getResources().getColor(R.color.color_Write));
+        textViewWisdom.setTextColor(getResources().getColor(R.color.color_Write));
+        textViewCharisma.setTextColor(getResources().getColor(R.color.color_Write));
     }
 
 }

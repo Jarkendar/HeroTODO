@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="color_Red">#FF0000</color>
-    <color name="color_Black">#000000</color>
+    <color name="color_Write">#000000</color>
     <color name="color_Blue">#3f3fff</color>
 
     <color name="color_backgroundWhite">#FFFFFF</color>
@@ -18,4 +18,20 @@
     <color name="color_strength">#FF0000</color>
     <color name="color_endurance">#FF8C00</color>
     <color name="color_charisma">#9400D3</color>
+
+    <color name="dark_color_Red">#FF0000</color>
+    <color name="dark_color_Write">#ffffff</color>
+    <color name="dark_color_Blue">#7f7fff</color>
+
+    <color name="dark_color_backgroundWhite">#000000</color>
+    <color name="dark_color_backgroundGray">#333333</color>
+    <color name="dark_color_backgroundOrange">#b53600</color>
+    <color name="dark_color_backgroundBlue">#00577c</color>
+
+    <color name="dark_color_intelligence">#00BFFF</color>
+    <color name="dark_color_wisdom">#000080</color>
+    <color name="dark_color_dexterity">#006400</color>
+    <color name="dark_color_strength">#FF0000</color>
+    <color name="dark_color_endurance">#FF8C00</color>
+    <color name="dark_color_charisma">#9400D3</color>
 </resources>

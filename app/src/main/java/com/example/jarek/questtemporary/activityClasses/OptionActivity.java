@@ -177,7 +177,7 @@ public class OptionActivity extends AppCompatActivity {
     }
 
     private void setComponentsColor(){
-        tvClass.setTextColor(getResources().getColor(R.color.color_Black));
+        tvClass.setTextColor(getResources().getColor(R.color.color_Write));
         findViewById(R.id.ScrollViewOption).setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
     }
 }

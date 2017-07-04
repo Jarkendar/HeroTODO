@@ -24,7 +24,7 @@
                 android:layout_weight="2"
                 android:gravity="center"
                 android:text="@string/class_native"
-                android:textColor="@color/color_Black"
+                android:textColor="@color/color_Write"
                 android:visibility="gone" />
 
             <Button

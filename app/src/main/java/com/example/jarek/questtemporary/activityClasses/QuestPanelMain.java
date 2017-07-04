@@ -54,7 +54,7 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
 
         quests = new LinkedList<>();
 
-        int textColor = getResources().getColor(R.color.color_Black);
+        int textColor = getResources().getColor(R.color.color_Write);
         int todayQuestColor = getResources().getColor(R.color.color_backgroundBlue);
         int endTimeQuestColor = getResources().getColor(R.color.color_backgroundOrange);
         int evenQuestColor = getResources().getColor(R.color.color_backgroundWhite);
@@ -122,9 +122,9 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
     }
 
     private void setComponentsColor() {
-        tClassLevel.setTextColor(getResources().getColor(R.color.color_Black));
-        tClassName.setTextColor(getResources().getColor(R.color.color_Black));
-        tExperience.setTextColor(getResources().getColor(R.color.color_Black));
+        tClassLevel.setTextColor(getResources().getColor(R.color.color_Write));
+        tClassName.setTextColor(getResources().getColor(R.color.color_Write));
+        tExperience.setTextColor(getResources().getColor(R.color.color_Write));
         findViewById(R.id.RelativeLayoutMain).setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
     }
 

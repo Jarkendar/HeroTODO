@@ -1,16 +1,13 @@
 package com.example.jarek.questtemporary.activityClasses;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.jarek.questtemporary.R;
-import com.example.jarek.questtemporary.activityClasses.QuestPanelMain;
 
 public class launcher extends AppCompatActivity {
 
@@ -42,7 +39,7 @@ public class launcher extends AppCompatActivity {
     }
 
     private void setComponentsColor(){
-        ((TextView)findViewById(R.id.textView_author)).setTextColor(getResources().getColor(R.color.color_Black));
+        ((TextView)findViewById(R.id.textView_author)).setTextColor(getResources().getColor(R.color.color_Write));
         ((ImageView)findViewById(R.id.imageView_launcher)).setImageResource(R.drawable.main_picture);
         findViewById(R.id.RelativeLayoutLauncher).setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
     }
