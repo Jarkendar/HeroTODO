@@ -290,6 +290,7 @@ public class StatisticActivity extends AppCompatActivity {
 
     private void setComponentsColor() {
         ColorManager colorManager = new ColorManager(getApplicationContext());
+        findViewById(R.id.ScrollViewStatistic).setBackgroundColor(colorManager.getBackgroundColor());
         textViewStrength.setTextColor(colorManager.getTextColor());
         textViewEndurance.setTextColor(colorManager.getTextColor());
         textViewDexterity.setTextColor(colorManager.getTextColor());

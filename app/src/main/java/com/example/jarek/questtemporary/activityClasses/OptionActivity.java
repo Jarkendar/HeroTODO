@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,11 +22,13 @@ public class OptionActivity extends AppCompatActivity {
     private int heroClass;
     private SharedPreferences sharedPreferences;
 
-    private TextView tvClass;
+    private TextView tvClass, tvColorTheme;
     private Button buttonselectClass, buttonaccept;
-    private Spinner spinnerlistClass;
+    private Spinner spinnerlistClass, spinnerColorTheme;
 
     private final String heroShared = "heroShared";
+    private final String sharedColor = "colorTheme";
+    private final String colorThemeKey = "colorThemeKey";
 
 
     @Override
@@ -45,6 +48,39 @@ public class OptionActivity extends AppCompatActivity {
 
         tvClass.setText(getString(heroClass));
         enableSelectComponent();
+
+        SharedPreferences sharedPreferences = getSharedPreferences(sharedColor,MODE_PRIVATE);
+
+        spinnerColorTheme.setSelection(sharedPreferences.getInt("position",0));
+
+        spinnerColorTheme.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                SharedPreferences sharedPreferences = getSharedPreferences(sharedColor,MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                switch (position){
+                    case 0:{
+                        editor.putString(colorThemeKey,"default");
+                        editor.putInt("position",0);
+                        editor.apply();
+                        break;
+                    }
+                    case 1:{
+                        editor.putString(colorThemeKey,"dark");
+                        editor.putInt("position",1);
+                        editor.apply();
+                        break;
+                    }
+                }
+                ((TextView) adapterView.getChildAt(0)).setTextColor(new ColorManager(getApplicationContext()).getTextColor());
+                onResume();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
     }
 
     private void enableSelectComponent() {
@@ -61,11 +97,13 @@ public class OptionActivity extends AppCompatActivity {
 
     private void joinComponentsWithVariable() {
         tvClass = (TextView) findViewById(R.id.textView_selectClass);
+        tvColorTheme = (TextView) findViewById(R.id.textView_colorTheme);
 
         buttonselectClass = (Button) findViewById(R.id.button_selectClass);
         buttonaccept = (Button) findViewById(R.id.button_accept);
 
         spinnerlistClass = (Spinner) findViewById(R.id.spinner_Class);
+        spinnerColorTheme = (Spinner) findViewById(R.id.spinner_colorTheme);
     }
 
     /**
@@ -180,6 +218,7 @@ public class OptionActivity extends AppCompatActivity {
     private void setComponentsColor(){
         ColorManager colorManager = new ColorManager(getApplicationContext());
         tvClass.setTextColor(colorManager.getTextColor());
+        tvColorTheme.setTextColor(colorManager.getTextColor());
         findViewById(R.id.ScrollViewOption).setBackgroundColor(colorManager.getBackgroundColor());
     }
 }

@@ -41,6 +41,7 @@
     <string name="text_fail">Nie podołałeś zadaniu.</string>
     <string name="text_author">by Jarosław Skrzypczak</string>
     <string name="text_confirmDelete">Zadanie zostało usunięte.</string>
+    <string name="text_colorTheme">Motyw kolorów:</string>
 
     <string name="help_aboutApp">O aplikacji</string>
     <string name="category_description_aboutApp">Aplikacja powstała, aby trochę urozmaicić nudne
@@ -277,5 +278,10 @@
         <item>Łatwy +5.0%</item>
         <item>Dziecinny +1.0%</item>
         <item>Niemożliwy +500.0%</item>
+    </string-array>
+
+    <string-array name="color_Themes">
+        <item>Domyślny</item>
+        <item>Ciemny</item>
     </string-array>
 </resources>

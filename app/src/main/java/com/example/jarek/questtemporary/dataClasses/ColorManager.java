@@ -11,6 +11,7 @@ import com.example.jarek.questtemporary.R;
  */
 
 public class ColorManager {
+    private final String sharedColor = "colorTheme";
     private final String colorThemeKey = "colorThemeKey";
     private int textColor;
     private int todayQuestColor;
@@ -23,7 +24,7 @@ public class ColorManager {
     private String imageColorName;
 
     public ColorManager(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("colorTheme",Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(sharedColor,Context.MODE_PRIVATE);
         readIDColors(sharedPreferences.getString(colorThemeKey, "default"),context);
     }
 

@@ -113,6 +113,7 @@ public class QuestForm extends AppCompatActivity {
                 } else {
                     checkBoxRepeatable.setEnabled(true);
                 }
+                ((TextView) adapterView.getChildAt(0)).setTextColor(new ColorManager(getApplicationContext()).getTextColor());
             }
 
             @Override
@@ -264,10 +265,16 @@ public class QuestForm extends AppCompatActivity {
         tvcorrectField.setTextColor(colorManager.getTextColor());
         tvinterval.setTextColor(colorManager.getTextColor());
         tvattributes.setTextColor(colorManager.getTextColor());
+        ((TextView)findViewById(R.id.textView_Level)).setTextColor(colorManager.getTextColor());
+        ((TextView)findViewById(R.id.textView_Repeatable)).setTextColor(colorManager.getTextColor());
 
         editTextdescription.setTextColor(colorManager.getTextColor());
+        editTextdescription.setHighlightColor(colorManager.getTextColor());
+        editTextdescription.setHintTextColor(colorManager.getTextColor());
         editTextdescription.setBackgroundColor(colorManager.getBackgroundColor());
         editTextinterval.setTextColor(colorManager.getTextColor());
+        editTextinterval.setHighlightColor(colorManager.getTextColor());
+        editTextinterval.setHintTextColor(colorManager.getTextColor());
         editTextinterval.setBackgroundColor(colorManager.getBackgroundColor());
     }
 
@@ -277,7 +284,6 @@ public class QuestForm extends AppCompatActivity {
      * @return true jeśli jest wypełnione, false jeśli jest puste
      */
     private boolean checkDescriptionField() {
-        ColorManager colorManager = new ColorManager(getApplicationContext());
         if (editTextdescription.getText().toString().length() == 0) {
             tvdescription.setTextColor(getResources().getColor(R.color.color_Red));
             editTextdescription.setText("");
@@ -295,7 +301,6 @@ public class QuestForm extends AppCompatActivity {
      * @return true jeśli nie jest puste oraz jest większe od zera, false w przeciwnym razie
      */
     private boolean checkIntervalField() {
-        ColorManager colorManager = new ColorManager(getApplicationContext());
         if (checkBoxRepeatable.isChecked() && (editTextinterval.getText().toString().length() == 0 || Integer.parseInt(editTextinterval.getText().toString()) <= 0)) {
             tvinterval.setTextColor(getResources().getColor(R.color.color_Red));
             editTextinterval.setText("");
