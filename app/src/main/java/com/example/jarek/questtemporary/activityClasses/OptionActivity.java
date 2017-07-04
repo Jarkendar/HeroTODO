@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jarek.questtemporary.R;
+import com.example.jarek.questtemporary.dataClasses.ColorManager;
 
 public class OptionActivity extends AppCompatActivity {
 
@@ -177,7 +178,8 @@ public class OptionActivity extends AppCompatActivity {
     }
 
     private void setComponentsColor(){
-        tvClass.setTextColor(getResources().getColor(R.color.color_Write));
-        findViewById(R.id.ScrollViewOption).setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
+        ColorManager colorManager = new ColorManager(getApplicationContext());
+        tvClass.setTextColor(colorManager.getTextColor());
+        findViewById(R.id.ScrollViewOption).setBackgroundColor(colorManager.getBackgroundColor());
     }
 }

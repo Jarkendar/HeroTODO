@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jarek.questtemporary.R;
+import com.example.jarek.questtemporary.dataClasses.ColorManager;
 
 public class launcher extends AppCompatActivity {
 
@@ -38,10 +39,15 @@ public class launcher extends AppCompatActivity {
         thread.start();
     }
 
-    private void setComponentsColor(){
-        ((TextView)findViewById(R.id.textView_author)).setTextColor(getResources().getColor(R.color.color_Write));
-        ((ImageView)findViewById(R.id.imageView_launcher)).setImageResource(R.drawable.main_picture);
-        findViewById(R.id.RelativeLayoutLauncher).setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
+    private void setComponentsColor() {
+        ColorManager colorManager = new ColorManager(getApplicationContext());
+        ((TextView) findViewById(R.id.textView_author)).setTextColor(colorManager.getTextColor());
+        findViewById(R.id.RelativeLayoutLauncher).setBackgroundColor(colorManager.getBackgroundColor());
+        if (colorManager.getImageColorName().equals("default")) {
+            ((ImageView) findViewById(R.id.imageView_launcher)).setImageResource(R.drawable.main_picture);
+        }else if (colorManager.getImageColorName().equals("dark")){
+            ((ImageView) findViewById(R.id.imageView_launcher)).setImageResource(R.drawable.main_picture);
+        }
     }
 
     @Override

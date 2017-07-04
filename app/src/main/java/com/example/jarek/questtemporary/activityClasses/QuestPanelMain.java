@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jarek.questtemporary.R;
+import com.example.jarek.questtemporary.dataClasses.ColorManager;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
 import com.example.jarek.questtemporary.dataClasses.Quest;
 import com.example.jarek.questtemporary.dataClasses.RowAdapter;
@@ -53,19 +54,6 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         joinComponentsWithVariable();
 
         quests = new LinkedList<>();
-
-        int textColor = getResources().getColor(R.color.color_Write);
-        int todayQuestColor = getResources().getColor(R.color.color_backgroundBlue);
-        int endTimeQuestColor = getResources().getColor(R.color.color_backgroundOrange);
-        int evenQuestColor = getResources().getColor(R.color.color_backgroundWhite);
-        int notEvenQuestColor = getResources().getColor(R.color.color_backgroundGray);
-
-        rowAdapter = new RowAdapter(this, R.layout.layout_quest, quests, textColor, todayQuestColor, endTimeQuestColor, evenQuestColor, notEvenQuestColor);
-        rowAdapter.addObserver(this);
-        buttonModify.setEnabled(false);
-        buttonDelete.setEnabled(false);
-
-        adapterRefresh();
     }
 
     /**
@@ -94,7 +82,21 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
     @Override
     protected void onResume() {
         super.onResume();
-        setComponentsColor();
+
+        ColorManager colorManager = new ColorManager(getApplicationContext());
+
+        int textColor = colorManager.getTextColor();
+        int todayQuestColor = colorManager.getTodayQuestColor();
+        int endTimeQuestColor = colorManager.getEndTimeQuestColor();
+        int evenQuestColor = colorManager.getEvenQuestColor();
+        int notEvenQuestColor = colorManager.getNotEvenQuestColor();
+
+        rowAdapter = new RowAdapter(this, R.layout.layout_quest, quests, textColor, todayQuestColor, endTimeQuestColor, evenQuestColor, notEvenQuestColor);
+        rowAdapter.addObserver(this);
+        buttonModify.setEnabled(false);
+        buttonDelete.setEnabled(false);
+
+        setComponentsColor(colorManager);
         quests.clear();
         FileManager fileManager = new FileManager();
         quests.addAll(fileManager.deserializationQuests(userQuestFile, getApplicationContext()));
@@ -121,11 +123,11 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         adapterRefresh();
     }
 
-    private void setComponentsColor() {
-        tClassLevel.setTextColor(getResources().getColor(R.color.color_Write));
-        tClassName.setTextColor(getResources().getColor(R.color.color_Write));
-        tExperience.setTextColor(getResources().getColor(R.color.color_Write));
-        findViewById(R.id.RelativeLayoutMain).setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
+    private void setComponentsColor(ColorManager colorManager) {
+        tClassLevel.setTextColor(colorManager.getTextColor());
+        tClassName.setTextColor(colorManager.getTextColor());
+        tExperience.setTextColor(colorManager.getTextColor());
+        findViewById(R.id.RelativeLayoutMain).setBackgroundColor(colorManager.getBackgroundColor());
     }
 
     /**

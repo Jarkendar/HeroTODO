@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jarek.questtemporary.R;
+import com.example.jarek.questtemporary.dataClasses.ColorManager;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
 import com.example.jarek.questtemporary.dataClasses.Quest;
 
@@ -256,17 +257,18 @@ public class QuestForm extends AppCompatActivity {
     }
 
     private void setComponentsColor(){
-        findViewById(R.id.ScrollViewQuestForm).setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
-        tvdescription.setTextColor(getResources().getColor(R.color.color_Write));
-        tvendDate.setTextColor(getResources().getColor(R.color.color_Write));
-        tvcorrectField.setTextColor(getResources().getColor(R.color.color_Write));
-        tvinterval.setTextColor(getResources().getColor(R.color.color_Write));
-        tvattributes.setTextColor(getResources().getColor(R.color.color_Write));
+        ColorManager colorManager = new ColorManager(getApplicationContext());
+        findViewById(R.id.ScrollViewQuestForm).setBackgroundColor(colorManager.getBackgroundColor());
+        tvdescription.setTextColor(colorManager.getTextColor());
+        tvendDate.setTextColor(colorManager.getTextColor());
+        tvcorrectField.setTextColor(colorManager.getTextColor());
+        tvinterval.setTextColor(colorManager.getTextColor());
+        tvattributes.setTextColor(colorManager.getTextColor());
 
-        editTextdescription.setTextColor(getResources().getColor(R.color.color_Write));
-        editTextdescription.setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
-        editTextinterval.setTextColor(getResources().getColor(R.color.color_Write));
-        editTextinterval.setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
+        editTextdescription.setTextColor(colorManager.getTextColor());
+        editTextdescription.setBackgroundColor(colorManager.getBackgroundColor());
+        editTextinterval.setTextColor(colorManager.getTextColor());
+        editTextinterval.setBackgroundColor(colorManager.getBackgroundColor());
     }
 
     /**
@@ -275,13 +277,14 @@ public class QuestForm extends AppCompatActivity {
      * @return true jeśli jest wypełnione, false jeśli jest puste
      */
     private boolean checkDescriptionField() {
+        ColorManager colorManager = new ColorManager(getApplicationContext());
         if (editTextdescription.getText().toString().length() == 0) {
             tvdescription.setTextColor(getResources().getColor(R.color.color_Red));
             editTextdescription.setText("");
             editTextdescription.setHint(R.string.hint_fieldMustBeFill);
             return false;
         } else {
-            tvdescription.setTextColor(getResources().getColor(R.color.color_Write));
+            tvdescription.setTextColor(new ColorManager(getApplicationContext()).getTextColor());
             return true;
         }
     }
@@ -292,13 +295,14 @@ public class QuestForm extends AppCompatActivity {
      * @return true jeśli nie jest puste oraz jest większe od zera, false w przeciwnym razie
      */
     private boolean checkIntervalField() {
+        ColorManager colorManager = new ColorManager(getApplicationContext());
         if (checkBoxRepeatable.isChecked() && (editTextinterval.getText().toString().length() == 0 || Integer.parseInt(editTextinterval.getText().toString()) <= 0)) {
             tvinterval.setTextColor(getResources().getColor(R.color.color_Red));
             editTextinterval.setText("");
             editTextinterval.setHint(R.string.hint_failedData);
             return false;
         } else {
-            tvinterval.setTextColor(getResources().getColor(R.color.color_Write));
+            tvinterval.setTextColor(new ColorManager(getApplicationContext()).getTextColor());
             return true;
         }
     }
@@ -317,7 +321,7 @@ public class QuestForm extends AppCompatActivity {
             tvattributes.setTextColor(getResources().getColor(R.color.color_Red));
             return false;
         } else {
-            tvattributes.setTextColor(getResources().getColor(R.color.color_Write));
+            tvattributes.setTextColor(new ColorManager(getApplicationContext()).getTextColor());
             return true;
         }
     }

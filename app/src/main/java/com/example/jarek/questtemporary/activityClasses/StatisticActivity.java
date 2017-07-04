@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.jarek.questtemporary.R;
+import com.example.jarek.questtemporary.dataClasses.ColorManager;
 
 public class StatisticActivity extends AppCompatActivity {
 
@@ -60,7 +61,7 @@ public class StatisticActivity extends AppCompatActivity {
         Canvas canvas = new Canvas(bitmap);
         Paint painter = new Paint();
 
-        painter.setColor(getResources().getColor(R.color.color_Write));
+        painter.setColor(new ColorManager(getApplicationContext()).getPainterColor());
 
         painter.setAntiAlias(true);//włączenie wygładzania krawędzi
         //przekątne
@@ -288,12 +289,13 @@ public class StatisticActivity extends AppCompatActivity {
     }
 
     private void setComponentsColor() {
-        textViewStrength.setTextColor(getResources().getColor(R.color.color_Write));
-        textViewEndurance.setTextColor(getResources().getColor(R.color.color_Write));
-        textViewDexterity.setTextColor(getResources().getColor(R.color.color_Write));
-        textViewIntelligence.setTextColor(getResources().getColor(R.color.color_Write));
-        textViewWisdom.setTextColor(getResources().getColor(R.color.color_Write));
-        textViewCharisma.setTextColor(getResources().getColor(R.color.color_Write));
+        ColorManager colorManager = new ColorManager(getApplicationContext());
+        textViewStrength.setTextColor(colorManager.getTextColor());
+        textViewEndurance.setTextColor(colorManager.getTextColor());
+        textViewDexterity.setTextColor(colorManager.getTextColor());
+        textViewIntelligence.setTextColor(colorManager.getTextColor());
+        textViewWisdom.setTextColor(colorManager.getTextColor());
+        textViewCharisma.setTextColor(colorManager.getTextColor());
     }
 
 }

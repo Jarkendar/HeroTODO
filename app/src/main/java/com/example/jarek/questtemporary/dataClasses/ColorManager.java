@@ -2,6 +2,7 @@ package com.example.jarek.questtemporary.dataClasses;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.jarek.questtemporary.R;
 
@@ -19,6 +20,7 @@ public class ColorManager {
     private int painterColor;
     private int backgroundColor;
     private int helpTextColor;
+    private String imageColorName;
 
     public ColorManager(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("colorTheme",Context.MODE_PRIVATE);
@@ -26,6 +28,7 @@ public class ColorManager {
     }
 
     private void readIDColors(String colorTheme, Context context){
+        Log.d("++++++", "readIDColors: "+colorTheme);
         switch (colorTheme){
             case "default":{
                 textColor = context.getResources().getColor(R.color.color_Write);
@@ -36,6 +39,7 @@ public class ColorManager {
                 painterColor = context.getResources().getColor(R.color.color_Write);
                 backgroundColor = context.getResources().getColor(R.color.color_backgroundWhite);
                 helpTextColor = context.getResources().getColor(R.color.color_Blue);
+                imageColorName = "default";
                 break;
             }
             case "dark":{
@@ -47,6 +51,7 @@ public class ColorManager {
                 painterColor = context.getResources().getColor(R.color.dark_color_Write);
                 backgroundColor = context.getResources().getColor(R.color.dark_color_backgroundWhite);
                 helpTextColor = context.getResources().getColor(R.color.dark_color_Blue);
+                imageColorName = "dark";
                 break;
             }
         }
@@ -83,5 +88,11 @@ public class ColorManager {
     public int getHelpTextColor() {
         return helpTextColor;
     }
+
+    public String getImageColorName() {
+        return imageColorName;
+    }
+
+
 
 }
