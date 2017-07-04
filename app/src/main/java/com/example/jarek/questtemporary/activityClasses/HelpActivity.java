@@ -31,10 +31,16 @@ public class HelpActivity extends AppCompatActivity {
         listViewHelp = (ListView) findViewById(R.id.listView_Help);
 
         loadHelpCategoryList();
+        int textColor = getResources().getColor(R.color.color_Blue);
 
-        helpRowAdapter = new HelpRowAdapter(this, R.layout.row_help_list, helpWord);
+        helpRowAdapter = new HelpRowAdapter(this, R.layout.row_help_list, helpWord, textColor);
         listViewHelp.setAdapter(helpRowAdapter);
+        setComponentsColor();
+    }
 
+    private void setComponentsColor(){
+        findViewById(R.id.RelativeLayoutHelp).setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
+        listViewHelp.setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
     }
 
     private void loadHelpCategoryList(){

@@ -3,9 +3,9 @@ package com.example.jarek.questtemporary.activityClasses;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -35,6 +35,7 @@ public class StatisticActivity extends AppCompatActivity {
         joinComponentsWithVariable();
         getBundleExtras();
         drawHexStats();
+        setComponentsColor();
     }
 
     /**
@@ -58,6 +59,8 @@ public class StatisticActivity extends AppCompatActivity {
         Bitmap bitmap = Bitmap.createBitmap(widthDiagramArea, heightDiagramArea, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Paint painter = new Paint();
+
+        painter.setColor(getResources().getColor(R.color.color_Black));
 
         painter.setAntiAlias(true);//włączenie wygładzania krawędzi
         //przekątne
@@ -282,6 +285,15 @@ public class StatisticActivity extends AppCompatActivity {
         progressBarCharisma = (ProgressBar) findViewById(R.id.progressBar_StatisticCharisma);
 
         imageView = (ImageView) findViewById(R.id.imageView_StatHex);
+    }
+
+    private void setComponentsColor() {
+        textViewStrength.setTextColor(getResources().getColor(R.color.color_Black));
+        textViewEndurance.setTextColor(getResources().getColor(R.color.color_Black));
+        textViewDexterity.setTextColor(getResources().getColor(R.color.color_Black));
+        textViewIntelligence.setTextColor(getResources().getColor(R.color.color_Black));
+        textViewWisdom.setTextColor(getResources().getColor(R.color.color_Black));
+        textViewCharisma.setTextColor(getResources().getColor(R.color.color_Black));
     }
 
 }

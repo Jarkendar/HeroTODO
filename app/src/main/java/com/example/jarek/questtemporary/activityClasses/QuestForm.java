@@ -37,7 +37,6 @@ public class QuestForm extends AppCompatActivity {
     private Button buttonaddQuest, buttonDate;
     private Spinner spinnerexperienceMultiplier;
 
-    private long firstClickBack = 0;
     private final String sharedName = "userInfoShared";
     private String userAddFileAddress;//adres do serializacji obiektu
     private Calendar chooseDate;
@@ -54,6 +53,7 @@ public class QuestForm extends AppCompatActivity {
         joinComponentsWithVariable();
         getBundleExtras();
         makeDatePickerDialog();
+        setComponentsColor();
 
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
@@ -253,7 +253,20 @@ public class QuestForm extends AppCompatActivity {
         buttonaddQuest = (Button) findViewById(R.id.button_AddQuest);
 
         spinnerexperienceMultiplier = (Spinner) findViewById(R.id.spinner_Level);
+    }
 
+    private void setComponentsColor(){
+        findViewById(R.id.ScrollViewQuestForm).setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
+        tvdescription.setTextColor(getResources().getColor(R.color.color_Black));
+        tvendDate.setTextColor(getResources().getColor(R.color.color_Black));
+        tvcorrectField.setTextColor(getResources().getColor(R.color.color_Black));
+        tvinterval.setTextColor(getResources().getColor(R.color.color_Black));
+        tvattributes.setTextColor(getResources().getColor(R.color.color_Black));
+
+        editTextdescription.setTextColor(getResources().getColor(R.color.color_Black));
+        editTextdescription.setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
+        editTextinterval.setTextColor(getResources().getColor(R.color.color_Black));
+        editTextinterval.setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
     }
 
     /**

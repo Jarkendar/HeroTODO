@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.activityClasses.QuestPanelMain;
 
@@ -33,20 +32,35 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
     private LinkedList<Quest> data = null;
     private ArrayList<QuestPanelMain> observers;//tablica obserwatorów, których trzeba informować o zmianach
     private String order;//rozkaz przekazywany obserwatorom, przy zmianie parametru
+    private int textColor;
+    private int todayQuestColor;
+    private int endTimeQuestColor;
+    private int evenQuestColor;
+    private int notEvenQuestColor;
 
     /**
      * Konstruktor klasy RowAdapter.
      *
-     * @param context          obiekt łącznika pomiędzy plikami xml, a kodem java
-     * @param layoutResourceID id layoutu podłączonego do adaptera
-     * @param data             lista zadań
+     * @param context           obiekt łącznika pomiędzy plikami xml, a kodem java
+     * @param layoutResourceID  id layoutu podłączonego do adaptera
+     * @param data              lista zadań
+     * @param textColor
+     * @param todayQuestColor
+     * @param endTimeQuestColor
+     * @param evenQuestColor
+     * @param notEvenQuestColor
      */
-    public RowAdapter(Context context, int layoutResourceID, LinkedList<Quest> data) {
+    public RowAdapter(Context context, int layoutResourceID, LinkedList<Quest> data, int textColor, int todayQuestColor, int endTimeQuestColor, int evenQuestColor, int notEvenQuestColor) {
         super(context, layoutResourceID, data);
         this.context = context;
         this.layoutResourceID = layoutResourceID;
         this.data = data;
         observers = new ArrayList<>();
+        this.textColor = textColor;
+        this.todayQuestColor = todayQuestColor;
+        this.endTimeQuestColor = endTimeQuestColor;
+        this.evenQuestColor = evenQuestColor;
+        this.notEvenQuestColor = notEvenQuestColor;
     }
 
     /**
@@ -109,6 +123,9 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
         holder.dateField.setText(dateText);
 
+        holder.description.setTextColor(textColor);
+        holder.reward.setTextColor(textColor);
+        holder.dateField.setTextColor(textColor);
 
         String prize = getContext().getString(R.string.text_reward) + "\n";
         for (String x : quest.getAtributes()) {
@@ -176,19 +193,17 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         calendar.set(Calendar.MILLISECOND, 0);
 
         if (quest.getTimeToLiveDate().compareTo(calendar) == -1) {
-            row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundOrange));
+            row.setBackgroundColor(endTimeQuestColor);
         } else if (quest.getTimeToLiveDate().compareTo(calendar) == 0) {
-            row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundBlue));
+            row.setBackgroundColor(todayQuestColor);
         } else {
             if (position % 2 == 0) {
-                row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundWhite));
+                row.setBackgroundColor(evenQuestColor);
             } else {
-                row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundGray));
+                row.setBackgroundColor(notEvenQuestColor);
             }
         }
-        Log.d("+++++++++", quest.getTimeToLiveDate().toString() + " : " + calendar.toString() + " = " + quest.getTimeToLiveDate().compareTo(calendar));
-
-
+        Log.d("+++++++", quest.getTimeToLiveDate().toString() + " : " + calendar.toString() + " = " + quest.getTimeToLiveDate().compareTo(calendar));
         return row;
     }
 

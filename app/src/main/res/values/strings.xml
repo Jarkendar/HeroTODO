@@ -40,6 +40,7 @@
     <string name="text_success">Brawo Bohaterze wypełniłeś swoje zadanie.</string>
     <string name="text_fail">Nie podołałeś zadaniu.</string>
     <string name="text_author">by Jarosław Skrzypczak</string>
+    <string name="text_confirmDelete">Zadanie zostało usunięte.</string>
 
     <string name="help_aboutApp">O aplikacji</string>
     <string name="category_description_aboutApp">Aplikacja powstała, aby trochę urozmaicić nudne

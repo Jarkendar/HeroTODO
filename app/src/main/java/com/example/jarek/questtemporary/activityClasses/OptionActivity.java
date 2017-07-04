@@ -169,4 +169,15 @@ public class OptionActivity extends AppCompatActivity {
                 .setNegativeButton(getText(R.string.text_no), null)//kliknięcie NIE nic nie robi
                 .show();//pokaż
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setComponentsColor();
+    }
+
+    private void setComponentsColor(){
+        tvClass.setTextColor(getResources().getColor(R.color.color_Black));
+        findViewById(R.id.ScrollViewOption).setBackgroundColor(getResources().getColor(R.color.color_backgroundWhite));
+    }
 }
