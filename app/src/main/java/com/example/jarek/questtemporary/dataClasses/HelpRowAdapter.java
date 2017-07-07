@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.jarek.questtemporary.R;
 
@@ -24,12 +23,14 @@ public class HelpRowAdapter extends ArrayAdapter<HelpCategory> {
     private Context context;
     private int layoutResourceID;
     private LinkedList<HelpCategory> data = null;
+    private int colorID;
 
-    public HelpRowAdapter(Context context, int layoutResourceID, LinkedList<HelpCategory> data) {
+    public HelpRowAdapter(Context context, int layoutResourceID, LinkedList<HelpCategory> data, int colorID) {
         super(context,layoutResourceID,data);
         this.context = context;
         this.layoutResourceID = layoutResourceID;
         this.data = data;
+        this.colorID = colorID;
     }
 
     @NonNull
@@ -37,7 +38,6 @@ public class HelpRowAdapter extends ArrayAdapter<HelpCategory> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View row = convertView;
         final RowHolder holder;
-
         if (row == null){
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
             row = inflater.inflate(layoutResourceID,parent,false);
@@ -50,7 +50,7 @@ public class HelpRowAdapter extends ArrayAdapter<HelpCategory> {
         final String category = data.get(position).getName();
         final String categoryDescription = data.get(position).getDescription();
         holder.description.setText(category);
-
+        holder.description.setTextColor(colorID);
         holder.description.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,9 +61,9 @@ public class HelpRowAdapter extends ArrayAdapter<HelpCategory> {
                         .show();
             }
         });
-
         return row;
     }
+
 
     static class RowHolder{
         TextView description;

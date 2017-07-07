@@ -2,6 +2,7 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScrollViewQuestForm"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -25,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_descriptionQuest"
-                android:textColor="@color/color_Black"
+                android:textColor="@color/color_Write"
                 android:layout_weight="1"
                 android:gravity="right"/>
 
@@ -52,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_difficultyLevel"
-                android:textColor="@color/color_Black"
+                android:textColor="@color/color_Write"
                 android:layout_weight="1"
                 android:gravity="right"/>
 
@@ -79,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_dateEnd"
-                android:textColor="@color/color_Black"
+                android:textColor="@color/color_Write"
                 android:layout_gravity="center_vertical"
                 android:gravity="right"
                 android:layout_weight="1"/>
@@ -105,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_repeatable"
-                android:textColor="@color/color_Black"
+                android:textColor="@color/color_Write"
                 android:layout_gravity="center_vertical"
                 android:gravity="right"
                 android:layout_weight="1"/>
@@ -132,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_interval"
-                android:textColor="@color/color_Black"
+                android:textColor="@color/color_Write"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:gravity="right"/>
@@ -164,7 +165,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_attribute"
-                android:textColor="@color/color_Black"
+                android:textColor="@color/color_Write"
                 android:layout_weight="1"
                 android:layout_gravity="top"
                 android:gravity="right"/>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayoutMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.jarek.questtemporary.activityClasses.QuestPanelMain">
@@ -52,28 +53,28 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/button_Modify"
         android:layout_alignStart="@+id/progressBar_Experience"
+        android:layout_below="@+id/progressBar_Experience"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_below="@+id/progressBar_Experience" />
+        android:layout_marginRight="5dp" />
 
     <Button
         android:id="@+id/button_Modify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/text_modify"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/listView_QuestList"
         android:layout_toStartOf="@+id/button_Delete"
-        android:onClick="clickModifyQuest"/>
+        android:onClick="clickModifyQuest"
+        android:text="@string/text_modify" />
 
     <Button
         android:id="@+id/button_Delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/text_delete"
-        android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/listView_QuestList"
+        android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/textView_ClassLevel"
-        android:onClick="clickDeleteQuest"/>
+        android:onClick="clickDeleteQuest"
+        android:text="@string/text_delete" />
 
 </RelativeLayout>

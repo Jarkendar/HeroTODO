@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.activityClasses.QuestPanelMain;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Observable;
 
@@ -31,23 +32,40 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
     private LinkedList<Quest> data = null;
     private ArrayList<QuestPanelMain> observers;//tablica obserwatorów, których trzeba informować o zmianach
     private String order;//rozkaz przekazywany obserwatorom, przy zmianie parametru
+    private int textColor;
+    private int todayQuestColor;
+    private int endTimeQuestColor;
+    private int evenQuestColor;
+    private int notEvenQuestColor;
 
     /**
      * Konstruktor klasy RowAdapter.
-     * @param context obiekt łącznika pomiędzy plikami xml, a kodem java
-     * @param layoutResourceID id layoutu podłączonego do adaptera
-     * @param data lista zadań
+     *
+     * @param context           obiekt łącznika pomiędzy plikami xml, a kodem java
+     * @param layoutResourceID  id layoutu podłączonego do adaptera
+     * @param data              lista zadań
+     * @param textColor
+     * @param todayQuestColor
+     * @param endTimeQuestColor
+     * @param evenQuestColor
+     * @param notEvenQuestColor
      */
-    public RowAdapter(Context context, int layoutResourceID, LinkedList<Quest> data) {
+    public RowAdapter(Context context, int layoutResourceID, LinkedList<Quest> data, int textColor, int todayQuestColor, int endTimeQuestColor, int evenQuestColor, int notEvenQuestColor) {
         super(context, layoutResourceID, data);
         this.context = context;
         this.layoutResourceID = layoutResourceID;
         this.data = data;
         observers = new ArrayList<>();
+        this.textColor = textColor;
+        this.todayQuestColor = todayQuestColor;
+        this.endTimeQuestColor = endTimeQuestColor;
+        this.evenQuestColor = evenQuestColor;
+        this.notEvenQuestColor = notEvenQuestColor;
     }
 
     /**
      * Setter listy zadań.
+     *
      * @param data lista zadań
      */
     public void setData(LinkedList<Quest> data) {
@@ -57,9 +75,10 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
     /**
      * Metoda obsługująca każdy wiersz list view do którego adapter jest podłączony
-     * @param position pozycja wiersza, int reprezentujący numer wiersza od 0
+     *
+     * @param position    pozycja wiersza, int reprezentujący numer wiersza od 0
      * @param convertView widok wiersza
-     * @param parent rodzic wiersza
+     * @param parent      rodzic wiersza
      * @return View wiersza
      */
     @NonNull
@@ -89,16 +108,13 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
         //wyświetlanie danych
         holder.description.setText(quest.getDescription());
-        holder.dateField.setText(quest.getDateFormatString());
 
         String dateText = quest.getDateFormatString() + "\n";
 
         if (quest.isRepeatable()) {
-            if (quest.getRepeatInterval()==1) {
-                dateText = dateText + getContext().getText(R.string.text_repeatEvery)
-                        + " " + quest.getRepeatInterval()
-                        + " " + getContext().getText(R.string.text_day);
-            }else{
+            if (quest.getRepeatInterval() == 1) {
+                dateText = dateText + getContext().getText(R.string.text_repeatEvery) + " " + getContext().getText(R.string.text_day);
+            } else {
                 dateText = dateText + getContext().getText(R.string.text_repeatEvery)
                         + " " + quest.getRepeatInterval()
                         + " " + getContext().getText(R.string.text_days);
@@ -107,6 +123,9 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
         holder.dateField.setText(dateText);
 
+        holder.description.setTextColor(textColor);
+        holder.reward.setTextColor(textColor);
+        holder.dateField.setTextColor(textColor);
 
         String prize = getContext().getString(R.string.text_reward) + "\n";
         for (String x : quest.getAtributes()) {
@@ -119,8 +138,10 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
         if (!quest.parseQuestDateWithCurrDate()) {
             holder.confirm.setEnabled(false);
+            holder.confirm.setBackground(getContext().getResources().getDrawable(R.drawable.block_done_button));
         } else {
             holder.confirm.setEnabled(true);
+            holder.confirm.setBackground(getContext().getResources().getDrawable(R.drawable.done_button));
         }
 
         /**
@@ -143,7 +164,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
             @Override
             public void onClick(View view) {
                 makeAnimClick(view);
-                Toast.makeText(context,context.getString(R.string.text_success),Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.text_success), Toast.LENGTH_SHORT).show();
                 order = "succeed;" + position;
                 notifyObservers();
             }
@@ -157,24 +178,38 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
             @Override
             public void onClick(View view) {
                 makeAnimClick(view);
-                Toast.makeText(context,context.getString(R.string.text_fail),Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.text_fail), Toast.LENGTH_SHORT).show();
                 order = "failed;" + position;
                 notifyObservers();
             }
         });
 
         //kolorowanie wierszy parzystych na biało, nieparzystych na szaro
-        if (position%2 == 0){
-            row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundWhite));
-        }else{
-            row.setBackgroundColor(getContext().getResources().getColor(R.color.color_backgroundGray));
-        }
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        if (quest.getTimeToLiveDate().compareTo(calendar) == -1) {
+            row.setBackgroundColor(endTimeQuestColor);
+        } else if (quest.getTimeToLiveDate().compareTo(calendar) == 0) {
+            row.setBackgroundColor(todayQuestColor);
+        } else {
+            if (position % 2 == 0) {
+                row.setBackgroundColor(evenQuestColor);
+            } else {
+                row.setBackgroundColor(notEvenQuestColor);
+            }
+        }
+        Log.d("+++++++", quest.getTimeToLiveDate().toString() + " : " + calendar.toString() + " = " + quest.getTimeToLiveDate().compareTo(calendar));
         return row;
     }
 
     /**
      * Metoda dodająca obserwatora.
+     *
      * @param o obiekt obserwatora
      */
     @Override
@@ -184,6 +219,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
     /**
      * Metoda usuwająca obserwatora.
+     *
      * @param o obiekt obserwatora
      */
     @Override
@@ -203,10 +239,11 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
     /**
      * Metoda odtwarzająca animacje zmiejsznia się okienka View o 10% w czasie 100ms.
+     *
      * @param view obiekt na którym ma być wykonana animacja
      */
-    private void makeAnimClick(View view){
-        Animation animation = AnimationUtils.loadAnimation(context,R.anim.anim_click);
+    private void makeAnimClick(View view) {
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.anim_click);
         view.startAnimation(animation);
     }
 

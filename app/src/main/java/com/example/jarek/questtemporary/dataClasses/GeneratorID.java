@@ -15,10 +15,10 @@ class GeneratorID {
     private static final String sharedID = "sharedID";
 
     static int getID(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(sharedID,Context.MODE_PRIVATE);
-        ID = sharedPreferences.getInt("ID",0);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(sharedID, Context.MODE_PRIVATE);
+        ID = sharedPreferences.getInt("ID", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("ID",(ID+1));
+        editor.putInt("ID", (ID + 1));
         editor.apply();
         return ID;
     }

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jarek.questtemporary.R;
+import com.example.jarek.questtemporary.dataClasses.ColorManager;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
 import com.example.jarek.questtemporary.dataClasses.Quest;
 
@@ -37,7 +38,6 @@ public class QuestForm extends AppCompatActivity {
     private Button buttonaddQuest, buttonDate;
     private Spinner spinnerexperienceMultiplier;
 
-    private long firstClickBack = 0;
     private final String sharedName = "userInfoShared";
     private String userAddFileAddress;//adres do serializacji obiektu
     private Calendar chooseDate;
@@ -54,6 +54,7 @@ public class QuestForm extends AppCompatActivity {
         joinComponentsWithVariable();
         getBundleExtras();
         makeDatePickerDialog();
+        setComponentsColor();
 
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
@@ -68,10 +69,10 @@ public class QuestForm extends AppCompatActivity {
 
         setListeners();
 
-        buttonDate.setText(dayDate+"-"+(monthDate+1)+"-"+yearDate);
+        buttonDate.setText(dayDate + "-" + (monthDate + 1) + "-" + yearDate);
     }
 
-    private void setListeners(){
+    private void setListeners() {
         buttonDate.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -101,17 +102,18 @@ public class QuestForm extends AppCompatActivity {
             }
         });
 
-        spinnerexperienceMultiplier.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        spinnerexperienceMultiplier.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String[] params = getResources().getStringArray(R.array.level_Hierarchy);
-                if (spinnerexperienceMultiplier.getSelectedItem().toString().equals(params[5])){
+                if (spinnerexperienceMultiplier.getSelectedItem().toString().equals(params[5])) {
                     checkBoxRepeatable.setText(getText(R.string.text_no));
                     checkBoxRepeatable.setChecked(false);
                     checkBoxRepeatable.setEnabled(false);
-                }else {
+                } else {
                     checkBoxRepeatable.setEnabled(true);
                 }
+                ((TextView) adapterView.getChildAt(0)).setTextColor(new ColorManager(getApplicationContext()).getTextColor());
             }
 
             @Override
@@ -120,7 +122,7 @@ public class QuestForm extends AppCompatActivity {
         });
     }
 
-    private void setDefaultDate(){
+    private void setDefaultDate() {
         Calendar calendar = Calendar.getInstance();
         yearDate = calendar.get(Calendar.YEAR);
         monthDate = calendar.get(Calendar.MONTH);
@@ -129,8 +131,8 @@ public class QuestForm extends AppCompatActivity {
 
     @Override
     protected Dialog onCreateDialog(int id) {
-        if (id == DIALOG_ID){
-            return new DatePickerDialog(this,datePickerListener,yearDate,monthDate,dayDate);
+        if (id == DIALOG_ID) {
+            return new DatePickerDialog(this, datePickerListener, yearDate, monthDate, dayDate);
         }
         return null;
     }
@@ -141,25 +143,25 @@ public class QuestForm extends AppCompatActivity {
             yearDate = year;
             monthDate = month;
             dayDate = day;
-            buttonDate.setText(dayDate+"-"+(monthDate+1)+"-"+yearDate);
+            buttonDate.setText(dayDate + "-" + (monthDate + 1) + "-" + yearDate);
         }
     };
 
-    private void makeDatePickerDialog (){
+    private void makeDatePickerDialog() {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 chooseDate = Calendar.getInstance();
                 chooseDate.set(Calendar.YEAR, i);
-                chooseDate.set(Calendar.MONTH,i1);
-                chooseDate.set(Calendar.DAY_OF_MONTH,i2);
+                chooseDate.set(Calendar.MONTH, i1);
+                chooseDate.set(Calendar.DAY_OF_MONTH, i2);
             }
         };
         Calendar calendar = Calendar.getInstance();
         int a = calendar.get(Calendar.YEAR);
-        int b =calendar.get(Calendar.MONTH);
-        int c =calendar.get(Calendar.DAY_OF_MONTH);
-        datePickerDialog = new DatePickerDialog(getApplicationContext(),dateSetListener,a,b,c);
+        int b = calendar.get(Calendar.MONTH);
+        int c = calendar.get(Calendar.DAY_OF_MONTH);
+        datePickerDialog = new DatePickerDialog(getApplicationContext(), dateSetListener, a, b, c);
     }
 
     /**
@@ -200,7 +202,7 @@ public class QuestForm extends AppCompatActivity {
             yearDate = bundle.getInt("yearDate");
             monthDate = bundle.getInt("monthDate");
             dayDate = bundle.getInt("dayDate");
-            buttonDate.setText(dayDate+"-"+(monthDate+1)+"-"+yearDate);
+            buttonDate.setText(dayDate + "-" + (monthDate + 1) + "-" + yearDate);
             checkBoxRepeatable.setChecked(bundle.getBoolean("repeatable"));
             if (checkBoxRepeatable.isChecked()) {
                 checkBoxRepeatable.setText(getText(R.string.text_yes));
@@ -229,22 +231,6 @@ public class QuestForm extends AppCompatActivity {
     }
 
     /**
-     * Metoda automatycznie włączana gdy użytkownik naciśnie przycisk back telefonu.
-     * W tej aplikacji dodatkowo sprawdzam czy użytkownik na pewno chce się cofnąć czy może przez
-     * przypadek kliknął w przycisk back. Użytkownik na potwierdzenie wyboru ma 3s. Po pierwszym
-     * kliknięciu użytkownik dostaje infromacje o dalszym kroku, gdy chce na prawdę się cofnąć.
-     */
-    @Override
-    public void onBackPressed() {
-        Toast.makeText(getApplicationContext(), getText(R.string.text_allert_back), Toast.LENGTH_SHORT).show();
-        if (System.currentTimeMillis() - firstClickBack <= 3000) {
-            super.onBackPressed();
-        } else {
-            firstClickBack = System.currentTimeMillis();
-        }
-    }
-
-    /**
      * Metoda łączy elementy interfejsu użytkownika ze zmiennymi wykorzystywanymi w kodzie.
      */
     private void joinComponentsWithVariable() {
@@ -265,11 +251,31 @@ public class QuestForm extends AppCompatActivity {
         editTextdescription = (EditText) findViewById(R.id.editText_Description);
         editTextinterval = (EditText) findViewById(R.id.editText_Interval);
 
-        buttonDate = (Button)findViewById(R.id.button_DateDialog);
+        buttonDate = (Button) findViewById(R.id.button_DateDialog);
         buttonaddQuest = (Button) findViewById(R.id.button_AddQuest);
 
         spinnerexperienceMultiplier = (Spinner) findViewById(R.id.spinner_Level);
+    }
 
+    private void setComponentsColor(){
+        ColorManager colorManager = new ColorManager(getApplicationContext());
+        findViewById(R.id.ScrollViewQuestForm).setBackgroundColor(colorManager.getBackgroundColor());
+        tvdescription.setTextColor(colorManager.getTextColor());
+        tvendDate.setTextColor(colorManager.getTextColor());
+        tvcorrectField.setTextColor(colorManager.getTextColor());
+        tvinterval.setTextColor(colorManager.getTextColor());
+        tvattributes.setTextColor(colorManager.getTextColor());
+        ((TextView)findViewById(R.id.textView_Level)).setTextColor(colorManager.getTextColor());
+        ((TextView)findViewById(R.id.textView_Repeatable)).setTextColor(colorManager.getTextColor());
+
+        editTextdescription.setTextColor(colorManager.getTextColor());
+        editTextdescription.setHighlightColor(colorManager.getTextColor());
+        editTextdescription.setHintTextColor(colorManager.getTextColor());
+        editTextdescription.setBackgroundColor(colorManager.getBackgroundColor());
+        editTextinterval.setTextColor(colorManager.getTextColor());
+        editTextinterval.setHighlightColor(colorManager.getTextColor());
+        editTextinterval.setHintTextColor(colorManager.getTextColor());
+        editTextinterval.setBackgroundColor(colorManager.getBackgroundColor());
     }
 
     /**
@@ -284,7 +290,7 @@ public class QuestForm extends AppCompatActivity {
             editTextdescription.setHint(R.string.hint_fieldMustBeFill);
             return false;
         } else {
-            tvdescription.setTextColor(getResources().getColor(R.color.color_Black));
+            tvdescription.setTextColor(new ColorManager(getApplicationContext()).getTextColor());
             return true;
         }
     }
@@ -301,7 +307,7 @@ public class QuestForm extends AppCompatActivity {
             editTextinterval.setHint(R.string.hint_failedData);
             return false;
         } else {
-            tvinterval.setTextColor(getResources().getColor(R.color.color_Black));
+            tvinterval.setTextColor(new ColorManager(getApplicationContext()).getTextColor());
             return true;
         }
     }
@@ -320,7 +326,7 @@ public class QuestForm extends AppCompatActivity {
             tvattributes.setTextColor(getResources().getColor(R.color.color_Red));
             return false;
         } else {
-            tvattributes.setTextColor(getResources().getColor(R.color.color_Black));
+            tvattributes.setTextColor(new ColorManager(getApplicationContext()).getTextColor());
             return true;
         }
     }
@@ -364,25 +370,35 @@ public class QuestForm extends AppCompatActivity {
         calendar.set(Calendar.YEAR, yearDate);
         calendar.set(Calendar.MONTH, monthDate);
         calendar.set(Calendar.DAY_OF_MONTH, dayDate);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         return calendar;
     }
 
     private double getExperience(String nameMul) {
         String[] params = getResources().getStringArray(R.array.level_Hierarchy);
         if (nameMul.equals(params[0]))
-            return Double.parseDouble(params[0].substring(params[0].length() - 4, params[0].length() - 1));
+            return getNumberFromDifficultyLevel(params[0]);
         if (nameMul.equals(params[1]))
-            return Double.parseDouble(params[1].substring(params[1].length() - 4, params[1].length() - 1));
+            return getNumberFromDifficultyLevel(params[1]);
         if (nameMul.equals(params[2]))
-            return Double.parseDouble(params[2].substring(params[2].length() - 4, params[2].length() - 1));
+            return getNumberFromDifficultyLevel(params[2]);
         if (nameMul.equals(params[3]))
-            return Double.parseDouble(params[3].substring(params[3].length() - 4, params[3].length() - 1));
+            return getNumberFromDifficultyLevel(params[3]);
         if (nameMul.equals(params[4]))
-            return Double.parseDouble(params[4].substring(params[4].length() - 4, params[4].length() - 1));
+            return getNumberFromDifficultyLevel(params[4]);
         if (nameMul.equals(params[5]))
-            return Double.parseDouble(params[5].substring(params[5].length() - 6, params[5].length() - 1));
+            return getNumberFromDifficultyLevel(params[5]);
         return 0.0;
     }
+
+    private double getNumberFromDifficultyLevel(String difficultyLevel) {
+        String[] tmp = difficultyLevel.split("\\+");
+        return Double.parseDouble(tmp[1].substring(0, tmp[1].length() - 1));
+    }
+
 
     /**
      * Metoda czyszcząca pola, powrót do ustawień domyślnych.
@@ -391,7 +407,7 @@ public class QuestForm extends AppCompatActivity {
         editTextdescription.setText("");
         editTextdescription.setHint("");
         setDefaultDate();
-        buttonDate.setText(dayDate+"-"+(monthDate+1)+"-"+yearDate);
+        buttonDate.setText(dayDate + "-" + (monthDate + 1) + "-" + yearDate);
         checkBoxRepeatable.setChecked(false);
         editTextinterval.setText("");
         editTextinterval.setHint(R.string.hint_noEnable);

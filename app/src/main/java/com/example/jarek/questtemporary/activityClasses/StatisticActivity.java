@@ -3,15 +3,17 @@ package com.example.jarek.questtemporary.activityClasses;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.jarek.questtemporary.R;
+import com.example.jarek.questtemporary.dataClasses.ColorManager;
 
 public class StatisticActivity extends AppCompatActivity {
 
@@ -34,6 +36,65 @@ public class StatisticActivity extends AppCompatActivity {
         joinComponentsWithVariable();
         getBundleExtras();
         drawHexStats();
+        setComponentsColor();
+    }
+
+    /**
+     * Metoda rysująca wykres sześciokątny na bitmapie. Najpierw wyliczane są tablice wierzchołków
+     * za pomocą odpowiednich metod, następnie rysowane są linie. Wykres składa się z tła złożonego
+     * z 3 sześciokątów o  3 różnych rozmiarach, przekątnych największego z sześciokątów. Drugim
+     * elementem wykresu jest wielokąt reprezentujący odpowiednie statystyki. Ostatnim elementem
+     * wykresu są oznaczenia konkretnych słupków, złożone z pierwszej litery stastystyki.
+     */
+    private void drawHexStats() {
+
+        DisplayMetrics displayMetrics = getApplicationContext().getResources().getDisplayMetrics();
+        int widthDiagramArea = displayMetrics.widthPixels;
+        int heightDiagramArea = (int) (widthDiagramArea * 0.625);
+        int centerX = widthDiagramArea / 2;//X środka
+        int centerY = heightDiagramArea / 2;//Y środka
+        int radiusOutsideHex = centerX / 2;//promień największego hexa
+        int radiudBeetwenHex = centerX / 3;//promień średniego hexa
+        int radiusInsideHex = centerX / 6;//promień najmniejszego hexa
+
+        Bitmap bitmap = Bitmap.createBitmap(widthDiagramArea, heightDiagramArea, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Paint painter = new Paint();
+
+        painter.setColor(new ColorManager(getApplicationContext()).getPainterColor());
+
+        painter.setAntiAlias(true);//włączenie wygładzania krawędzi
+        //przekątne
+        float[] vertexToLine = createHexVertexTable(centerX, centerY, radiusOutsideHex);
+        canvas.drawLine(vertexToLine[0], vertexToLine[1], vertexToLine[12], vertexToLine[13], painter);
+        canvas.drawLine(vertexToLine[2], vertexToLine[3], vertexToLine[16], vertexToLine[17], painter);
+        canvas.drawLine(vertexToLine[6], vertexToLine[7], vertexToLine[20], vertexToLine[21], painter);
+        //rysowanie hexów tła
+        canvas.drawLines(createHexVertexTable(centerX, centerY, radiusOutsideHex), painter);
+        canvas.drawLines(createHexVertexTable(centerX, centerY, radiudBeetwenHex), painter);
+        canvas.drawLines(createHexVertexTable(centerX, centerY, radiusInsideHex), painter);
+        //rysowanie linii wykresu statystyk, kropki służą polepszeniu efektu wizualnego
+        float[] sections = getLenghtStatsLine();//pobiera stosunki długości
+        painter.setStrokeWidth(3);
+        canvas.drawPoints(createPointsTable(centerX, centerY, radiusOutsideHex, sections), painter);
+        painter.setStrokeWidth(4);
+        canvas.drawLines(createStatsVertexTable(centerX, centerY, radiusOutsideHex, sections), painter);
+        //rysowanie liter skrótów statystyk
+        painter.setTextSize(12);
+        painter.setColor(getResources().getColor(R.color.color_strength));
+        canvas.drawText(getText(R.string.shortcut_strength).toString(), (float) centerX, (float) (centerY - radiusOutsideHex * 1.05), painter);
+        painter.setColor(getResources().getColor(R.color.color_endurance));
+        canvas.drawText(getText(R.string.shortcut_endurance).toString(), centerX + (float) (radiusOutsideHex * 1.05 * Math.sqrt(3) / 2), (float) (centerY - (radiusOutsideHex / 2) * 1.05), painter);
+        painter.setColor(getResources().getColor(R.color.color_dexterity));
+        canvas.drawText(getText(R.string.shortcut_dexterity).toString(), centerX + (float) (radiusOutsideHex * 1.05 * Math.sqrt(3) / 2), (float) (centerY + (radiusOutsideHex / 2) * 1.05), painter);
+        painter.setColor(getResources().getColor(R.color.color_intelligence));
+        canvas.drawText(getText(R.string.shortcut_intelligence).toString(), (float) centerX, (float) (centerY + radiusOutsideHex * 1.13), painter);
+        painter.setColor(getResources().getColor(R.color.color_wisdom));
+        canvas.drawText(getText(R.string.shortcut_wisdom).toString(), centerX - (float) (radiusOutsideHex * 1.15 * Math.sqrt(3) / 2), (float) (centerY + (radiusOutsideHex / 2) * 1.15), painter);
+        painter.setColor(getResources().getColor(R.color.color_charisma));
+        canvas.drawText(getText(R.string.shortcut_charisma).toString(), centerX - (float) (radiusOutsideHex * 1.1 * Math.sqrt(3) / 2), (float) (centerY - (radiusOutsideHex / 2) * 1.1), painter);
+        //wgranie stworzonego obrazka(wykresu) do obiektu imageView
+        imageView.setImageBitmap(bitmap);
     }
 
     /**
@@ -104,57 +165,6 @@ public class StatisticActivity extends AppCompatActivity {
                 (centerX - (float) (lenght * sections[5] * Math.sqrt(3) / 2)), (centerY - lenght * sections[5] / 2)};
     }
 
-    /**
-     * Metoda rysująca wykres sześciokątny na bitmapie. Najpierw wyliczane są tablice wierzchołków
-     * za pomocą odpowiednich metod, następnie rysowane są linie. Wykres składa się z tła złożonego
-     * z 3 sześciokątów o  3 różnych rozmiarach, przekątnych największego z sześciokątów. Drugim
-     * elementem wykresu jest wielokąt reprezentujący odpowiednie statystyki. Ostatnim elementem
-     * wykresu są oznaczenia konkretnych słupków, złożone z pierwszej litery stastystyki.
-     */
-    private void drawHexStats() {
-        int centerX = 200;//X środka
-        int centerY = 120;//Y środka
-        int radiusOutsideHex = 100;//promień największego hexa
-        int radiudBeetwenHex = 66;//promień średniego hexa
-        int radiusInsideHex = 33;//promień najmniejszego hexa
-
-        Bitmap bitmap = Bitmap.createBitmap(400, 250, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Paint painter = new Paint();
-
-        painter.setAntiAlias(true);//włączenie wygładzania krawędzi
-        //przekątne
-        float[] vertexToLine = createHexVertexTable(centerX, centerY, radiusOutsideHex);
-        canvas.drawLine(vertexToLine[0], vertexToLine[1], vertexToLine[12], vertexToLine[13], painter);
-        canvas.drawLine(vertexToLine[2], vertexToLine[3], vertexToLine[16], vertexToLine[17], painter);
-        canvas.drawLine(vertexToLine[6], vertexToLine[7], vertexToLine[20], vertexToLine[21], painter);
-        //rysowanie hexów tła
-        canvas.drawLines(createHexVertexTable(centerX, centerY, radiusOutsideHex), painter);
-        canvas.drawLines(createHexVertexTable(centerX, centerY, radiudBeetwenHex), painter);
-        canvas.drawLines(createHexVertexTable(centerX, centerY, radiusInsideHex), painter);
-        //rysowanie linii wykresu statystyk, kropki służą polepszeniu efektu wizualnego
-        float[] sections = getLenghtStatsLine();//pobiera stosunki długości
-        painter.setStrokeWidth(3);
-        canvas.drawPoints(createPointsTable(centerX, centerY, radiusOutsideHex, sections), painter);
-        painter.setStrokeWidth(4);
-        canvas.drawLines(createStatsVertexTable(centerX, centerY, radiusOutsideHex, sections), painter);
-        //rysowanie liter skrótów statystyk
-        painter.setTextSize(12);
-        painter.setColor(getResources().getColor(R.color.color_strength));
-        canvas.drawText(getText(R.string.shortcut_strength).toString(), (float) centerX, (float) (centerY - radiusOutsideHex * 1.05), painter);
-        painter.setColor(getResources().getColor(R.color.color_endurance));
-        canvas.drawText(getText(R.string.shortcut_endurance).toString(), centerX + (float) (radiusOutsideHex * 1.05 * Math.sqrt(3) / 2), (float) (centerY - (radiusOutsideHex / 2) * 1.05), painter);
-        painter.setColor(getResources().getColor(R.color.color_dexterity));
-        canvas.drawText(getText(R.string.shortcut_dexterity).toString(), centerX + (float) (radiusOutsideHex * 1.05 * Math.sqrt(3) / 2), (float) (centerY + (radiusOutsideHex / 2) * 1.05), painter);
-        painter.setColor(getResources().getColor(R.color.color_intelligence));
-        canvas.drawText(getText(R.string.shortcut_intelligence).toString(), (float) centerX, (float) (centerY + radiusOutsideHex * 1.13), painter);
-        painter.setColor(getResources().getColor(R.color.color_wisdom));
-        canvas.drawText(getText(R.string.shortcut_wisdom).toString(), centerX - (float) (radiusOutsideHex * 1.15 * Math.sqrt(3) / 2), (float) (centerY + (radiusOutsideHex / 2) * 1.15), painter);
-        painter.setColor(getResources().getColor(R.color.color_charisma));
-        canvas.drawText(getText(R.string.shortcut_charisma).toString(), centerX - (float) (radiusOutsideHex * 1.1 * Math.sqrt(3) / 2), (float) (centerY - (radiusOutsideHex / 2) * 1.1), painter);
-        //wgranie stworzonego obrazka(wykresu) do obiektu imageView
-        imageView.setImageBitmap(bitmap);
-    }
 
     /**
      * Metoda obliczająca stosunki między doświadczeniem różnych stastyk. Najpierw zliczana jest
@@ -276,6 +286,17 @@ public class StatisticActivity extends AppCompatActivity {
         progressBarCharisma = (ProgressBar) findViewById(R.id.progressBar_StatisticCharisma);
 
         imageView = (ImageView) findViewById(R.id.imageView_StatHex);
+    }
+
+    private void setComponentsColor() {
+        ColorManager colorManager = new ColorManager(getApplicationContext());
+        findViewById(R.id.ScrollViewStatistic).setBackgroundColor(colorManager.getBackgroundColor());
+        textViewStrength.setTextColor(colorManager.getTextColor());
+        textViewEndurance.setTextColor(colorManager.getTextColor());
+        textViewDexterity.setTextColor(colorManager.getTextColor());
+        textViewIntelligence.setTextColor(colorManager.getTextColor());
+        textViewWisdom.setTextColor(colorManager.getTextColor());
+        textViewCharisma.setTextColor(colorManager.getTextColor());
     }
 
 }

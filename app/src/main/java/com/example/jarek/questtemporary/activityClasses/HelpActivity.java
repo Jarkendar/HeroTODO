@@ -3,10 +3,12 @@ package com.example.jarek.questtemporary.activityClasses;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.example.jarek.questtemporary.R;
+import com.example.jarek.questtemporary.dataClasses.ColorManager;
 import com.example.jarek.questtemporary.dataClasses.HelpCategory;
 import com.example.jarek.questtemporary.dataClasses.HelpRowAdapter;
 
@@ -31,10 +33,16 @@ public class HelpActivity extends AppCompatActivity {
         listViewHelp = (ListView) findViewById(R.id.listView_Help);
 
         loadHelpCategoryList();
+        ColorManager colorManager = new ColorManager(getApplicationContext());
 
-        helpRowAdapter = new HelpRowAdapter(this, R.layout.row_help_list, helpWord);
+        helpRowAdapter = new HelpRowAdapter(this, R.layout.row_help_list, helpWord, colorManager.getHelpTextColor());
         listViewHelp.setAdapter(helpRowAdapter);
+        setComponentsColor(colorManager);
+    }
 
+    private void setComponentsColor(ColorManager colorManager){
+        findViewById(R.id.RelativeLayoutHelp).setBackgroundColor(colorManager.getBackgroundColor());
+        listViewHelp.setBackgroundColor(colorManager.getBackgroundColor());
     }
 
     private void loadHelpCategoryList(){

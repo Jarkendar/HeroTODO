@@ -3,9 +3,9 @@ package com.example.jarek.questtemporary.activityClasses;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,9 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jarek.questtemporary.R;
+import com.example.jarek.questtemporary.dataClasses.ColorManager;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
-import com.example.jarek.questtemporary.dataClasses.RowAdapter;
 import com.example.jarek.questtemporary.dataClasses.Quest;
+import com.example.jarek.questtemporary.dataClasses.RowAdapter;
 import com.example.jarek.questtemporary.heroClasses.Hero;
 import com.example.jarek.questtemporary.heroClasses.StatsMultiplier;
 
@@ -53,13 +54,6 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         joinComponentsWithVariable();
 
         quests = new LinkedList<>();
-
-        rowAdapter = new RowAdapter(this, R.layout.layout_quest, quests);
-        rowAdapter.addObserver(this);
-        buttonModify.setEnabled(false);
-        buttonDelete.setEnabled(false);
-
-        adapterRefresh();
     }
 
     /**
@@ -88,6 +82,21 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
     @Override
     protected void onResume() {
         super.onResume();
+
+        ColorManager colorManager = new ColorManager(getApplicationContext());
+
+        int textColor = colorManager.getTextColor();
+        int todayQuestColor = colorManager.getTodayQuestColor();
+        int endTimeQuestColor = colorManager.getEndTimeQuestColor();
+        int evenQuestColor = colorManager.getEvenQuestColor();
+        int notEvenQuestColor = colorManager.getNotEvenQuestColor();
+
+        rowAdapter = new RowAdapter(this, R.layout.layout_quest, quests, textColor, todayQuestColor, endTimeQuestColor, evenQuestColor, notEvenQuestColor);
+        rowAdapter.addObserver(this);
+        buttonModify.setEnabled(false);
+        buttonDelete.setEnabled(false);
+
+        setComponentsColor(colorManager);
         quests.clear();
         FileManager fileManager = new FileManager();
         quests.addAll(fileManager.deserializationQuests(userQuestFile, getApplicationContext()));
@@ -112,6 +121,13 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
 
         readHeroFromShared();
         adapterRefresh();
+    }
+
+    private void setComponentsColor(ColorManager colorManager) {
+        tClassLevel.setTextColor(colorManager.getTextColor());
+        tClassName.setTextColor(colorManager.getTextColor());
+        tExperience.setTextColor(colorManager.getTextColor());
+        findViewById(R.id.RelativeLayoutMain).setBackgroundColor(colorManager.getBackgroundColor());
     }
 
     /**
@@ -325,6 +341,7 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 if (quests.get(position).isRepeatable()) {
                     Calendar calendar = quests.get(position).getTimeToLiveDate();
                     calendar.add(Calendar.DAY_OF_MONTH, quests.get(position).getRepeatInterval());
+                    calendar.set(Calendar.HOUR, 0);
                     quests.addLast(new Quest(quests.get(position).getDescription(),
                             quests.get(position).getExperiencePoints(),
                             calendar,
@@ -342,6 +359,7 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 if (quests.get(position).isRepeatable()) {
                     Calendar calendar = quests.get(position).getTimeToLiveDate();
                     calendar.add(Calendar.DAY_OF_MONTH, quests.get(position).getRepeatInterval());
+                    calendar.set(Calendar.HOUR, 0);
                     quests.addLast(new Quest(quests.get(position).getDescription(),
                             quests.get(position).getExperiencePoints(),
                             calendar,
@@ -408,6 +426,7 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
     private void deleteListElement() {
         quests.remove(iposition);
         adapterRefresh();
+        Toast.makeText(this, getString(R.string.text_confirmDelete), Toast.LENGTH_SHORT).show();
     }
 
     /**

@@ -3,10 +3,8 @@ package com.example.jarek.questtemporary.dataClasses;
 import android.content.Context;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by Jarek on 2017-04-15.
@@ -21,7 +19,7 @@ public class Quest implements Serializable {
     private boolean repeatable;
     private int repeatInterval;
 
-    public Calendar getTimeToLiveDate(){
+    public Calendar getTimeToLiveDate() {
         return timeToLiveDate;
     }
 
@@ -73,15 +71,15 @@ public class Quest implements Serializable {
      */
     public String getDateFormatString() {
         String date;
-        if (timeToLiveDate.get(Calendar.DAY_OF_MONTH)<10){
-            date = "0"+timeToLiveDate.get(Calendar.DAY_OF_MONTH);
-        }else{
-            date = ""+timeToLiveDate.get(Calendar.DAY_OF_MONTH);
+        if (timeToLiveDate.get(Calendar.DAY_OF_MONTH) < 10) {
+            date = "0" + timeToLiveDate.get(Calendar.DAY_OF_MONTH);
+        } else {
+            date = "" + timeToLiveDate.get(Calendar.DAY_OF_MONTH);
         }
-        if (timeToLiveDate.get(Calendar.MONTH)+1 < 10){
-            date = date.concat("-0"+(timeToLiveDate.get(Calendar.MONTH)+1)+"-"+timeToLiveDate.get(Calendar.YEAR));
-        }else {
-            date = date.concat("-"+(timeToLiveDate.get(Calendar.MONTH)+1)+"-"+timeToLiveDate.get(Calendar.YEAR));
+        if (timeToLiveDate.get(Calendar.MONTH) + 1 < 10) {
+            date = date.concat("-0" + (timeToLiveDate.get(Calendar.MONTH) + 1) + "-" + timeToLiveDate.get(Calendar.YEAR));
+        } else {
+            date = date.concat("-" + (timeToLiveDate.get(Calendar.MONTH) + 1) + "-" + timeToLiveDate.get(Calendar.YEAR));
         }
         return date;
     }
