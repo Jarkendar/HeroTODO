@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -23,10 +24,14 @@ import com.example.jarek.questtemporary.dataClasses.RowAdapter;
 import com.example.jarek.questtemporary.heroClasses.Hero;
 import com.example.jarek.questtemporary.heroClasses.StatsMultiplier;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Formatter;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -50,10 +55,22 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quest_panel_main);
-
+        changeActionBar();
         joinComponentsWithVariable();
 
         quests = new LinkedList<>();
+    }
+
+    private void changeActionBar(){
+        Calendar calendar = Calendar.getInstance();
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        String title = getApplicationContext().getText(R.string.text_welcome).toString();
+        Format formatter = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+
+        title = title + " " + formatter.format(calendar.getTime());
+
+        actionBar.setTitle(title);
     }
 
     /**
