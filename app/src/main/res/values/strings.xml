@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Hero TODO</string>
+    <string name="text_welcome">Witaj.</string>
     <string name="text_option">Opcje</string>
     <string name="text_help">Pomoc</string>
     <string name="text_add">Dodaj zadanie</string>
@@ -42,6 +43,15 @@
     <string name="text_author">by Jarosław Skrzypczak</string>
     <string name="text_confirmDelete">Zadanie zostało usunięte.</string>
     <string name="text_colorTheme">Motyw kolorów:</string>
+    <string name="text_tutorialHeader">Witaj Bohaterze</string>
+    <string name="text_classInfo">Wybrana klasa to: </string>
+    <string name="text_classInfo_noSelected">Nie wybrano klasy</string>
+    <string name="text_optionInfo">Wszelkich zmian możesz dokonać w opcjach dostępnych po przejściu
+    dalej. </string>
+    <string name="text_helpInfo">W razie jakichkolwiek pytań proszę najpierw sprawdzić zakładkę
+    Pomoc, jeśli to nie pomoże proszę spróbować metodą prób i błędów, w ostateczności można
+    skontakrować się z programistą (nie zalecane).</string>
+    <string name="text_continue">Przejdź dalej.</string>
 
     <string name="help_aboutApp">O aplikacji</string>
     <string name="category_description_aboutApp">Aplikacja powstała, aby trochę urozmaicić nudne
