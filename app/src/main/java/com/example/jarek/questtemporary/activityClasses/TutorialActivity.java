@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.dataClasses.ColorManager;
@@ -17,7 +15,6 @@ import com.example.jarek.questtemporary.dataClasses.ColorManager;
 public class TutorialActivity extends AppCompatActivity {
 
     private TextView header, selectedClass, optionInfo, helpInfo;
-    private Button acceptClass, continueButton;
     private Spinner classList;
     private String heroClasses;
 
@@ -42,19 +39,16 @@ public class TutorialActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private void joinComponentsWithVariable(){
+    private void joinComponentsWithVariable() {
         header = (TextView) findViewById(R.id.textView_header);
         selectedClass = (TextView) findViewById(R.id.textView_classInfo);
         optionInfo = (TextView) findViewById(R.id.textView_optionInfo);
         helpInfo = (TextView) findViewById(R.id.textView_helpInfo);
 
-        acceptClass = (Button) findViewById(R.id.button_accept);
-        continueButton = (Button) findViewById(R.id.button_continue);
-
         classList = (Spinner) findViewById(R.id.spinner_class);
     }
 
-    private void setComponentsColor(){
+    private void setComponentsColor() {
         final ColorManager colorManager = new ColorManager(getApplicationContext());
         header.setTextColor(colorManager.getTextColor());
         selectedClass.setTextColor(colorManager.getTextColor());
@@ -64,7 +58,7 @@ public class TutorialActivity extends AppCompatActivity {
 
     public void selectClass(View view) {
         heroClasses = classList.getSelectedItem().toString();
-        selectedClass.setText(getString(R.string.text_classInfo) +" "+ heroClasses);
+        selectedClass.setText(getString(R.string.text_classInfo) + " " + heroClasses);
     }
 
     public void acceptAndContinue(View view) {
@@ -89,7 +83,7 @@ public class TutorialActivity extends AppCompatActivity {
         launchMainActivity();
     }
 
-    private void launchMainActivity(){
+    private void launchMainActivity() {
         Intent intent = new Intent(getApplicationContext(), QuestPanelMain.class);
         startActivity(intent);
     }
