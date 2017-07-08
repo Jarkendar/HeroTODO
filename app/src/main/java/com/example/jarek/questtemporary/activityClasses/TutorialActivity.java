@@ -69,7 +69,6 @@ public class TutorialActivity extends AppCompatActivity {
 
     public void acceptAndContinue(View view) {
         int heroClassID = R.string.class_native;
-        Toast.makeText(getApplicationContext(), getResources().getText(R.string.text_selectedClass), Toast.LENGTH_LONG).show();
         if (heroClasses.equals(getString(R.string.class_bard)))
             heroClassID = R.string.class_bard;
         else if (heroClasses.equals(getString(R.string.class_hunter)))
