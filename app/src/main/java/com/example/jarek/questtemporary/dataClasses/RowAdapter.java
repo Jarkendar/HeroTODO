@@ -194,7 +194,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
 
         if (quest.getTimeToLiveDate().compareTo(calendar) == -1) {
             row.setBackgroundColor(endTimeQuestColor);
-        } else if (quest.getTimeToLiveDate().compareTo(calendar) == 0) {
+        } else if (datesAreTheSame(quest.getTimeToLiveDate(), calendar)) {
             row.setBackgroundColor(todayQuestColor);
         } else {
             if (position % 2 == 0) {
@@ -205,6 +205,12 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
         }
         Log.d("+++++++", quest.getTimeToLiveDate().toString() + " : " + calendar.toString() + " = " + quest.getTimeToLiveDate().compareTo(calendar));
         return row;
+    }
+
+    private boolean datesAreTheSame(Calendar questDate, Calendar today){
+        return questDate.get(Calendar.YEAR) == today.get(Calendar.YEAR)
+                && questDate.get(Calendar.MONTH) == today.get(Calendar.MONTH)
+                && questDate.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH);
     }
 
     /**
