@@ -14,7 +14,7 @@ import com.example.jarek.questtemporary.dataClasses.ColorManager;
 public class launcher extends AppCompatActivity {
 
     private int miliseconds = 2000;
-    private final String sharedNames = "launcher";
+    private final String sharedNames = "heroShared";
     private final String firstRunKey = "firstRun";
 
     @Override
@@ -28,7 +28,8 @@ public class launcher extends AppCompatActivity {
         actionBar.hide();
 
         if (isFirstRun()){
-            
+            Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
+            waitAndRun(intent);
         }else {
             Intent intent = new Intent(getApplicationContext(), QuestPanelMain.class);
             waitAndRun(intent);
