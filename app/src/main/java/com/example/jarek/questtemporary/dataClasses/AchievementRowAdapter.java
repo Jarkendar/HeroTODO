@@ -29,9 +29,9 @@ public class AchievementRowAdapter extends ArrayAdapter<Achievement> {
     private int gainAchievColorID;
     private int notgainAchievColorID;
 
-    public AchievementRowAdapter(@NonNull Context context, @LayoutRes int resource, Context context1, int layoutResourceID, LinkedList<Achievement> achievements, int textColorID, int gainAchievColorID, int notgainAchievColorID) {
-        super(context, resource, achievements);
-        this.context = context1;
+    public AchievementRowAdapter(Context context, int layoutResourceID, LinkedList<Achievement> achievements, int textColorID, int gainAchievColorID, int notgainAchievColorID) {
+        super(context, layoutResourceID, achievements);
+        this.context = context;
         this.layoutResourceID = layoutResourceID;
         this.achievements = achievements;
         this.textColorID = textColorID;
@@ -61,6 +61,13 @@ public class AchievementRowAdapter extends ArrayAdapter<Achievement> {
         holder.rowDescription.setTextColor(textColorID);
         holder.rowBeam.setTextColor(textColorID);
         row.setEnabled(achievements.get(position).isGain());
+
+        if (achievements.get(position).isGain()){
+            row.setBackgroundColor(gainAchievColorID);
+        }else {
+            row.setBackgroundColor(notgainAchievColorID);
+        }
+
         return row;
     }
 

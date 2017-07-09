@@ -21,6 +21,8 @@ public class ColorManager {
     private int painterColor;
     private int backgroundColor;
     private int helpTextColor;
+    private int gainAchievColor;
+    private int notgainAchievColor;
     private String imageColorName;
 
     public ColorManager(Context context) {
@@ -40,6 +42,8 @@ public class ColorManager {
                 painterColor = context.getResources().getColor(R.color.color_Write);
                 backgroundColor = context.getResources().getColor(R.color.color_backgroundWhite);
                 helpTextColor = context.getResources().getColor(R.color.color_Blue);
+                gainAchievColor = context.getResources().getColor(R.color.color_backgroundGold);
+                notgainAchievColor = context.getResources().getColor(R.color.color_backgroundGray);
                 imageColorName = "default";
                 break;
             }
@@ -52,6 +56,8 @@ public class ColorManager {
                 painterColor = context.getResources().getColor(R.color.dark_color_Write);
                 backgroundColor = context.getResources().getColor(R.color.dark_color_backgroundWhite);
                 helpTextColor = context.getResources().getColor(R.color.dark_color_Blue);
+                gainAchievColor = context.getResources().getColor(R.color.dark_color_backgroundGold);
+                notgainAchievColor = context.getResources().getColor(R.color.dark_color_backgroundGray);
                 imageColorName = "dark";
                 break;
             }
@@ -88,6 +94,14 @@ public class ColorManager {
 
     public int getHelpTextColor() {
         return helpTextColor;
+    }
+
+    public int getGainAchievColor() {
+        return gainAchievColor;
+    }
+
+    public int getNotgainAchievColor() {
+        return notgainAchievColor;
     }
 
     public String getImageColorName() {

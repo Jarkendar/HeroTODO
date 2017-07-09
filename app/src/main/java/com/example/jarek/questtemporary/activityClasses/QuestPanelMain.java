@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jarek.questtemporary.R;
+import com.example.jarek.questtemporary.dataClasses.Achievement;
 import com.example.jarek.questtemporary.dataClasses.ColorManager;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
 import com.example.jarek.questtemporary.dataClasses.Quest;
@@ -299,6 +300,11 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 } else {
                     Toast.makeText(this, getText(R.string.text_firstChooseClass), Toast.LENGTH_SHORT).show();
                 }
+                break;
+            }
+            case R.id.app_bar_achievement:{
+                Intent intent = new Intent(this, Achievement.class);
+                startActivity(intent);
                 break;
             }
             case R.id.app_bar_option: {

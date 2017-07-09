@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.dataClasses.Achievement;
+import com.example.jarek.questtemporary.dataClasses.AchievementRowAdapter;
 import com.example.jarek.questtemporary.dataClasses.ColorManager;
 
 import java.util.LinkedList;
@@ -21,6 +22,8 @@ public class AchievementActivity extends AppCompatActivity {
 
     private TextView header;
     private ListView listView;
+
+    private AchievementRowAdapter achievementRowAdapter;
 
     private final String sharedAchievement = "achievements";
 
@@ -36,6 +39,14 @@ public class AchievementActivity extends AppCompatActivity {
         joinComponentsWithVariable();
         setComponentsColors();
         achievements = readAchievements();
+
+        ColorManager colorManager = new ColorManager(getApplicationContext());
+        int textColorID = colorManager.getTextColor();
+        int gainColorID = colorManager.getGainAchievColor();
+        int notgainColorID = colorManager.getNotgainAchievColor();
+
+        achievementRowAdapter = new AchievementRowAdapter(getApplicationContext(),R.layout.row_achievement_layout,achievements,textColorID,gainColorID,notgainColorID);
+        listView.setAdapter(achievementRowAdapter);
     }
 
     private LinkedList<Achievement> readAchievements(){

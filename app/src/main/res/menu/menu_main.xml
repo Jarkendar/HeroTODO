@@ -19,6 +19,12 @@
         android:orderInCategory="150"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/app_bar_achievement"
+        android:title="@string/text_achievement"
+        android:actionLayout="@layout/activity_quest_panel_main"
+        android:orderInCategory="160"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/app_bar_option"
         android:icon="@drawable/ic_settings_black_48dp"
         android:title="@string/text_option"
