@@ -45,7 +45,7 @@ public class AchievementActivity extends AppCompatActivity {
         int gainColorID = colorManager.getGainAchievColor();
         int notgainColorID = colorManager.getNotgainAchievColor();
 
-        achievementRowAdapter = new AchievementRowAdapter(getApplicationContext(),R.layout.row_achievement_layout,achievements,textColorID,gainColorID,notgainColorID);
+        achievementRowAdapter = new AchievementRowAdapter(this,R.layout.row_achievement_layout,achievements,textColorID,gainColorID,notgainColorID);
         listView.setAdapter(achievementRowAdapter);
     }
 

@@ -303,7 +303,7 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 break;
             }
             case R.id.app_bar_achievement:{
-                Intent intent = new Intent(this, Achievement.class);
+                Intent intent = new Intent(this, AchievementActivity.class);
                 startActivity(intent);
                 break;
             }
