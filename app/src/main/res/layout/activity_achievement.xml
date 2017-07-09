@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jarek.questtemporary.activityClasses.AchievementActivity">
+    tools:context="com.example.jarek.questtemporary.activityClasses.AchievementActivity"
+    android:id="@+id/RelativeLayoutAchievement">
 
     <TextView
         android:id="@+id/textView_achievementHeader"
@@ -16,6 +17,7 @@
         android:textStyle="bold"/>
 
     <ListView
+        android:id="@+id/listView_achievement"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
