@@ -203,7 +203,6 @@ public class QuestRowAdapter extends ArrayAdapter<Quest> implements Watched {
                 row.setBackgroundColor(notEvenQuestColor);
             }
         }
-        Log.d("+++++++", quest.getTimeToLiveDate().toString() + " : " + calendar.toString() + " = " + quest.getTimeToLiveDate().compareTo(calendar));
         return row;
     }
 

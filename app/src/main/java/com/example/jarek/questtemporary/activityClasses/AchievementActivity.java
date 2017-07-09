@@ -82,6 +82,9 @@ public class AchievementActivity extends AppCompatActivity {
         findViewById(R.id.RelativeLayoutAchievement).setBackgroundColor(colorManager.getBackgroundColor());
     }
 
-
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
 }

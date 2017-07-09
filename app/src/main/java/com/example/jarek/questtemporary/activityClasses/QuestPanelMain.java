@@ -3,10 +3,12 @@ package com.example.jarek.questtemporary.activityClasses;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,10 +46,15 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
     private QuestRowAdapter questRowAdapter;
     private int iposition;
     private Button buttonModify, buttonDelete;
+    private int rankClassID;
 
     private final String userQuestFile = "userQuestFile";
     private final String userAddQuest = "userAddQuest";
     private final String heroShared = "heroShared";
+    private final String sharedAchievement = "achievements";
+    private final String successEndQuestsKey = "successEndQuests";
+    private final String failedEndQuestsKey = "failedEndQuests";
+    private final String seriesQuestsKey = "seriesQuest";
 
     private Hero userHero;
 
@@ -87,6 +94,7 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         });
         questRowAdapter.setData(quests);
         listView.setAdapter(questRowAdapter);
+        new CheckerAchievement().execute();
     }
 
     /**
@@ -171,31 +179,37 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 case R.string.class_bard: {
                     ranksArray = getResources().getStringArray(R.array.bard_ranks);
                     multiplier = statsMultiplier.getBardMultiplier();
+                    rankClassID = R.array.bard_ranks;
                     break;
                 }
                 case R.string.class_hunter: {
                     ranksArray = getResources().getStringArray(R.array.hunter_ranks);
                     multiplier = statsMultiplier.getHunterMultiplier();
+                    rankClassID = R.array.hunter_ranks;
                     break;
                 }
                 case R.string.class_merchant: {
                     ranksArray = getResources().getStringArray(R.array.merchant_ranks);
                     multiplier = statsMultiplier.getMerchantMultiplier();
+                    rankClassID = R.array.merchant_ranks;
                     break;
                 }
                 case R.string.class_mage: {
                     ranksArray = getResources().getStringArray(R.array.mage_ranks);
                     multiplier = statsMultiplier.getMageMultiplier();
+                    rankClassID = R.array.mage_ranks;
                     break;
                 }
                 case R.string.class_lord: {
                     ranksArray = getResources().getStringArray(R.array.lord_ranks);
                     multiplier = statsMultiplier.getLordMultiplier();
+                    rankClassID = R.array.lord_ranks;
                     break;
                 }
                 case R.string.class_warrior: {
                     ranksArray = getResources().getStringArray(R.array.warrior_ranks);
                     multiplier = statsMultiplier.getWarriorMultiplier();
+                    rankClassID = R.array.warrior_ranks;
                     break;
                 }
             }
@@ -471,5 +485,91 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 })
                 .setNegativeButton(getText(R.string.text_no), null)//kliknięcie NIE nic nie robi
                 .show();//pokaż
+    }
+
+
+    private class CheckerAchievement extends AsyncTask < Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            String[] achievNames = getResources().getStringArray(R.array.achievement_Names);
+            for (String x : achievNames){
+                Log.d("++++++++++", "doInBackground: " + x);
+            }
+            SharedPreferences shared = getSharedPreferences(sharedAchievement,MODE_PRIVATE);
+            SharedPreferences.Editor editor = shared.edit();
+            boolean[] achievIsGained = new boolean[achievNames.length];
+            for(int i = 0; i< achievNames.length ; i++){
+                achievIsGained[i] = shared.getBoolean(achievNames[i],false);
+            }
+            int successQuest = shared.getInt(successEndQuestsKey, 0);
+            int failedQuest = shared.getInt(failedEndQuestsKey, 0);
+            int seriesQuest = shared.getInt(seriesQuestsKey, 0);
+
+            if (!achievIsGained[0] && successQuest>=1){
+                editor.putBoolean(achievNames[0],true);
+                editor.apply();
+            } else if (!achievIsGained[1] && successQuest>=128){
+                editor.putBoolean(achievNames[1],true);
+                editor.apply();
+            } else if (!achievIsGained[2] && successQuest>=1024){
+                editor.putBoolean(achievNames[2],true);
+                editor.apply();
+            } else if (!achievIsGained[3] && successQuest>=8192){
+                editor.putBoolean(achievNames[3],true);
+                editor.apply();
+            }
+            if (!achievIsGained[4] && seriesQuest>=2){
+                editor.putBoolean(achievNames[4],true);
+                editor.apply();
+            }else if (!achievIsGained[5] && seriesQuest>=16){
+                editor.putBoolean(achievNames[5],true);
+                editor.apply();
+            }else if (!achievIsGained[6] && seriesQuest>=128){
+                editor.putBoolean(achievNames[6],true);
+                editor.apply();
+            }else if (!achievIsGained[7] && seriesQuest>=512){
+                editor.putBoolean(achievNames[7],true);
+                editor.apply();
+            }
+            String[] ranks = getResources().getStringArray(rankClassID);
+            if (!achievIsGained[8] && userHero.getClassRank().equals(ranks[ranks.length-1])){
+                editor.putBoolean(achievNames[8],true);
+                editor.apply();
+            }else if (!achievIsGained[9] && userHero.getClassRank().equals(ranks[ranks.length-1])){
+                editor.putBoolean(achievNames[9],true);
+                editor.apply();
+            }else if (!achievIsGained[10] && userHero.getClassRank().equals(ranks[ranks.length-1])){
+                editor.putBoolean(achievNames[10],true);
+                editor.apply();
+            }else if (!achievIsGained[11] && userHero.getClassRank().equals(ranks[ranks.length-1])){
+                editor.putBoolean(achievNames[11],true);
+                editor.apply();
+            }else if (!achievIsGained[12] && userHero.getClassRank().equals(ranks[ranks.length-1])){
+                editor.putBoolean(achievNames[12],true);
+                editor.apply();
+            }else if (!achievIsGained[13] && userHero.getClassRank().equals(ranks[ranks.length-1])){
+                editor.putBoolean(achievNames[13],true);
+                editor.apply();
+            }
+            if (!achievIsGained[14] && failedQuest>=1){
+                editor.putBoolean(achievNames[14],true);
+                editor.apply();
+            }else if (!achievIsGained[15] && failedQuest>=32){
+                editor.putBoolean(achievNames[15],true);
+                editor.apply();
+            }else if (!achievIsGained[16] && failedQuest>=128){
+                editor.putBoolean(achievNames[16],true);
+                editor.apply();
+            }else if (!achievIsGained[17] && failedQuest>=1024){
+                editor.putBoolean(achievNames[17],true);
+                editor.apply();
+            }
+            if(!achievIsGained[18] && userHero.getHeroLVL()>= 500){
+                editor.putBoolean(achievNames[18],true);
+                editor.apply();
+            }
+            return null;
+        }
     }
 }
