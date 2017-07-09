@@ -1,5 +1,6 @@
 package com.example.jarek.questtemporary.activityClasses;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ public class AchievementActivity extends AppCompatActivity {
     private TextView header;
     private ListView listView;
 
+    private final String sharedAchievement = "achievements";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +35,18 @@ public class AchievementActivity extends AppCompatActivity {
 
         joinComponentsWithVariable();
         setComponentsColors();
-        achievements = new LinkedList<>();
+        achievements = readAchievements();
+    }
 
+    private LinkedList<Achievement> readAchievements(){
+        LinkedList<Achievement> linkedList = new LinkedList<>();
+        String[] names = getResources().getStringArray(R.array.achievement_Names);
+        String[] descriptions = getResources().getStringArray(R.array.achievement_Descriptions);
+        SharedPreferences sharedPreferences = getSharedPreferences(sharedAchievement, MODE_PRIVATE);
+        for (int i =0; i<names.length; i++){
+            linkedList.addLast(new Achievement(names[i],descriptions[i],sharedPreferences.getBoolean(names[i],false)));
+        }
+        return linkedList;
     }
 
     @Override

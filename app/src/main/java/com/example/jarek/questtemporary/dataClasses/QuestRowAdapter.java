@@ -26,7 +26,7 @@ import java.util.Observable;
 /**
  * Created by Jarek on 2017-04-15.
  */
-public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
+public class QuestRowAdapter extends ArrayAdapter<Quest> implements Watched {
     private Context context;
     private int layoutResourceID;
     private LinkedList<Quest> data = null;
@@ -39,7 +39,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
     private int notEvenQuestColor;
 
     /**
-     * Konstruktor klasy RowAdapter.
+     * Konstruktor klasy QuestRowAdapter.
      *
      * @param context           obiekt łącznika pomiędzy plikami xml, a kodem java
      * @param layoutResourceID  id layoutu podłączonego do adaptera
@@ -50,7 +50,7 @@ public class RowAdapter extends ArrayAdapter<Quest> implements Watched {
      * @param evenQuestColor
      * @param notEvenQuestColor
      */
-    public RowAdapter(Context context, int layoutResourceID, LinkedList<Quest> data, int textColor, int todayQuestColor, int endTimeQuestColor, int evenQuestColor, int notEvenQuestColor) {
+    public QuestRowAdapter(Context context, int layoutResourceID, LinkedList<Quest> data, int textColor, int todayQuestColor, int endTimeQuestColor, int evenQuestColor, int notEvenQuestColor) {
         super(context, layoutResourceID, data);
         this.context = context;
         this.layoutResourceID = layoutResourceID;

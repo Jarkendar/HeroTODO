@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView_name"
+        android:id="@+id/textView_Achievement_Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nazwa osiągnięcia"
@@ -15,7 +15,7 @@
         android:layout_marginTop="5dp"/>
 
     <TextView
-        android:id="@+id/textView_desciption"
+        android:id="@+id/textView_Achievement_Desciption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Opis osiągnięcia"
@@ -24,7 +24,7 @@
         android:layout_marginTop="3dp"/>
 
     <TextView
-        android:id="@+id/textView_bottom_line"
+        android:id="@+id/textView_Achievement_Bottom_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_Write"

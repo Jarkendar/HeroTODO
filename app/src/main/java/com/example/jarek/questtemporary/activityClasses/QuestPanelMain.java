@@ -20,7 +20,7 @@ import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.dataClasses.ColorManager;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
 import com.example.jarek.questtemporary.dataClasses.Quest;
-import com.example.jarek.questtemporary.dataClasses.RowAdapter;
+import com.example.jarek.questtemporary.dataClasses.QuestRowAdapter;
 import com.example.jarek.questtemporary.heroClasses.Hero;
 import com.example.jarek.questtemporary.heroClasses.StatsMultiplier;
 
@@ -40,7 +40,7 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
     private LinkedList<Quest> quests;
     private ListView listView;
     private TextView tClassName, tClassLevel, tExperience;
-    private RowAdapter rowAdapter;
+    private QuestRowAdapter questRowAdapter;
     private int iposition;
     private Button buttonModify, buttonDelete;
 
@@ -84,8 +84,8 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 return quest1.getTimeToLiveDate().compareTo(quest2.getTimeToLiveDate());
             }
         });
-        rowAdapter.setData(quests);
-        listView.setAdapter(rowAdapter);
+        questRowAdapter.setData(quests);
+        listView.setAdapter(questRowAdapter);
     }
 
     /**
@@ -107,8 +107,8 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         int evenQuestColor = colorManager.getEvenQuestColor();
         int notEvenQuestColor = colorManager.getNotEvenQuestColor();
 
-        rowAdapter = new RowAdapter(this, R.layout.row_quest_layout, quests, textColor, todayQuestColor, endTimeQuestColor, evenQuestColor, notEvenQuestColor);
-        rowAdapter.addObserver(this);
+        questRowAdapter = new QuestRowAdapter(this, R.layout.row_quest_layout, quests, textColor, todayQuestColor, endTimeQuestColor, evenQuestColor, notEvenQuestColor);
+        questRowAdapter.addObserver(this);
         buttonModify.setEnabled(false);
         buttonDelete.setEnabled(false);
 
