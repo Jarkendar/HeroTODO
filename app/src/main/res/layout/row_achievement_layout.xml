@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nazwa osiągnięcia"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/textView_desciption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Opis osiągnięcia"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="3dp"/>
+
+    <TextView
+        android:id="@+id/textView_bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_Write"
+        android:textSize="2sp"
+        android:layout_marginTop="3dp"/>
+</LinearLayout>

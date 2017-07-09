@@ -29,7 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Formatter;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Observable;
@@ -108,7 +107,7 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         int evenQuestColor = colorManager.getEvenQuestColor();
         int notEvenQuestColor = colorManager.getNotEvenQuestColor();
 
-        rowAdapter = new RowAdapter(this, R.layout.layout_quest, quests, textColor, todayQuestColor, endTimeQuestColor, evenQuestColor, notEvenQuestColor);
+        rowAdapter = new RowAdapter(this, R.layout.row_quest_layout, quests, textColor, todayQuestColor, endTimeQuestColor, evenQuestColor, notEvenQuestColor);
         rowAdapter.addObserver(this);
         buttonModify.setEnabled(false);
         buttonDelete.setEnabled(false);
