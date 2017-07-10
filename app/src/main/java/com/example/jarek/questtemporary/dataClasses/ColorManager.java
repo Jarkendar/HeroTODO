@@ -31,7 +31,6 @@ public class ColorManager {
     }
 
     private void readIDColors(String colorTheme, Context context){
-        Log.d("++++++", "readIDColors: "+colorTheme);
         switch (colorTheme){
             case "default":{
                 textColor = context.getResources().getColor(R.color.color_Write);
