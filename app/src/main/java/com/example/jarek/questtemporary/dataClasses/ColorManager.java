@@ -23,6 +23,7 @@ public class ColorManager {
     private int helpTextColor;
     private int gainAchievColor;
     private int notgainAchievColor;
+    private int selectedRowColor;
     private String imageColorName;
 
     public ColorManager(Context context) {
@@ -43,6 +44,7 @@ public class ColorManager {
                 helpTextColor = context.getResources().getColor(R.color.color_Blue);
                 gainAchievColor = context.getResources().getColor(R.color.color_backgroundGold);
                 notgainAchievColor = context.getResources().getColor(R.color.color_backgroundGray);
+                selectedRowColor = context.getResources().getColor(R.color.color_backgroundGreen);
                 imageColorName = "default";
                 break;
             }
@@ -57,6 +59,7 @@ public class ColorManager {
                 helpTextColor = context.getResources().getColor(R.color.dark_color_Blue);
                 gainAchievColor = context.getResources().getColor(R.color.dark_color_backgroundGold);
                 notgainAchievColor = context.getResources().getColor(R.color.dark_color_backgroundGray);
+                selectedRowColor = context.getResources().getColor(R.color.dark_color_backgroundGreen);
                 imageColorName = "dark";
                 break;
             }
@@ -107,6 +110,7 @@ public class ColorManager {
         return imageColorName;
     }
 
-
-
+    public int getSelectedRowColor() {
+        return selectedRowColor;
+    }
 }

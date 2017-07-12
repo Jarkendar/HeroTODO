@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jarek.questtemporary.R;
-import com.example.jarek.questtemporary.dataClasses.Achievement;
 import com.example.jarek.questtemporary.dataClasses.ColorManager;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
 import com.example.jarek.questtemporary.dataClasses.Quest;
@@ -55,6 +53,7 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
     private final String successEndQuestsKey = "successEndQuests";
     private final String failedEndQuestsKey = "failedEndQuests";
     private final String seriesQuestsKey = "seriesQuest";
+    private final String maxseriesQuestsKey = "maxSeriesQuest";
 
     private Hero userHero;
 
@@ -94,6 +93,7 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         });
         questRowAdapter.setData(quests);
         listView.setAdapter(questRowAdapter);
+        listView.setSelection(iposition);
         new CheckerAchievement().execute();
     }
 
@@ -115,8 +115,9 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         int endTimeQuestColor = colorManager.getEndTimeQuestColor();
         int evenQuestColor = colorManager.getEvenQuestColor();
         int notEvenQuestColor = colorManager.getNotEvenQuestColor();
+        int selectedRowColor = colorManager.getSelectedRowColor();
 
-        questRowAdapter = new QuestRowAdapter(this, R.layout.row_quest_layout, quests, textColor, todayQuestColor, endTimeQuestColor, evenQuestColor, notEvenQuestColor);
+        questRowAdapter = new QuestRowAdapter(this, R.layout.row_quest_layout, quests, textColor, todayQuestColor, endTimeQuestColor, evenQuestColor, notEvenQuestColor, selectedRowColor);
         questRowAdapter.addObserver(this);
         buttonModify.setEnabled(false);
         buttonDelete.setEnabled(false);
@@ -387,6 +388,9 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                             quests.get(position).isRepeatable(),
                             quests.get(position).getRepeatInterval(),
                             this));
+                }
+                if (shared.getInt(seriesQuestsKey,0)+1 > shared.getInt(maxseriesQuestsKey,0)){
+                    editor.putInt(maxseriesQuestsKey,shared.getInt(seriesQuestsKey,0)+1);
                 }
                 editor.putInt(successEndQuestsKey,shared.getInt(successEndQuestsKey,0) + 1);
                 editor.putInt(seriesQuestsKey,shared.getInt(seriesQuestsKey,0) + 1);

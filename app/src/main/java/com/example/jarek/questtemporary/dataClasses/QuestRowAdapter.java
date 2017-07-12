@@ -37,11 +37,11 @@ public class QuestRowAdapter extends ArrayAdapter<Quest> implements Watched {
     private int endTimeQuestColor;
     private int evenQuestColor;
     private int notEvenQuestColor;
+    private int selectedRowColor;
 
     /**
      * Konstruktor klasy QuestRowAdapter.
-     *
-     * @param context           obiekt łącznika pomiędzy plikami xml, a kodem java
+     *  @param context           obiekt łącznika pomiędzy plikami xml, a kodem java
      * @param layoutResourceID  id layoutu podłączonego do adaptera
      * @param data              lista zadań
      * @param textColor
@@ -49,8 +49,9 @@ public class QuestRowAdapter extends ArrayAdapter<Quest> implements Watched {
      * @param endTimeQuestColor
      * @param evenQuestColor
      * @param notEvenQuestColor
+     * @param selectedRowColor
      */
-    public QuestRowAdapter(Context context, int layoutResourceID, LinkedList<Quest> data, int textColor, int todayQuestColor, int endTimeQuestColor, int evenQuestColor, int notEvenQuestColor) {
+    public QuestRowAdapter(Context context, int layoutResourceID, LinkedList<Quest> data, int textColor, int todayQuestColor, int endTimeQuestColor, int evenQuestColor, int notEvenQuestColor, int selectedRowColor) {
         super(context, layoutResourceID, data);
         this.context = context;
         this.layoutResourceID = layoutResourceID;
@@ -61,6 +62,7 @@ public class QuestRowAdapter extends ArrayAdapter<Quest> implements Watched {
         this.endTimeQuestColor = endTimeQuestColor;
         this.evenQuestColor = evenQuestColor;
         this.notEvenQuestColor = notEvenQuestColor;
+        this.selectedRowColor = selectedRowColor;
     }
 
     /**
@@ -192,10 +194,10 @@ public class QuestRowAdapter extends ArrayAdapter<Quest> implements Watched {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-        if (quest.getTimeToLiveDate().compareTo(calendar) == -1) {
-            row.setBackgroundColor(endTimeQuestColor);
-        } else if (datesAreTheSame(quest.getTimeToLiveDate(), calendar)) {
-            row.setBackgroundColor(todayQuestColor);
+        if (datesAreTheSame(quest.getTimeToLiveDate(), calendar)) {
+                row.setBackgroundColor(todayQuestColor);
+        } else if (quest.getTimeToLiveDate().compareTo(calendar) == -1) {
+                row.setBackgroundColor(endTimeQuestColor);
         } else {
             if (position % 2 == 0) {
                 row.setBackgroundColor(evenQuestColor);

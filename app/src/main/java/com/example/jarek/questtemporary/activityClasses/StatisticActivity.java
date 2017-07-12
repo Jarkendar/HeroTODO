@@ -1,5 +1,6 @@
 package com.example.jarek.questtemporary.activityClasses;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -17,11 +18,17 @@ import com.example.jarek.questtemporary.dataClasses.ColorManager;
 
 public class StatisticActivity extends AppCompatActivity {
 
-    private TextView textViewStrength, textViewEndurance, textViewDexterity, textViewIntelligence, textViewWisdom, textViewCharisma;
+    private TextView textViewStrength, textViewEndurance, textViewDexterity, textViewIntelligence, textViewWisdom, textViewCharisma, textViewSuccess, textViewSeries, textViewFailed, textViewMaxSeries;
     private ProgressBar progressBarStrenght, progressBarEndurance, progressBarDexterity, progressBarIntelligence, progressBarWisdom, progressBarCharisma;
     private ImageView imageView;
 
     private double strength, endurance, dexterity, intelligence, wisdom, charisma;
+
+    private final String sharedAchievement = "achievements";
+    private final String successEndQuestsKey = "successEndQuests";
+    private final String failedEndQuestsKey = "failedEndQuests";
+    private final String seriesQuestsKey = "seriesQuest";
+    private final String maxseriesQuestsKey = "maxSeriesQuest";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +44,20 @@ public class StatisticActivity extends AppCompatActivity {
         getBundleExtras();
         drawHexStats();
         setComponentsColor();
+        setTextStatistic();
+
+    }
+
+    private void setTextStatistic(){
+        SharedPreferences sharedPreferences = getSharedPreferences(sharedAchievement, MODE_PRIVATE);
+        int success = sharedPreferences.getInt(successEndQuestsKey,0);
+        int series = sharedPreferences.getInt(seriesQuestsKey,0);
+        int maxSeries = sharedPreferences.getInt(maxseriesQuestsKey,0);
+        int failed = sharedPreferences.getInt(failedEndQuestsKey,0);
+        textViewSuccess.setText(getString(R.string.text_successQuest)+" "+success);
+        textViewSeries.setText(getString(R.string.text_actual_seriesQuest)+" "+series);
+        textViewMaxSeries.setText(getString(R.string.text_maxSeries)+" "+maxSeries);
+        textViewFailed.setText(getString(R.string.text_failedQuest)+" "+failed);
     }
 
     /**
@@ -277,6 +298,10 @@ public class StatisticActivity extends AppCompatActivity {
         textViewIntelligence = (TextView) findViewById(R.id.textView_StatisticIntelligenceLevel);
         textViewWisdom = (TextView) findViewById(R.id.textView_StatisticWisdomLevel);
         textViewCharisma = (TextView) findViewById(R.id.textView_StatisticCharismaLevel);
+        textViewSuccess = (TextView) findViewById(R.id.textView_success);
+        textViewSeries = (TextView) findViewById(R.id.textView_series);
+        textViewFailed = (TextView) findViewById(R.id.textView_failed);
+        textViewMaxSeries = (TextView) findViewById(R.id.textView_maxSeries);
 
         progressBarStrenght = (ProgressBar) findViewById(R.id.progressBar_StatisticStrength);
         progressBarEndurance = (ProgressBar) findViewById(R.id.progressBar_StatisticEndurance);
@@ -297,6 +322,10 @@ public class StatisticActivity extends AppCompatActivity {
         textViewIntelligence.setTextColor(colorManager.getTextColor());
         textViewWisdom.setTextColor(colorManager.getTextColor());
         textViewCharisma.setTextColor(colorManager.getTextColor());
+        textViewSuccess.setTextColor(colorManager.getTextColor());
+        textViewSeries.setTextColor(colorManager.getTextColor());
+        textViewFailed.setTextColor(colorManager.getTextColor());
+        textViewMaxSeries.setTextColor(colorManager.getTextColor());
     }
 
 }

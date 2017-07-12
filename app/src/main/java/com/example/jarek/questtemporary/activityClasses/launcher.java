@@ -58,7 +58,7 @@ public class launcher extends AppCompatActivity {
         if (colorManager.getImageColorName().equals("default")) {
             ((ImageView) findViewById(R.id.imageView_launcher)).setImageResource(R.drawable.main_picture);
         }else if (colorManager.getImageColorName().equals("dark")){
-            ((ImageView) findViewById(R.id.imageView_launcher)).setImageResource(R.drawable.main_picture);
+            ((ImageView) findViewById(R.id.imageView_launcher)).setImageResource(R.drawable.dark_main_picture);
         }
     }
 
