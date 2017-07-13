@@ -94,7 +94,9 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         questRowAdapter.setData(quests);
         listView.setAdapter(questRowAdapter);
         listView.setSelection(iposition);
-        new CheckerAchievement().execute();
+        if (userHero != null) {
+            new CheckerAchievement().execute();
+        }
     }
 
     /**
@@ -500,7 +502,7 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
     }
 
 
-    private class CheckerAchievement extends AsyncTask < Void, Void, Void>{
+    private class CheckerAchievement extends AsyncTask < Void, String, Void>{
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -516,50 +518,82 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
             SharedPreferences.Editor editor = shared.edit();
             if (!achievIsGained[0] && successQuest>=1){
                 editor.putBoolean(achievNames[0],true);
+                publishProgress(achievNames[0]);
             } else if (!achievIsGained[1] && successQuest>=128){
                 editor.putBoolean(achievNames[1],true);
+                publishProgress(achievNames[1]);
             } else if (!achievIsGained[2] && successQuest>=1024){
                 editor.putBoolean(achievNames[2],true);
+                publishProgress(achievNames[2]);
             } else if (!achievIsGained[3] && successQuest>=8192){
                 editor.putBoolean(achievNames[3],true);
+                publishProgress(achievNames[3]);
             }
             if (!achievIsGained[4] && seriesQuest>=2){
                 editor.putBoolean(achievNames[4],true);
+                publishProgress(achievNames[4]);
             }else if (!achievIsGained[5] && seriesQuest>=16){
                 editor.putBoolean(achievNames[5],true);
+                publishProgress(achievNames[5]);
             }else if (!achievIsGained[6] && seriesQuest>=128){
                 editor.putBoolean(achievNames[6],true);
+                publishProgress(achievNames[6]);
             }else if (!achievIsGained[7] && seriesQuest>=512){
                 editor.putBoolean(achievNames[7],true);
+                publishProgress(achievNames[7]);
             }
-            String[] ranks = getResources().getStringArray(rankClassID);
-            if (!achievIsGained[8] && userHero.getClassRank().equals(ranks[ranks.length-1])){
+            String[] ranksWarrior = getResources().getStringArray(R.array.warrior_ranks);
+            String[] ranksHunter = getResources().getStringArray(R.array.hunter_ranks);
+            String[] ranksMage = getResources().getStringArray(R.array.mage_ranks);
+            String[] ranksMerchant = getResources().getStringArray(R.array.merchant_ranks);
+            String[] ranksLord = getResources().getStringArray(R.array.lord_ranks);
+            String[] ranksBard = getResources().getStringArray(R.array.bard_ranks);
+            if (!achievIsGained[8] && userHero.getClassRank().equals(ranksWarrior[ranksWarrior.length-1])){
                 editor.putBoolean(achievNames[8],true);
-            }else if (!achievIsGained[9] && userHero.getClassRank().equals(ranks[ranks.length-1])){
+                publishProgress(achievNames[8]);
+            }else if (!achievIsGained[9] && userHero.getClassRank().equals(ranksHunter[ranksHunter.length-1])){
                 editor.putBoolean(achievNames[9],true);
-            }else if (!achievIsGained[10] && userHero.getClassRank().equals(ranks[ranks.length-1])){
+                publishProgress(achievNames[9]);
+            }else if (!achievIsGained[10] && userHero.getClassRank().equals(ranksLord[ranksLord.length-1])){
                 editor.putBoolean(achievNames[10],true);
-            }else if (!achievIsGained[11] && userHero.getClassRank().equals(ranks[ranks.length-1])){
+                publishProgress(achievNames[10]);
+            }else if (!achievIsGained[11] && userHero.getClassRank().equals(ranksMerchant[ranksMerchant.length-1])){
                 editor.putBoolean(achievNames[11],true);
-            }else if (!achievIsGained[12] && userHero.getClassRank().equals(ranks[ranks.length-1])){
+                publishProgress(achievNames[11]);
+            }else if (!achievIsGained[12] && userHero.getClassRank().equals(ranksMage[ranksMage.length-1])){
                 editor.putBoolean(achievNames[12],true);
-            }else if (!achievIsGained[13] && userHero.getClassRank().equals(ranks[ranks.length-1])){
+                publishProgress(achievNames[12]);
+            }else if (!achievIsGained[13] && userHero.getClassRank().equals(ranksBard[ranksBard.length-1])){
                 editor.putBoolean(achievNames[13],true);
+                publishProgress(achievNames[13]);
             }
             if (!achievIsGained[14] && failedQuest>=1){
                 editor.putBoolean(achievNames[14],true);
+                publishProgress(achievNames[14]);
             }else if (!achievIsGained[15] && failedQuest>=32){
                 editor.putBoolean(achievNames[15],true);
+                publishProgress(achievNames[15]);
             }else if (!achievIsGained[16] && failedQuest>=128){
                 editor.putBoolean(achievNames[16],true);
+                publishProgress(achievNames[16]);
             }else if (!achievIsGained[17] && failedQuest>=1024){
                 editor.putBoolean(achievNames[17],true);
+                publishProgress(achievNames[17]);
             }
             if(!achievIsGained[18] && userHero.getHeroLVL()>= 500){
                 editor.putBoolean(achievNames[18],true);
+                publishProgress(achievNames[18]);
             }
             editor.apply();
             return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            for (String achievName : values) {
+                Toast.makeText(getApplicationContext(), (getString(R.string.text_reachAchievement) + " " + achievName), Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

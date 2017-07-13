@@ -32,6 +32,8 @@ public class TutorialActivity extends AppCompatActivity {
 
         joinComponentsWithVariable();
         setComponentsColor();
+
+        heroClasses = getString(R.string.class_native);
     }
 
     @Override
