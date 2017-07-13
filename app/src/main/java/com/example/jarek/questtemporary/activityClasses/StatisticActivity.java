@@ -101,7 +101,7 @@ public class StatisticActivity extends AppCompatActivity {
         painter.setStrokeWidth(4);
         canvas.drawLines(createStatsVertexTable(centerX, centerY, radiusOutsideHex, sections), painter);
         //rysowanie liter skrótów statystyk
-        painter.setTextSize(12);
+        painter.setTextSize(widthDiagramArea/40);
         painter.setColor(getResources().getColor(R.color.color_strength));
         canvas.drawText(getText(R.string.shortcut_strength).toString(), (float) centerX, (float) (centerY - radiusOutsideHex * 1.05), painter);
         painter.setColor(getResources().getColor(R.color.color_endurance));

@@ -44,7 +44,6 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
     private QuestRowAdapter questRowAdapter;
     private int iposition;
     private Button buttonModify, buttonDelete;
-    private int rankClassID;
 
     private final String userQuestFile = "userQuestFile";
     private final String userAddQuest = "userAddQuest";
@@ -179,40 +178,35 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
             double[] multiplier = new double[0];
             String[] ranksArray = new String[0];
             switch (heroClassID) {
-                case R.string.class_bard: {
+                case R.string.class_bard:
+                {
                     ranksArray = getResources().getStringArray(R.array.bard_ranks);
                     multiplier = statsMultiplier.getBardMultiplier();
-                    rankClassID = R.array.bard_ranks;
                     break;
                 }
                 case R.string.class_hunter: {
                     ranksArray = getResources().getStringArray(R.array.hunter_ranks);
                     multiplier = statsMultiplier.getHunterMultiplier();
-                    rankClassID = R.array.hunter_ranks;
                     break;
                 }
                 case R.string.class_merchant: {
                     ranksArray = getResources().getStringArray(R.array.merchant_ranks);
                     multiplier = statsMultiplier.getMerchantMultiplier();
-                    rankClassID = R.array.merchant_ranks;
                     break;
                 }
                 case R.string.class_mage: {
                     ranksArray = getResources().getStringArray(R.array.mage_ranks);
                     multiplier = statsMultiplier.getMageMultiplier();
-                    rankClassID = R.array.mage_ranks;
                     break;
                 }
                 case R.string.class_lord: {
                     ranksArray = getResources().getStringArray(R.array.lord_ranks);
                     multiplier = statsMultiplier.getLordMultiplier();
-                    rankClassID = R.array.lord_ranks;
                     break;
                 }
                 case R.string.class_warrior: {
                     ranksArray = getResources().getStringArray(R.array.warrior_ranks);
                     multiplier = statsMultiplier.getWarriorMultiplier();
-                    rankClassID = R.array.warrior_ranks;
                     break;
                 }
             }
