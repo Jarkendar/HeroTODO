@@ -21,6 +21,9 @@ public class ColorManager {
     private int painterColor;
     private int backgroundColor;
     private int helpTextColor;
+    private int gainAchievColor;
+    private int notgainAchievColor;
+    private int selectedRowColor;
     private String imageColorName;
 
     public ColorManager(Context context) {
@@ -29,7 +32,6 @@ public class ColorManager {
     }
 
     private void readIDColors(String colorTheme, Context context){
-        Log.d("++++++", "readIDColors: "+colorTheme);
         switch (colorTheme){
             case "default":{
                 textColor = context.getResources().getColor(R.color.color_Write);
@@ -40,6 +42,9 @@ public class ColorManager {
                 painterColor = context.getResources().getColor(R.color.color_Write);
                 backgroundColor = context.getResources().getColor(R.color.color_backgroundWhite);
                 helpTextColor = context.getResources().getColor(R.color.color_Blue);
+                gainAchievColor = context.getResources().getColor(R.color.color_backgroundGold);
+                notgainAchievColor = context.getResources().getColor(R.color.color_backgroundGray);
+                selectedRowColor = context.getResources().getColor(R.color.color_backgroundGreen);
                 imageColorName = "default";
                 break;
             }
@@ -52,6 +57,9 @@ public class ColorManager {
                 painterColor = context.getResources().getColor(R.color.dark_color_Write);
                 backgroundColor = context.getResources().getColor(R.color.dark_color_backgroundWhite);
                 helpTextColor = context.getResources().getColor(R.color.dark_color_Blue);
+                gainAchievColor = context.getResources().getColor(R.color.dark_color_backgroundGold);
+                notgainAchievColor = context.getResources().getColor(R.color.dark_color_backgroundGray);
+                selectedRowColor = context.getResources().getColor(R.color.dark_color_backgroundGreen);
                 imageColorName = "dark";
                 break;
             }
@@ -90,10 +98,19 @@ public class ColorManager {
         return helpTextColor;
     }
 
+    public int getGainAchievColor() {
+        return gainAchievColor;
+    }
+
+    public int getNotgainAchievColor() {
+        return notgainAchievColor;
+    }
+
     public String getImageColorName() {
         return imageColorName;
     }
 
-
-
+    public int getSelectedRowColor() {
+        return selectedRowColor;
+    }
 }

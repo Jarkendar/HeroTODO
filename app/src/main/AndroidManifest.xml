@@ -29,7 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activityClasses.TutorialActivity"></activity>
+        <activity android:name=".activityClasses.TutorialActivity" />
+        <activity android:name=".activityClasses.AchievementActivity"></activity>
     </application>
 
 </manifest>

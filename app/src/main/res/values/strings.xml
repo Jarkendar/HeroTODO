@@ -50,8 +50,14 @@
     dalej. </string>
     <string name="text_helpInfo">W razie jakichkolwiek pytań proszę najpierw sprawdzić zakładkę
     Pomoc, jeśli to nie pomoże proszę spróbować metodą prób i błędów, w ostateczności można
-    skontakrować się z programistą (nie zalecane).</string>
+    skontaktować się z programistą (nie zalecane).</string>
     <string name="text_continue">Przejdź dalej.</string>
+    <string name="text_achievement">Osiągnięcia</string>
+    <string name="text_successQuest">Zadania wykonane: </string>
+    <string name="text_actual_seriesQuest">Aktualna seria zadań:</string>
+    <string name="text_failedQuest">Zadania nie wykonane:</string>
+    <string name="text_maxSeries">Największa seria zadań:</string>
+    <string name="text_reachAchievement">Zdobyto osiągnięcie: </string>
 
     <string name="help_aboutApp">O aplikacji</string>
     <string name="category_description_aboutApp">Aplikacja powstała, aby trochę urozmaicić nudne
@@ -294,4 +300,50 @@
         <item>Domyślny</item>
         <item>Ciemny</item>
     </string-array>
+
+    <string-array name="achievement_Names">
+        <item>Początki bywają różne</item>
+        <item>Dobry człowiek</item>
+        <item>Mam tę moc</item>
+        <item>Prawdziwy Bohater</item>
+        <item>Fart</item>
+        <item>Spełnione oczekiwania</item>
+        <item>Dotrzymujący słowa</item>
+        <item>Powiernik Pierścienia</item>
+        <item>Spartiata</item>
+        <item>Wiedźmin</item>
+        <item>Cesarz</item>
+        <item>Mecenas</item>
+        <item>Gandalf Biały</item>
+        <item>Arick Słodka Pieśń</item>
+        <item>Pierwsze niepowodzenie</item>
+        <item>Nie można być idealnym</item>
+        <item>Trzeba coś zmienić</item>
+        <item>Biorę za trudne zadania</item>
+        <item>Sūpā Saiya-jin 超サイヤ人</item>
+    </string-array>
+
+    <string-array name="achievement_Descriptions">
+        <item>Wykonano 1 zadanie.</item>
+        <item>Wykonano 128 zadań.</item>
+        <item>Wykonano 1024 zadań.</item>
+        <item>Wykonano 8192 zadań.</item>
+        <item>Osiągnięto serię 2 zadań pod rząd.</item>
+        <item>Osiągnięto serię 16 zadań pod rząd.</item>
+        <item>Osiągnięto serię 128 zadań pod rząd.</item>
+        <item>Osiągnięto serię 512 zadań pod rząd.</item>
+        <item>Zdobyto najwyższą rangę klasy Wojownik.</item>
+        <item>Zdobyto najwyższą rangę klasy Łowca.</item>
+        <item>Zdobyto najwyższą rangę klasy Władca.</item>
+        <item>Zdobyto najwyższą rangę klasy Kupiec.</item>
+        <item>Zdobyto najwyższą rangę klasy Mag.</item>
+        <item>Zdobyto najwyższą rangę klasy Bard.</item>
+        <item>Nie wykonano 1 zadania.</item>
+        <item>Nie wykonano 32 zadań.</item>
+        <item>Nie wykonano 128 zadań.</item>
+        <item>Nie wykonano 1024 zadań.</item>
+        <item>Zdobyto poziom 500 dowolną klasą. Osiągnięto zupełnie nowy poziom rozwoju.</item>
+    </string-array>
+
+
 </resources>

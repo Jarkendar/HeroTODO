@@ -3,6 +3,7 @@ package com.example.jarek.questtemporary.activityClasses;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -20,7 +21,7 @@ import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.dataClasses.ColorManager;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
 import com.example.jarek.questtemporary.dataClasses.Quest;
-import com.example.jarek.questtemporary.dataClasses.RowAdapter;
+import com.example.jarek.questtemporary.dataClasses.QuestRowAdapter;
 import com.example.jarek.questtemporary.heroClasses.Hero;
 import com.example.jarek.questtemporary.heroClasses.StatsMultiplier;
 
@@ -29,7 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Formatter;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Observable;
@@ -41,13 +41,18 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
     private LinkedList<Quest> quests;
     private ListView listView;
     private TextView tClassName, tClassLevel, tExperience;
-    private RowAdapter rowAdapter;
+    private QuestRowAdapter questRowAdapter;
     private int iposition;
     private Button buttonModify, buttonDelete;
 
     private final String userQuestFile = "userQuestFile";
     private final String userAddQuest = "userAddQuest";
     private final String heroShared = "heroShared";
+    private final String sharedAchievement = "achievements";
+    private final String successEndQuestsKey = "successEndQuests";
+    private final String failedEndQuestsKey = "failedEndQuests";
+    private final String seriesQuestsKey = "seriesQuest";
+    private final String maxseriesQuestsKey = "maxSeriesQuest";
 
     private Hero userHero;
 
@@ -85,8 +90,12 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 return quest1.getTimeToLiveDate().compareTo(quest2.getTimeToLiveDate());
             }
         });
-        rowAdapter.setData(quests);
-        listView.setAdapter(rowAdapter);
+        questRowAdapter.setData(quests);
+        listView.setAdapter(questRowAdapter);
+        listView.setSelection(iposition);
+        if (userHero != null) {
+            new CheckerAchievement().execute();
+        }
     }
 
     /**
@@ -107,9 +116,10 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         int endTimeQuestColor = colorManager.getEndTimeQuestColor();
         int evenQuestColor = colorManager.getEvenQuestColor();
         int notEvenQuestColor = colorManager.getNotEvenQuestColor();
+        int selectedRowColor = colorManager.getSelectedRowColor();
 
-        rowAdapter = new RowAdapter(this, R.layout.layout_quest, quests, textColor, todayQuestColor, endTimeQuestColor, evenQuestColor, notEvenQuestColor);
-        rowAdapter.addObserver(this);
+        questRowAdapter = new QuestRowAdapter(this, R.layout.row_quest_layout, quests, textColor, todayQuestColor, endTimeQuestColor, evenQuestColor, notEvenQuestColor, selectedRowColor);
+        questRowAdapter.addObserver(this);
         buttonModify.setEnabled(false);
         buttonDelete.setEnabled(false);
 
@@ -168,7 +178,8 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
             double[] multiplier = new double[0];
             String[] ranksArray = new String[0];
             switch (heroClassID) {
-                case R.string.class_bard: {
+                case R.string.class_bard:
+                {
                     ranksArray = getResources().getStringArray(R.array.bard_ranks);
                     multiplier = statsMultiplier.getBardMultiplier();
                     break;
@@ -302,6 +313,11 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 }
                 break;
             }
+            case R.id.app_bar_achievement:{
+                Intent intent = new Intent(this, AchievementActivity.class);
+                startActivity(intent);
+                break;
+            }
             case R.id.app_bar_option: {
                 Intent intent = new Intent(this, OptionActivity.class);
                 startActivity(intent);
@@ -334,6 +350,8 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
     private void serviceObserveButtons(String order) {
         String[] partsOfOrder = order.split(";");
         int position = Integer.parseInt(partsOfOrder[1]);
+        SharedPreferences shared = getSharedPreferences(sharedAchievement,MODE_PRIVATE);
+        SharedPreferences.Editor editor = shared.edit();
         switch (partsOfOrder[0]) {
             case "succeed":
                 buttonModify.setEnabled(false);
@@ -367,6 +385,11 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                             quests.get(position).getRepeatInterval(),
                             this));
                 }
+                if (shared.getInt(seriesQuestsKey,0)+1 > shared.getInt(maxseriesQuestsKey,0)){
+                    editor.putInt(maxseriesQuestsKey,shared.getInt(seriesQuestsKey,0)+1);
+                }
+                editor.putInt(successEndQuestsKey,shared.getInt(successEndQuestsKey,0) + 1);
+                editor.putInt(seriesQuestsKey,shared.getInt(seriesQuestsKey,0) + 1);
 
                 quests.remove(position);
                 break;
@@ -385,6 +408,9 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                             quests.get(position).getRepeatInterval(),
                             this));
                 }
+                editor.putInt(failedEndQuestsKey,shared.getInt(failedEndQuestsKey,0) + 1);
+                editor.putInt(seriesQuestsKey,0);
+
                 quests.remove(position);
                 break;
             case "clickRow":
@@ -393,6 +419,7 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 iposition = Integer.parseInt(partsOfOrder[1]);
                 break;
         }
+        editor.apply();
     }
 
     /**
@@ -466,5 +493,101 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 })
                 .setNegativeButton(getText(R.string.text_no), null)//kliknięcie NIE nic nie robi
                 .show();//pokaż
+    }
+
+
+    private class CheckerAchievement extends AsyncTask < Void, String, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            String[] achievNames = getResources().getStringArray(R.array.achievement_Names);
+            SharedPreferences shared = getSharedPreferences(sharedAchievement,MODE_PRIVATE);
+            boolean[] achievIsGained = new boolean[achievNames.length];
+            for(int i = 0; i< achievNames.length ; i++){
+                achievIsGained[i] = shared.getBoolean(achievNames[i],false);
+            }
+            int successQuest = shared.getInt(successEndQuestsKey, 0);
+            int failedQuest = shared.getInt(failedEndQuestsKey, 0);
+            int seriesQuest = shared.getInt(seriesQuestsKey, 0);
+            SharedPreferences.Editor editor = shared.edit();
+            if (!achievIsGained[0] && successQuest>=1){
+                editor.putBoolean(achievNames[0],true);
+                publishProgress(achievNames[0]);
+            } else if (!achievIsGained[1] && successQuest>=128){
+                editor.putBoolean(achievNames[1],true);
+                publishProgress(achievNames[1]);
+            } else if (!achievIsGained[2] && successQuest>=1024){
+                editor.putBoolean(achievNames[2],true);
+                publishProgress(achievNames[2]);
+            } else if (!achievIsGained[3] && successQuest>=8192){
+                editor.putBoolean(achievNames[3],true);
+                publishProgress(achievNames[3]);
+            }
+            if (!achievIsGained[4] && seriesQuest>=2){
+                editor.putBoolean(achievNames[4],true);
+                publishProgress(achievNames[4]);
+            }else if (!achievIsGained[5] && seriesQuest>=16){
+                editor.putBoolean(achievNames[5],true);
+                publishProgress(achievNames[5]);
+            }else if (!achievIsGained[6] && seriesQuest>=128){
+                editor.putBoolean(achievNames[6],true);
+                publishProgress(achievNames[6]);
+            }else if (!achievIsGained[7] && seriesQuest>=512){
+                editor.putBoolean(achievNames[7],true);
+                publishProgress(achievNames[7]);
+            }
+            String[] ranksWarrior = getResources().getStringArray(R.array.warrior_ranks);
+            String[] ranksHunter = getResources().getStringArray(R.array.hunter_ranks);
+            String[] ranksMage = getResources().getStringArray(R.array.mage_ranks);
+            String[] ranksMerchant = getResources().getStringArray(R.array.merchant_ranks);
+            String[] ranksLord = getResources().getStringArray(R.array.lord_ranks);
+            String[] ranksBard = getResources().getStringArray(R.array.bard_ranks);
+            if (!achievIsGained[8] && userHero.getClassRank().equals(ranksWarrior[ranksWarrior.length-1])){
+                editor.putBoolean(achievNames[8],true);
+                publishProgress(achievNames[8]);
+            }else if (!achievIsGained[9] && userHero.getClassRank().equals(ranksHunter[ranksHunter.length-1])){
+                editor.putBoolean(achievNames[9],true);
+                publishProgress(achievNames[9]);
+            }else if (!achievIsGained[10] && userHero.getClassRank().equals(ranksLord[ranksLord.length-1])){
+                editor.putBoolean(achievNames[10],true);
+                publishProgress(achievNames[10]);
+            }else if (!achievIsGained[11] && userHero.getClassRank().equals(ranksMerchant[ranksMerchant.length-1])){
+                editor.putBoolean(achievNames[11],true);
+                publishProgress(achievNames[11]);
+            }else if (!achievIsGained[12] && userHero.getClassRank().equals(ranksMage[ranksMage.length-1])){
+                editor.putBoolean(achievNames[12],true);
+                publishProgress(achievNames[12]);
+            }else if (!achievIsGained[13] && userHero.getClassRank().equals(ranksBard[ranksBard.length-1])){
+                editor.putBoolean(achievNames[13],true);
+                publishProgress(achievNames[13]);
+            }
+            if (!achievIsGained[14] && failedQuest>=1){
+                editor.putBoolean(achievNames[14],true);
+                publishProgress(achievNames[14]);
+            }else if (!achievIsGained[15] && failedQuest>=32){
+                editor.putBoolean(achievNames[15],true);
+                publishProgress(achievNames[15]);
+            }else if (!achievIsGained[16] && failedQuest>=128){
+                editor.putBoolean(achievNames[16],true);
+                publishProgress(achievNames[16]);
+            }else if (!achievIsGained[17] && failedQuest>=1024){
+                editor.putBoolean(achievNames[17],true);
+                publishProgress(achievNames[17]);
+            }
+            if(!achievIsGained[18] && userHero.getHeroLVL()>= 500){
+                editor.putBoolean(achievNames[18],true);
+                publishProgress(achievNames[18]);
+            }
+            editor.apply();
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            for (String achievName : values) {
+                Toast.makeText(getApplicationContext(), (getString(R.string.text_reachAchievement) + " " + achievName), Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

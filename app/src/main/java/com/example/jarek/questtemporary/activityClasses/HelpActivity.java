@@ -3,7 +3,6 @@ package com.example.jarek.questtemporary.activityClasses;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ListView;
 
@@ -35,7 +34,7 @@ public class HelpActivity extends AppCompatActivity {
         loadHelpCategoryList();
         ColorManager colorManager = new ColorManager(getApplicationContext());
 
-        helpRowAdapter = new HelpRowAdapter(this, R.layout.row_help_list, helpWord, colorManager.getHelpTextColor());
+        helpRowAdapter = new HelpRowAdapter(this, R.layout.row_help_layout, helpWord, colorManager.getHelpTextColor());
         listViewHelp.setAdapter(helpRowAdapter);
         setComponentsColor(colorManager);
     }

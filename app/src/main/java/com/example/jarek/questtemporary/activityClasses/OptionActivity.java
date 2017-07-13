@@ -102,7 +102,7 @@ public class OptionActivity extends AppCompatActivity {
         buttonselectClass = (Button) findViewById(R.id.button_selectClass);
         buttonaccept = (Button) findViewById(R.id.button_accept);
 
-        spinnerlistClass = (Spinner) findViewById(R.id.spinner_Class);
+        spinnerlistClass = (Spinner) findViewById(R.id.spinner_class);
         spinnerColorTheme = (Spinner) findViewById(R.id.spinner_colorTheme);
     }
 
