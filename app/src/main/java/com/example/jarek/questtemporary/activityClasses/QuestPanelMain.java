@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jarek.questtemporary.NotificationService;
 import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.dataClasses.ColorManager;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
@@ -64,6 +65,13 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         joinComponentsWithVariable();
 
         quests = new LinkedList<>();
+        createDailyNotification();
+    }
+
+    private void createDailyNotification(){
+        Intent intent = new Intent(this, NotificationService.class);
+        intent.putExtra(NotificationService.EXTRA_MESSAGE,getString(R.string.notification_daily));
+        startService(intent);
     }
 
     private void changeActionBar(){
