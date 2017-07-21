@@ -36,7 +36,6 @@ public class StatisticActivity extends AppCompatActivity {
         setContentView(R.layout.activity_statistic);
 
         ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
         actionBar.setTitle(R.string.text_statistics);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -225,23 +224,6 @@ public class StatisticActivity extends AppCompatActivity {
         super.onResume();
         setLevelTextViews();
         setProgressBars();
-    }
-
-    /**
-     * Metoda włączana automatycznie gdy użytkownik kliknie w przycisk w actionBar.
-     *
-     * @param item id przycisku, w który użytkownik kliknął
-     * @return ?
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                onBackPressed();
-                break;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

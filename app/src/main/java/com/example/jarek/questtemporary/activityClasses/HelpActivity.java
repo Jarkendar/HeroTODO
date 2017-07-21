@@ -25,7 +25,6 @@ public class HelpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_help);
 
         ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
         actionBar.setTitle(getText(R.string.text_help));
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -62,15 +61,5 @@ public class HelpActivity extends AppCompatActivity {
         helpWord.add(new HelpCategory(getString(R.string.help_category_intelligence),getString(R.string.category_description_intelligence)));
         helpWord.add(new HelpCategory(getString(R.string.help_category_wisdom),getString(R.string.category_description_wisdom)));
         helpWord.add(new HelpCategory(getString(R.string.help_category_charisma),getString(R.string.category_description_charisma)));
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:{
-                onBackPressed();
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -57,7 +57,6 @@ public class QuestForm extends AppCompatActivity {
         setComponentsColor();
 
         ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
         if (mode.equals("modifyQuest")) {
             actionBar.setTitle(getText(R.string.text_modify));
             buttonaddQuest.setText(getText(R.string.text_modify));
@@ -211,23 +210,6 @@ public class QuestForm extends AppCompatActivity {
             editTextinterval.setText(String.valueOf(bundle.getInt("interval")));
         }
 
-    }
-
-    /**
-     * Metoda włączana automatycznie gdy użytkownik kliknie w przycisk w actionBar.
-     *
-     * @param item id przycisku, w który użytkownik kliknął
-     * @return ?
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {//kliknięcie strzałki back w actionBar
-                onBackPressed();
-                break;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     /**

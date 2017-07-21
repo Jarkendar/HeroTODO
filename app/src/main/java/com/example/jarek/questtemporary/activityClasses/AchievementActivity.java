@@ -33,7 +33,6 @@ public class AchievementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_achievement);
 
         ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         joinComponentsWithVariable();
@@ -58,17 +57,6 @@ public class AchievementActivity extends AppCompatActivity {
             linkedList.addLast(new Achievement(names[i],descriptions[i],sharedPreferences.getBoolean(names[i],false)));
         }
         return linkedList;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {//kliknięcie strzałki back w actionBar
-                onBackPressed();
-                break;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void joinComponentsWithVariable(){

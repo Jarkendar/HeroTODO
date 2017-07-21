@@ -37,7 +37,6 @@ public class OptionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_option);
 
         ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
         actionBar.setTitle(getText(R.string.text_option));
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -104,23 +103,6 @@ public class OptionActivity extends AppCompatActivity {
 
         spinnerlistClass = (Spinner) findViewById(R.id.spinner_class);
         spinnerColorTheme = (Spinner) findViewById(R.id.spinner_colorTheme);
-    }
-
-    /**
-     * Metoda włączana automatycznie gdy użytkownik kliknie w przycisk w actionBar.
-     *
-     * @param item id przycisku, w który użytkownik kliknął
-     * @return ?
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {//kliknięcie strzałki back w actionBar
-                onBackPressed();
-                break;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     /**
