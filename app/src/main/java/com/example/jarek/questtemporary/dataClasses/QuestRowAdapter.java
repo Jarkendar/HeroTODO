@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,7 @@ public class QuestRowAdapter extends ArrayAdapter<Quest> implements Watched {
     private ArrayList<QuestPanelMain> observers;//tablica obserwatorów, których trzeba informować o zmianach
     private String order;//rozkaz przekazywany obserwatorom, przy zmianie parametru
     private int textColor;
-    private int todayQuestColor;
+    private int todayVeryEasyQuestColor,todayEasyQuestColor,todayNormalQuestColor,todayHardQuestColor,todayVeryHardQuestColor, todayVeryVeryHardQuestColor;
     private int endTimeQuestColor;
     private int evenQuestColor;
     private int notEvenQuestColor;
@@ -44,25 +43,24 @@ public class QuestRowAdapter extends ArrayAdapter<Quest> implements Watched {
      *  @param context           obiekt łącznika pomiędzy plikami xml, a kodem java
      * @param layoutResourceID  id layoutu podłączonego do adaptera
      * @param data              lista zadań
-     * @param textColor
-     * @param todayQuestColor
-     * @param endTimeQuestColor
-     * @param evenQuestColor
-     * @param notEvenQuestColor
-     * @param selectedRowColor
      */
-    public QuestRowAdapter(Context context, int layoutResourceID, LinkedList<Quest> data, int textColor, int todayQuestColor, int endTimeQuestColor, int evenQuestColor, int notEvenQuestColor, int selectedRowColor) {
+    public QuestRowAdapter(Context context, int layoutResourceID, LinkedList<Quest> data, int[] colors) {
         super(context, layoutResourceID, data);
         this.context = context;
         this.layoutResourceID = layoutResourceID;
         this.data = data;
         observers = new ArrayList<>();
-        this.textColor = textColor;
-        this.todayQuestColor = todayQuestColor;
-        this.endTimeQuestColor = endTimeQuestColor;
-        this.evenQuestColor = evenQuestColor;
-        this.notEvenQuestColor = notEvenQuestColor;
-        this.selectedRowColor = selectedRowColor;
+        this.textColor = colors[0];
+        this.selectedRowColor = colors[1];
+        this.endTimeQuestColor = colors[2];
+        this.evenQuestColor = colors[3];
+        this.notEvenQuestColor = colors[4];
+        this.todayVeryEasyQuestColor = colors[5];
+        this.todayEasyQuestColor = colors[6];
+        this.todayNormalQuestColor = colors[7];
+        this.todayHardQuestColor = colors[8];
+        this.todayVeryHardQuestColor = colors[9];
+        this.todayVeryVeryHardQuestColor = colors[10];
     }
 
     /**
@@ -195,7 +193,35 @@ public class QuestRowAdapter extends ArrayAdapter<Quest> implements Watched {
         calendar.set(Calendar.MILLISECOND, 0);
 
         if (datesAreTheSame(quest.getTimeToLiveDate(), calendar)) {
-                row.setBackgroundColor(todayQuestColor);
+            switch (getQuestLevel(quest)) {
+                case 0: {
+                    row.setBackgroundColor(todayVeryEasyQuestColor);
+                    break;
+                }
+                case 1: {
+                    row.setBackgroundColor(todayEasyQuestColor);
+                    break;
+                }
+                case 2: {
+                    row.setBackgroundColor(todayNormalQuestColor);
+                    break;
+                }
+                case 3: {
+                    row.setBackgroundColor(todayHardQuestColor);
+                    break;
+                }
+                case 4: {
+                    row.setBackgroundColor(todayVeryHardQuestColor);
+                    break;
+                }
+                case 5: {
+                    row.setBackgroundColor(todayVeryVeryHardQuestColor);
+                    break;
+                }
+                default: {
+                    row.setBackgroundColor(todayNormalQuestColor);
+                }
+            }
         } else if (quest.getTimeToLiveDate().compareTo(calendar) == -1) {
                 row.setBackgroundColor(endTimeQuestColor);
         } else {
@@ -206,6 +232,23 @@ public class QuestRowAdapter extends ArrayAdapter<Quest> implements Watched {
             }
         }
         return row;
+    }
+
+    //look strings.xml
+    private int getQuestLevel(Quest quest){
+        String[] levelHierarchy = context.getResources().getStringArray(R.array.level_Hierarchy);
+            if (quest.getExperiencePoints() == getNumberFromDifficultyLevel(levelHierarchy[0])) return 4;
+            if (quest.getExperiencePoints() == getNumberFromDifficultyLevel(levelHierarchy[1])) return 3;
+            if (quest.getExperiencePoints() == getNumberFromDifficultyLevel(levelHierarchy[2])) return 2;
+            if (quest.getExperiencePoints() == getNumberFromDifficultyLevel(levelHierarchy[3])) return 1;
+            if (quest.getExperiencePoints() == getNumberFromDifficultyLevel(levelHierarchy[4])) return 0;
+            if (quest.getExperiencePoints() == getNumberFromDifficultyLevel(levelHierarchy[5])) return 5;
+        return -1;
+    }
+
+    private double getNumberFromDifficultyLevel(String difficultyLevel) {
+        String[] tmp = difficultyLevel.split("\\+");
+        return Double.parseDouble(tmp[1].substring(0, tmp[1].length() - 1));
     }
 
     private boolean datesAreTheSame(Calendar questDate, Calendar today){

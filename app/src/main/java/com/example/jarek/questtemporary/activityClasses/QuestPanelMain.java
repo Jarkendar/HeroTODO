@@ -111,14 +111,13 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
 
         ColorManager colorManager = new ColorManager(getApplicationContext());
 
-        int textColor = colorManager.getTextColor();
-        int todayQuestColor = colorManager.getTodayQuestColor();
-        int endTimeQuestColor = colorManager.getEndTimeQuestColor();
-        int evenQuestColor = colorManager.getEvenQuestColor();
-        int notEvenQuestColor = colorManager.getNotEvenQuestColor();
-        int selectedRowColor = colorManager.getSelectedRowColor();
-
-        questRowAdapter = new QuestRowAdapter(this, R.layout.row_quest_layout, quests, textColor, todayQuestColor, endTimeQuestColor, evenQuestColor, notEvenQuestColor, selectedRowColor);
+        int[] colors = {colorManager.getTextColor(), colorManager.getSelectedRowColor()
+                , colorManager.getEndTimeQuestColor(), colorManager.getEvenQuestColor()
+                , colorManager.getNotEvenQuestColor(), colorManager.getTodayVeryEasyQuestColor()
+                , colorManager.getTodayEasyQuestColor(), colorManager.getTodayNormalQuestColor()
+                , colorManager.getTodayHardQuestColor(), colorManager.getTodayVeryHardQuestColor()
+                , colorManager.getTodayVeryVeryHardQuestColor()};
+        questRowAdapter = new QuestRowAdapter(this, R.layout.row_quest_layout, quests, colors);
         questRowAdapter.addObserver(this);
         buttonModify.setEnabled(false);
         buttonDelete.setEnabled(false);

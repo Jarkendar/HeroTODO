@@ -11,7 +11,12 @@
     <color name="color_backgroundWhite">#FFFFFF</color>
     <color name="color_backgroundGray">#CCCCCC</color>
     <color name="color_backgroundOrange">#FF4C00</color>
+    <color name="color_veryBrightBackgroundBlue">#6ad2ff</color>
+    <color name="color_brightBackgroundBlue">#2dc0ff</color>
     <color name="color_backgroundBlue">#00b0fb</color>
+    <color name="color_darkBackgroundBlue">#0090ce</color>
+    <color name="color_veryDarkBackgroundBlue">#0075a7</color>
+    <color name="color_veryVeryDarkBackgroundBlue">#004f71</color>
     <color name="color_backgroundGreen">#00ff00</color>
     <color name="color_intelligence">#00BFFF</color>
     <color name="color_wisdom">#000080</color>
@@ -27,7 +32,12 @@
     <color name="dark_color_backgroundWhite">#000000</color>
     <color name="dark_color_backgroundGray">#333333</color>
     <color name="dark_color_backgroundOrange">#b53600</color>
+    <color name="dark_color_veryBrightBackgroundBlue">#2d657c</color>
+    <color name="dark_color_brightBackgroundBlue">#0e5b7b</color>
     <color name="dark_color_backgroundBlue">#00577c</color>
+    <color name="dark_color_darkBackgroundBlue">#004e70</color>
+    <color name="dark_color_veryDarkBackgroundBlue">#003b55</color>
+    <color name="dark_color_veryVeryDarkBackgroundBlue">#002d41</color>
     <color name="dark_color_backgroundGreen">#007c00</color>
     <color name="dark_color_intelligence">#00BFFF</color>
     <color name="dark_color_wisdom">#000080</color>

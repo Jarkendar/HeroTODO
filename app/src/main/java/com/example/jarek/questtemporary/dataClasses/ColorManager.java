@@ -2,7 +2,6 @@ package com.example.jarek.questtemporary.dataClasses;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.example.jarek.questtemporary.R;
 
@@ -14,7 +13,7 @@ public class ColorManager {
     private final String sharedColor = "colorTheme";
     private final String colorThemeKey = "colorThemeKey";
     private int textColor;
-    private int todayQuestColor;
+    private int todayVeryEasyQuestColor,todayEasyQuestColor,todayNormalQuestColor,todayHardQuestColor,todayVeryHardQuestColor, todayVeryVeryHardQuestColor;
     private int endTimeQuestColor;
     private int evenQuestColor;
     private int notEvenQuestColor;
@@ -35,7 +34,12 @@ public class ColorManager {
         switch (colorTheme){
             case "default":{
                 textColor = context.getResources().getColor(R.color.color_Write);
-                todayQuestColor = context.getResources().getColor(R.color.color_backgroundBlue);
+                todayVeryEasyQuestColor = context.getResources().getColor(R.color.color_veryBrightBackgroundBlue);
+                todayEasyQuestColor = context.getResources().getColor(R.color.color_brightBackgroundBlue);
+                todayNormalQuestColor = context.getResources().getColor(R.color.color_backgroundBlue);
+                todayHardQuestColor = context.getResources().getColor(R.color.color_darkBackgroundBlue);
+                todayVeryHardQuestColor = context.getResources().getColor(R.color.color_veryDarkBackgroundBlue);
+                todayVeryVeryHardQuestColor = context.getResources().getColor(R.color.color_veryVeryDarkBackgroundBlue);
                 endTimeQuestColor = context.getResources().getColor(R.color.color_backgroundOrange);
                 evenQuestColor = context.getResources().getColor(R.color.color_backgroundWhite);
                 notEvenQuestColor = context.getResources().getColor(R.color.color_backgroundGray);
@@ -50,7 +54,12 @@ public class ColorManager {
             }
             case "dark":{
                 textColor = context.getResources().getColor(R.color.dark_color_Write);
-                todayQuestColor = context.getResources().getColor(R.color.dark_color_backgroundBlue);
+                todayVeryEasyQuestColor = context.getResources().getColor(R.color.dark_color_veryBrightBackgroundBlue);
+                todayEasyQuestColor = context.getResources().getColor(R.color.dark_color_brightBackgroundBlue);
+                todayNormalQuestColor = context.getResources().getColor(R.color.dark_color_backgroundBlue);
+                todayHardQuestColor = context.getResources().getColor(R.color.dark_color_darkBackgroundBlue);
+                todayVeryHardQuestColor = context.getResources().getColor(R.color.dark_color_veryDarkBackgroundBlue);
+                todayVeryVeryHardQuestColor = context.getResources().getColor(R.color.dark_color_veryVeryDarkBackgroundBlue);
                 endTimeQuestColor = context.getResources().getColor(R.color.dark_color_backgroundOrange);
                 evenQuestColor = context.getResources().getColor(R.color.dark_color_backgroundWhite);
                 notEvenQuestColor = context.getResources().getColor(R.color.dark_color_backgroundGray);
@@ -70,8 +79,28 @@ public class ColorManager {
         return textColor;
     }
 
-    public int getTodayQuestColor() {
-        return todayQuestColor;
+    public int getTodayVeryEasyQuestColor() {
+        return todayVeryEasyQuestColor;
+    }
+
+    public int getTodayEasyQuestColor() {
+        return todayEasyQuestColor;
+    }
+
+    public int getTodayHardQuestColor() {
+        return todayHardQuestColor;
+    }
+
+    public int getTodayVeryHardQuestColor() {
+        return todayVeryHardQuestColor;
+    }
+
+    public int getTodayVeryVeryHardQuestColor() {
+        return todayVeryVeryHardQuestColor;
+    }
+
+    public int getTodayNormalQuestColor() {
+        return todayNormalQuestColor;
     }
 
     public int getEndTimeQuestColor() {
