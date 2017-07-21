@@ -16,14 +16,18 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".activityClasses.QuestForm"
-            android:parentActivityName=".activityClasses.QuestPanelMain"/>
-        <activity android:name=".activityClasses.OptionActivity"
-            android:parentActivityName=".activityClasses.QuestPanelMain"/>
-        <activity android:name=".activityClasses.StatisticActivity"
-            android:parentActivityName=".activityClasses.QuestPanelMain"/>
-        <activity android:name=".activityClasses.HelpActivity"
-            android:parentActivityName=".activityClasses.QuestPanelMain"/>
+        <activity
+            android:name=".activityClasses.QuestForm"
+            android:parentActivityName=".activityClasses.QuestPanelMain" />
+        <activity
+            android:name=".activityClasses.OptionActivity"
+            android:parentActivityName=".activityClasses.QuestPanelMain" />
+        <activity
+            android:name=".activityClasses.StatisticActivity"
+            android:parentActivityName=".activityClasses.QuestPanelMain" />
+        <activity
+            android:name=".activityClasses.HelpActivity"
+            android:parentActivityName=".activityClasses.QuestPanelMain" />
         <activity android:name=".activityClasses.launcher">
             <intent-filter>
                 <action
@@ -34,8 +38,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".activityClasses.TutorialActivity" />
-        <activity android:name=".activityClasses.AchievementActivity"
-            android:parentActivityName=".activityClasses.QuestPanelMain"/>
+        <activity
+            android:name=".activityClasses.AchievementActivity"
+            android:parentActivityName=".activityClasses.QuestPanelMain" />
+
+        <service
+            android:name=".NotificationService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

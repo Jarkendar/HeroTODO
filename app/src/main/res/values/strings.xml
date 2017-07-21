@@ -58,6 +58,8 @@
     <string name="text_failedQuest">Zadania nie wykonane:</string>
     <string name="text_maxSeries">Największa seria zadań:</string>
     <string name="text_reachAchievement">Zdobyto osiągnięcie: </string>
+    <string name="notification_daily">Pora przejrzeć zadania na dzisiaj.</string>
+    <string name="notification_achiev">Zdobyto osiągnięcie.</string>
 
     <string name="help_aboutApp">O aplikacji</string>
     <string name="category_description_aboutApp">Aplikacja powstała, aby trochę urozmaicić nudne
