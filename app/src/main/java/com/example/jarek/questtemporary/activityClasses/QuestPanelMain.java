@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.jarek.questtemporary.NotificationService;
+import com.example.jarek.questtemporary.AchievNotificationService;
+import com.example.jarek.questtemporary.DailyNotificationService;
 import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.dataClasses.ColorManager;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
@@ -69,15 +71,14 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
     }
 
     private void createDailyNotification(){
-        Intent intent = new Intent(this, NotificationService.class);
-        intent.putExtra(NotificationService.EXTRA_MESSAGE,getString(R.string.notification_daily));
+        Intent intent = new Intent(this, DailyNotificationService.class);
+        intent.putExtra(DailyNotificationService.EXTRA_MESSAGE,getString(R.string.notification_daily));
         startService(intent);
     }
 
     private void changeActionBar(){
         Calendar calendar = Calendar.getInstance();
         ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
         String title = getApplicationContext().getText(R.string.text_welcome).toString();
         Format formatter = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
 
@@ -592,9 +593,16 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
+            String achiev = "";
             for (String achievName : values) {
                 Toast.makeText(getApplicationContext(), (getString(R.string.text_reachAchievement) + " " + achievName), Toast.LENGTH_LONG).show();
+                achiev = achievName;
             }
+            Intent intent = new Intent(getApplicationContext(), AchievNotificationService.class);
+            intent.putExtra(AchievNotificationService.EXTRA_MESSAGE, getString(R.string.notification_achiev));
+            intent.putExtra(AchievNotificationService.EXTRA_ACHIEV, achiev);
+            Log.d("++++++++++++", getString(R.string.text_reachAchievement) + " " + achiev);
+            getApplicationContext().startService(intent);
         }
     }
 }
