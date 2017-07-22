@@ -593,16 +593,14 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
-            String achiev = "";
             for (String achievName : values) {
                 Toast.makeText(getApplicationContext(), (getString(R.string.text_reachAchievement) + " " + achievName), Toast.LENGTH_LONG).show();
-                achiev = achievName;
+                Intent intent = new Intent(getApplicationContext(), AchievNotificationService.class);
+                intent.putExtra(AchievNotificationService.EXTRA_MESSAGE, getString(R.string.notification_achiev));
+                intent.putExtra(AchievNotificationService.EXTRA_ACHIEV, achievName);
+                getApplicationContext().startService(intent);
             }
-            Intent intent = new Intent(getApplicationContext(), AchievNotificationService.class);
-            intent.putExtra(AchievNotificationService.EXTRA_MESSAGE, getString(R.string.notification_achiev));
-            intent.putExtra(AchievNotificationService.EXTRA_ACHIEV, achiev);
-            Log.d("++++++++++++", getString(R.string.text_reachAchievement) + " " + achiev);
-            getApplicationContext().startService(intent);
+
         }
     }
 }
