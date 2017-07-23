@@ -3,6 +3,7 @@ package com.example.jarek.questtemporary.activityClasses;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -17,12 +18,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.jarek.questtemporary.dataClasses.AchievNotificationService;
-import com.example.jarek.questtemporary.dataClasses.DailyNotificationService;
 import com.example.jarek.questtemporary.R;
+import com.example.jarek.questtemporary.dataClasses.AchievNotificationService;
 import com.example.jarek.questtemporary.dataClasses.ColorManager;
+import com.example.jarek.questtemporary.dataClasses.DailyNotificationService;
 import com.example.jarek.questtemporary.dataClasses.FileManager;
 import com.example.jarek.questtemporary.dataClasses.Quest;
+import com.example.jarek.questtemporary.dataClasses.QuestHistoryDatabaseManager;
 import com.example.jarek.questtemporary.dataClasses.QuestRowAdapter;
 import com.example.jarek.questtemporary.heroClasses.Hero;
 import com.example.jarek.questtemporary.heroClasses.StatsMultiplier;
@@ -325,6 +327,11 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 startActivity(intent);
                 break;
             }
+            case R.id.app_bar_history:{
+                Intent intent = new Intent(this, HistoryListActivity.class);
+                startActivity(intent);
+                break;
+            }
             case R.id.app_bar_option: {
                 Intent intent = new Intent(this, OptionActivity.class);
                 startActivity(intent);
@@ -398,6 +405,7 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 editor.putInt(successEndQuestsKey,shared.getInt(successEndQuestsKey,0) + 1);
                 editor.putInt(seriesQuestsKey,shared.getInt(seriesQuestsKey,0) + 1);
 
+                saveInDatabase(quests.get(position), true);
                 quests.remove(position);
                 break;
             case "failed":
@@ -418,6 +426,7 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 editor.putInt(failedEndQuestsKey,shared.getInt(failedEndQuestsKey,0) + 1);
                 editor.putInt(seriesQuestsKey,0);
 
+                saveInDatabase(quests.get(position), false);
                 quests.remove(position);
                 break;
             case "clickRow":
@@ -427,6 +436,21 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 break;
         }
         editor.apply();
+    }
+
+    private void saveInDatabase(Quest quest, boolean succeed){
+        synchronized (this) {
+            QuestHistoryDatabaseManager sqLiteOpenHelper = new QuestHistoryDatabaseManager(this);
+            SQLiteDatabase database = sqLiteOpenHelper.getWritableDatabase();
+            sqLiteOpenHelper.insertQuest(database,
+                    quest.getDescription(),
+                    quest.getExperiencePoints(),
+                    Calendar.getInstance(),
+                    quest.getTimeToLiveDate(),
+                    succeed);
+            database.close();
+            sqLiteOpenHelper.close();
+        }
     }
 
     /**

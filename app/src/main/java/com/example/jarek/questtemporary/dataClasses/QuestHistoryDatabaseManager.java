@@ -35,15 +35,17 @@ public class QuestHistoryDatabaseManager extends SQLiteOpenHelper {
             sqLiteDatabase.execSQL("CREATE TABLE QUESTHISTORY (_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "DESCRIPTION TEXT, " +
                     "EXPERIENCE REAL, " +
+                    "DATE_QUEST_END NUMERIC, " +
                     "DATE_END NUMERIC," +
                     "SUCCEED NUMERIC);");
         }
     }
 
-    public void insertQuest(SQLiteDatabase sqLiteDatabase, String description, double experience, Calendar dateEnd, boolean succeed){
+    public void insertQuest(SQLiteDatabase sqLiteDatabase, String description, double experience, Calendar dateQuestEnd, Calendar dateEnd, boolean succeed){
         ContentValues contentValues = new ContentValues();
         contentValues.put("DESCRIPTION", description);
         contentValues.put("EXPERIENCE", experience);
+        contentValues.put("DATE_QUEST_END", dateQuestEnd.getTimeInMillis());
         contentValues.put("DATE_END", dateEnd.getTimeInMillis());
         contentValues.put("SUCCEED", succeed);
 

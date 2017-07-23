@@ -41,7 +41,7 @@
         <activity
             android:name=".activityClasses.AchievementActivity"
             android:parentActivityName=".activityClasses.QuestPanelMain" />
-        <activity android:name=".HistoryListActivity"
+        <activity android:name=".activityClasses.HistoryListActivity"
             android:parentActivityName=".activityClasses.QuestPanelMain"/>
 
         <service

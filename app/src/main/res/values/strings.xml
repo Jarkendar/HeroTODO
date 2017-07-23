@@ -62,6 +62,7 @@
     <string name="notification_achiev">Zdobyto osiągnięcie.</string>
     <string name="text_errorDatabase">Błąd bazy danych.</string>
     <string name="text_history">Historia</string>
+    <string name="text_dateQuestEnd">Końcowa data zadania:</string>
 
     <string name="help_aboutApp">O aplikacji</string>
     <string name="category_description_aboutApp">Aplikacja powstała, aby trochę urozmaicić nudne
