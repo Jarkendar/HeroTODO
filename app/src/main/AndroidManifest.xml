@@ -43,11 +43,13 @@
             android:parentActivityName=".activityClasses.QuestPanelMain" />
 
         <service
-            android:name=".DailyNotificationService"
+            android:name=".dataClasses.DailyNotificationService"
             android:exported="false" />
         <service
-            android:name=".AchievNotificationService"
-            android:exported="false"/>
+            android:name=".dataClasses.AchievNotificationService"
+            android:exported="false" />
+
+        <activity android:name=".HistoryListActivity"></activity>
     </application>
 
 </manifest>

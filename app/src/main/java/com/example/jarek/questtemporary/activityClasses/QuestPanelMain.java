@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,8 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.jarek.questtemporary.AchievNotificationService;
-import com.example.jarek.questtemporary.DailyNotificationService;
+import com.example.jarek.questtemporary.dataClasses.AchievNotificationService;
+import com.example.jarek.questtemporary.dataClasses.DailyNotificationService;
 import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.dataClasses.ColorManager;
 import com.example.jarek.questtemporary.dataClasses.FileManager;

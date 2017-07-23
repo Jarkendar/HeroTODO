@@ -1,4 +1,4 @@
-package com.example.jarek.questtemporary;
+package com.example.jarek.questtemporary.dataClasses;
 
 import android.app.IntentService;
 import android.app.Notification;
@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.jarek.questtemporary.R;
 import com.example.jarek.questtemporary.activityClasses.AchievementActivity;
 
 /**
