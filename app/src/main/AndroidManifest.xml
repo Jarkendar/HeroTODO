@@ -41,6 +41,8 @@
         <activity
             android:name=".activityClasses.AchievementActivity"
             android:parentActivityName=".activityClasses.QuestPanelMain" />
+        <activity android:name=".HistoryListActivity"
+            android:parentActivityName=".activityClasses.QuestPanelMain"/>
 
         <service
             android:name=".dataClasses.DailyNotificationService"
@@ -49,7 +51,7 @@
             android:name=".dataClasses.AchievNotificationService"
             android:exported="false" />
 
-        <activity android:name=".HistoryListActivity"></activity>
+
     </application>
 
 </manifest>
