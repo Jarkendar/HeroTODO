@@ -23,7 +23,7 @@ public class HistoryListActivity extends ListActivity {
 
     private SQLiteDatabase database;
     private Cursor cursor;
-
+//gittest
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
