@@ -37,6 +37,7 @@ public class DailyNotificationService extends IntentService {
                 calendar.add(Calendar.DAY_OF_MONTH,1);
             }
             long time = calendar.getTimeInMillis() - System.currentTimeMillis();
+            Log.d("++++++", "onHandleIntent: "+time/1000+"s");
             synchronized (this) {
                 try {
                     Thread.sleep(time);

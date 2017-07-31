@@ -68,13 +68,6 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         joinComponentsWithVariable();
 
         quests = new LinkedList<>();
-        createDailyNotification();
-    }
-
-    private void createDailyNotification(){
-        Intent intent = new Intent(this, DailyNotificationService.class);
-        intent.putExtra(DailyNotificationService.EXTRA_MESSAGE,getString(R.string.notification_daily));
-        startService(intent);
     }
 
     private void changeActionBar(){
@@ -157,6 +150,13 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
 
         readHeroFromShared();
         adapterRefresh();
+        createDailyNotification();
+    }
+
+    private void createDailyNotification(){
+        Intent intent = new Intent(this, DailyNotificationService.class);
+        intent.putExtra(DailyNotificationService.EXTRA_MESSAGE,getString(R.string.notification_daily));
+        startService(intent);
     }
 
     private void setComponentsColor(ColorManager colorManager) {
@@ -368,6 +368,7 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
         SharedPreferences.Editor editor = shared.edit();
         switch (partsOfOrder[0]) {
             case "succeed":
+                saveInDatabase(quests.get(position), true);
                 buttonModify.setEnabled(false);
                 buttonDelete.setEnabled(false);
                 String[] attributes = quests.get(position).getAtributes();
@@ -405,10 +406,10 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 editor.putInt(successEndQuestsKey,shared.getInt(successEndQuestsKey,0) + 1);
                 editor.putInt(seriesQuestsKey,shared.getInt(seriesQuestsKey,0) + 1);
 
-                saveInDatabase(quests.get(position), true);
                 quests.remove(position);
                 break;
             case "failed":
+                saveInDatabase(quests.get(position), false);
                 buttonModify.setEnabled(false);
                 buttonDelete.setEnabled(false);
                 if (quests.get(position).isRepeatable()) {
@@ -425,8 +426,6 @@ public class QuestPanelMain extends AppCompatActivity implements Observer {
                 }
                 editor.putInt(failedEndQuestsKey,shared.getInt(failedEndQuestsKey,0) + 1);
                 editor.putInt(seriesQuestsKey,0);
-
-                saveInDatabase(quests.get(position), false);
                 quests.remove(position);
                 break;
             case "clickRow":

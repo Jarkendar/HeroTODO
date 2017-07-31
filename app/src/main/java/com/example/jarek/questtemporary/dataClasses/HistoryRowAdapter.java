@@ -1,4 +1,4 @@
-package com.example.jarek.questtemporary;
+package com.example.jarek.questtemporary.dataClasses;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+
+import com.example.jarek.questtemporary.R;
 
 import java.util.Calendar;
 
@@ -58,8 +60,8 @@ public class HistoryRowAdapter extends CursorAdapter {
         experienceTextView.setTextColor(textColor);
         experienceTextView.setText(context.getString(R.string.text_experienceTogether) + " "+Double.toString(experience));
         dateTextView.setTextColor(textColor);
-        dateTextView.setText(context.getString(R.string.text_dateEnd)+" "+getDateFormatString(dateEnd)+
-                    "  "+context.getString(R.string.text_dateQuestEnd)+" "+getDateFormatString(dateQuestEnd));
+        dateTextView.setText(context.getString(R.string.text_dateEnd)+" "+getDateFormatString(dateQuestEnd)+
+                    "  "+context.getString(R.string.text_dateQuestEnd)+" "+getDateFormatString(dateEnd));
     }
 
     private String getDateFormatString(Calendar calendar) {
